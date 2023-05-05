@@ -1,0 +1,31 @@
+//--------------------screen 650px --------------------------------------------------//
+
+
+@media only screen and (min-width: 650px) {
+
+	.drop{
+		background-color: blue;
+		height: 200px;
+		width: 200px;
+		margin: 10px;
+	}
+	.drag1{
+		background-color: blueviolet;
+		height: 50px;
+		width: 50px;
+		margin: 3px;
+	}
+	.drag2{
+		background-color: whitesmoke;
+		height: 50px;
+		width: 50px;
+		margin: 3px;
+	}
+	.drag3{
+		background-color: violet;
+		height: 50px;
+		width: 50px;
+		margin: 3px; 
+	}
+
+}

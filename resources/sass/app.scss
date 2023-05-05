@@ -1,0 +1,47 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+$side-width: 270px;
+.top56 {
+		top: 56px;
+	}
+.sidebar-nav {
+	top: 56px !important;
+}
+.logo {
+	width: 18%;
+	max-width: 140px;
+	min-width: 80px;
+}
+
+@media (min-width: 769px){
+	.offcanvas-backdrop::before{
+		display: none;
+	}
+
+	main {
+		margin-left: $side-width;
+	}
+	.sidebar-nav {
+		transform: none !important;
+		visibility: visible !important;
+		top: 56px; 
+		height: calc(100% - 56px);
+		z-index: 900 !important;
+	}
+
+}
+
+
+// Bootstrap Variables
+$primary: #cf3476;
+$offcanvas-horizontal-width: 270px;
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+//style
+// @import 'layout1';
+
+
+
