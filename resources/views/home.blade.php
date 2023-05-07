@@ -2,10 +2,11 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    
+    <div class="row justify-content-center my-4">
         <div class="col-sm">
             <div class="card mb-3">
-                <div class="card-header">{{ __('Datos de usuario') }}</div>
+                <div class="card-header">{{ __('Pacientes atendidos el último mes') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +15,7 @@
                         </div>
                     @endif
 
-                    {{ Auth::user()->email }}
+                    {{ $ultimosPacientes }}
                 </div>
             </div>
         </div>
@@ -37,5 +38,18 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center mb-4">
+        
+        <div class="col-sm" style="max-width: 28rem;">
+            <form id="nuevo-trabajo" action="{{ route('searchPaciente') }}" method="POST" class="d-flex">
+            @csrf
+            <input class="form-control me-2" name="nombre" type="search" placeholder="Nombre" aria-label="Search">
+            <input class="form-control me-2" name="apellido" type="search" placeholder="Apellido" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+        </div>
+        <div class="col-sm"></div>
+    </div>
+    @include('busqueda_paciente')
 </div>
 @endsection

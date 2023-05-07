@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrabajoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FichaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,10 +27,11 @@ Auth::routes(['verify'=>true]);
 Route::middleware(['verified'])->group(function(){
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::post('/home', [App\Http\Controllers\HomeController::class, 'search'])->name('searchPaciente');
     //PROYECTOS
 
-    Route::get('/proyectos',[App\Http\Controllers\ProyectosController::class, 'index']);
-    Route::post('/proyectos',[App\Http\Controllers\ProyectosController::class, 'store'])->name('proyecto');
+    Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index']);
+    Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('guardarFicha');
 
     //trabajos
     Route::prefix('trabajo')->group(function () {

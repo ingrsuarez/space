@@ -128,7 +128,7 @@
                             
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseTrabajo" role="button" aria-expanded="false" aria-controls="collapseTrabajo">
                             <span class="mx-2"><i class="fa-solid fa-clipboard mx-2"></i></span>
-                            <span>TRABAJOS</span>                         </a>
+                            <span>PACIENTES</span>                         </a>
                         
                         <div class="collapse" id="collapseTrabajo">
                           <div class="ms-4 mt-2">
