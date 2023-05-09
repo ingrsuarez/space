@@ -31,7 +31,9 @@ Route::middleware(['verified'])->group(function(){
     //PROYECTOS
 
     Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index']);
-    Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('guardarFicha');
+    Route::post('/historial/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('guardarHistorial');
+    Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'updateFicha'])->name('actualizarFicha');
+    Route::post('/editar/ficha',[App\Http\Controllers\FichaController::class, 'update'])->name('editarFicha');
 
     //trabajos
     Route::prefix('trabajo')->group(function () {

@@ -1,54 +1,113 @@
 @extends('layouts.app')
 
 @section('content')
-<form id="nueva-atencion" action="{{ url('ficha/'.$paciente->idPaciente) }}" method="POST">
-@csrf
-<div class="col-sm px-5">
-    <div class="card mb-3" >
-        <div class="card-header text-white bg-primary">
-            Ficha Paciente: {{$paciente->apellidoPaciente.' '.$paciente->nombrePaciente}}
+  
+        @if (session('error'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ session('error') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="card-body">
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="dni">DNI</span>
-              <input type="text" class="form-control" readonly aria-label="Username" aria-describedby="edad" id="dni" name="dni" value="{{$paciente->idPaciente}}">
-
-              <span class="input-group-text" id="edad">Edad</span>
-              <input type="text" class="form-control" readonly aria-label="Username" aria-describedby="edad" id="edad" name="edad" value="{{$edad}}">
+        @endif
+        <div class="col-sm px-5">
+          <div class="card mb-3" style="max-width: 50rem;">
+            <div class="card-header text-white bg-primary">
+                Ficha Paciente: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
             </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="dni">Celular</span>
-              <input type="text" class="form-control" readonly aria-label="Username" aria-describedby="edad" id="dni" name="dni" value="{{$paciente->celularPaciente}}">
+            
+            <div class="card-body">
+              <form id="actualizar-ficha" action="{{ url('ficha/'.$paciente->idPaciente) }}" method="POST">
+              @csrf
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="dni">DNI</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="dni" name="dni" value="{{$paciente->idPaciente}}" readonly>
+                  <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
+                  <span class="input-group-text" id="edad">Edad</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" value="{{$edad}}" readonly>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="telefono">Celular</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono" value="{{$paciente->celularPaciente}}">
+                  <span class="input-group-text" id="email">Correo</span>
+                  <input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email" value="{{$paciente->emailPaciente}}">
+                  
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="edad">Cobertura médica</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="cobertura" value="{{$paciente->CoberturaPaciente}}">
+                  <span class="input-group-text" id="edad">Número Afiliado</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="numeroAfiliado" value="{{$paciente->numeroAfiliadoPaciente}}">
+                  
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="edad">Domicilio</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="domicilio" name="domicilio" value="{{$paciente->domicilioPaciente}}">
+                  <span class="input-group-text" id="localidad">Localidad</span>
+                  <input type="text" class="form-control" aria-label="Username" aria-describedby="localidad" id="localidad" name="localidad" value="{{$paciente->localidadPaciente}}">
+                  
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
+                  <input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="domicilio" name="fechaNacimiento" value="{{$paciente->fechaNacimientoPaciente}}">
+                </div>
+                <div class="d-grid gap-2 col-4 ms-auto py-2">
+                  <button type="submit" class="btn btn-sm btn-primary text-white">Actualizar Ficha</button>
+                </div>
+              </form>
 
-              <span class="input-group-text" id="edad">Cobertura médica</span>
-              <input type="text" class="form-control" readonly aria-label="Username" aria-describedby="edad" id="edad" name="edad" value="{{$paciente->CoberturaPaciente}}">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="edad">Número Afiliado</span>
-              <input type="text" class="form-control" readonly aria-label="Username" aria-describedby="edad" id="edad" name="edad" value="{{$paciente->numeroAfiliadoPaciente}}">
-              <span class="input-group-text" id="email">Correo</span>
-              <input type="email" name="email" class="form-control" readonly aria-label="email" aria-describedby="email" value="{{$paciente->emailPaciente}}">
-              
-
-            </div>
-            <label for="nueva-atencion" class="form-label">Nueva atención</label>
-                <textarea class="form-control" id="nueva-atencion" rows="3" name="entrada"></textarea>
-            <div class="d-grid gap-2 col-6 mx-auto py-2">
-              <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
+              @if(Auth::user()->tipo < 3)
+                <form id="nueva-atencion" action="{{ url('historial/'.$paciente->idPaciente) }}" method="POST">
+                  @csrf
+                  <label for="nueva-atencion" class="form-label"><strong>Nueva atención</strong></label>
+                  <textarea class="form-control" id="nueva-atencion" rows="3" name="entrada" required></textarea>
+                  <input type="hidden" value="{{$paciente->codPaciente}}" name="codPaciente">
+                  <input class="form-check-input" type="checkbox" name="esPublico" id="flexCheckChecked" checked>
+                  <label class="form-check-label" for="flexCheckChecked">
+                    Es publico
+                  </label>
+                  <div class="d-grid gap-2 col-4 ms-auto py-2">
+                    <button type="submit" class="btn btn-sm btn-primary text-white">Guardar</button>
+                  </div>
+                </form>  
+              @endif  
             </div>
           </div>
-          <div class="card-body">
+        </div>
+      
+     @if(Auth::user()->tipo < 3)
+      <div class="col-sm px-5">
+        <div class="card mb-3" style="max-width: 50rem;">
+          <div class="card-body m-2">
             @foreach ($historiales as $historial)
-              <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">
-                  {{$historial->fechaHC}}</label>
-                <div class="form-control" id="exampleFormControlTextarea1" rows="3">  
-                <?php echo($historial->entrada)?>
-              </div>
+              <form id="editar{{$historial->codPosteo}}" action="{{ url('editar/ficha/')}}" method="POST">
+              @csrf
+              @if ($historial->codUsuarioHC == Auth::user()->id)
+                <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">
+                    {{$historial->fechaHC}} <strong>{{$historial->name}}</strong>
+                    <button type="submit" class="btn btn-sm btn-primary text-white">Editar</button>
+                    
+                  </label>
+                
+                  <textarea class="form-control" rows="3" name="entrada"><?php echo($historial->entrada)?></textarea>
+                  <input type="hidden" name="codPosteo" value="{{$historial->codPosteo}}">
+                  <input type="hidden" name="idPaciente" value="{{$paciente->idPaciente}}">
+                  
+                </div>
+              @elseif($historial->esPublico == 1)
+                <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">
+                    {{$historial->fechaHC}} <strong>{{$historial->name}}</strong>                  
+                  </label>
+                  <div class="form-control" id="exampleFormControlTextarea1">
+                    <?php echo($historial->entrada)?>
+                  </div>
+                </div>
+              @endif
+                  
+              </form> 
             @endforeach
           </div>
-
-    </div>
-</div>
-</form>
+        </div>
+      </div>
+    @endif    
 @endsection

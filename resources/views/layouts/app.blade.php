@@ -38,33 +38,23 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="{{url('home')}}">Home</a>
+                          <a class="nav-link mx-4 active" aria-current="page" href="{{url('home')}}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="">Ventas</a>
+                          <a class="nav-link mx-4 " href="">Pacientes</a>
                         </li>
                         <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Trabajos
+                          <a class="nav-link dropdown-toggle mx-4 " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Instituciones
                           </a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="{{url('trabajo/nuevo')}}">Nuevo</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{url('trabajo/listado')}}">Listado de Proyectos</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="{{url('trabajo/listado')}}">Listado</a></li>
+                            <li><a class="dropdown-item" href="#">item</a></li>
                           </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            RRHH
-                          </a>
-                          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="">Usuarios</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            {{-- <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
-                          </ul>
-                        </li>
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -127,7 +117,7 @@
                             
                             
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseTrabajo" role="button" aria-expanded="false" aria-controls="collapseTrabajo">
-                            <span class="mx-2"><i class="fa-solid fa-clipboard mx-2"></i></span>
+                            <span class="mx-2"><i class="fa-solid fa-hospital-user"></i></span>
                             <span>PACIENTES</span>                         </a>
                         
                         <div class="collapse" id="collapseTrabajo">
@@ -150,17 +140,7 @@
                 </nav>    
             </div>  
 
-            <div class="dropdown mt-3">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                Dropdown button
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </div>
+            
           
         </div>
  
