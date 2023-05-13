@@ -35,6 +35,10 @@
           </table>
         </div>
     </div>
+    @if(isset($paciente))
+     {!!$pacientes->appends($search)->links()!!}
+     {{-- {{$paciente}} --}}
+    @endif
 </div>
 
     

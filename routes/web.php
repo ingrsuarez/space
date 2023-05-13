@@ -27,7 +27,7 @@ Auth::routes(['verify'=>true]);
 Route::middleware(['verified'])->group(function(){
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::post('/home', [App\Http\Controllers\HomeController::class, 'search'])->name('searchPaciente');
+    Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
     //PROYECTOS
 
     Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index']);
