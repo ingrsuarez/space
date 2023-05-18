@@ -83,7 +83,7 @@
               @if ($historial->codUsuarioHC == Auth::user()->id)
                 <div class="mb-3">
                   <label for="exampleFormControlTextarea1" class="form-label">
-                    {{$historial->fechaHC}} <strong>{{$historial->name}}</strong>
+                    {{$historial->fechaHC}} <strong>{{strtoupper($historial->name)." ".strtoupper($historial->lastName)." - ".ucfirst($historial->especialidad)}}</strong>
                     <button type="submit" class="btn btn-sm btn-primary text-white">Editar</button>
                     
                   </label>
@@ -96,7 +96,8 @@
               @elseif($historial->esPublico == 1)
                 <div class="mb-3">
                   <label for="exampleFormControlTextarea1" class="form-label">
-                    {{$historial->fechaHC}} <strong>{{$historial->name}}</strong>                  
+                    {{$historial->fechaHC}} <strong>{{strtoupper($historial->users->name)." ".strtoupper($historial->users->lastName)." - ".ucfirst($historial->especialidad)}}</strong>               
+                       
                   </label>
                   <div class="form-control" id="exampleFormControlTextarea1">
                     <?php echo($historial->entrada)?>

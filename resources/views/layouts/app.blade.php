@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+     {{-- <meta http-equiv="refresh" content="30"> --}}
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -99,8 +99,8 @@
             
         
 
-        {{-- <div class="offcanvas offcanvas-start offcanvas-backdrop position-absolute sidebar-nav" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"> --}}
-    <!-- Authentication Links -->
+
+    <!-- SIDE BAR -->
 
         <div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="offcanvas">
             <div class="offcanvas-body p-0">
@@ -116,27 +116,62 @@
                         <li class="nav-item dropdown ">
                             
                             
-                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseTrabajo" role="button" aria-expanded="false" aria-controls="collapseTrabajo">
-                            <span class="mx-2"><i class="fa-solid fa-hospital-user"></i></span>
-                            <span>PACIENTES</span>                         </a>
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapsePaciente" role="button" aria-expanded="false" aria-controls="collapsePaciente">
+                                <span class="mx-2"><i class="fa-solid fa-hospital-user"></i></span>
+                                <span>PACIENTES</span>
+                            </a>
                         
-                        <div class="collapse" id="collapseTrabajo">
-                          <div class="ms-4 mt-2">
-                            Opciones de flujo de trabajo
-                          </div>
-                        </div>
+                            <div class="collapse" id="collapsePaciente">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('pacientes.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nuevo Paciente</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapsePaciente">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('pacientes.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Pacientes</a>
+                                </span>
+                            </div>
                         </li>
-                      <li><hr class="divider"></li>
-                      <li>
-                        <a class="nav-link" href="">USUARIO</a>
-                      </li>
+                        <li><hr class="divider"></li>
+                        {{-- @can('user') --}}
+                        <li class="nav-item dropdown ">                           
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseUsuario" role="button" aria-expanded="false" aria-controls="collapseUsuario">
+                                <span class="mx-2"><i class="fa-solid fa-users"></i></span>
+                                <span>USUARIOS</span>
+                            </a>
+                        
+                            <div class="collapse" id="collapseUsuario">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('user.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nuevo Usuario</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapseUsuario">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('user.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Usuarios</a>
+                                </span>
+                            </div>
+                            
+                        </li>
+                        {{-- @endcan --}}
+                        <li><hr class="divider"></li>
+                        <li class="nav-item dropdown ">                           
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
+                                <span class="mx-2"><i class="fa-solid fa-building-shield"></i></span>
+                                <span>OBRA SOCIAL</span>
+                            </a>
+                        
+                            <div class="collapse" id="collapseObraSocial">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Obra Social</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapseObraSocial">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
+                                </span>
+                            </div>
+                        </li>
                     </ul>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{url('proyectos')}}">Nuevo</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          </ul>
                 </nav>    
             </div>  
 

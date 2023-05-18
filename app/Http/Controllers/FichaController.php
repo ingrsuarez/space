@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use App\Models\User;
+use App\Models\EspecialidadesMedicas;
+use App\Models\EspecialidadesPorUsuarioView;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,6 +16,8 @@ use Illuminate\Database\QueryException;
 class FichaController extends Controller
 {
     //
+
+
     public function index($idPaciente)
     {
         DB::enableQueryLog();
@@ -24,12 +28,16 @@ class FichaController extends Controller
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
         $data['edad'] = $fecha_nacimiento->diffInYears($today);
         $data['paciente'] = $paciente;
+        
         //Historial clínico del paciente
         $codPaciente = $paciente->codPaciente;
-        $data['historiales'] = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name')->get();
-
+        $data['historiales'] = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
+        
+        // dd($data['especialidades']);
+        // dd($data['historiales']);
         return view('pacientes.nueva_atencion',$data);
     }
+
     public function updateFicha(Request $request)
     {
         try {
@@ -48,7 +56,7 @@ class FichaController extends Controller
         } catch (QueryException $exception) {
                
 
-            return back()->withError('No puede dejar un campo en blanco')->withInput();
+            return back()->withError('No puede dejar un campo en blanco'.$exception->getMessage())->withInput();
         }   
         
         return redirect('ficha/'.$request->idPaciente);
@@ -62,7 +70,16 @@ class FichaController extends Controller
         }else{
             $esPublico = 0;
         }
+        $especialidades = EspecialidadesPorUsuarioView::where('user_id',Auth::user()->id)->get();
+        // dd($especialidades);
+        $strEspecialidades = "";
+        foreach ($especialidades as $especialidad)
+        {
+            $strEspecialidades .= $especialidad->nombreEspecialidad." - "; 
+            
+        }
 
+        
         // $paciente = Paciente::where('idPaciente',$idPaciente)->get();
         $historial = new HistorialClinico;
         $historial->codPacienteHC = $request->codPaciente;
@@ -71,7 +88,7 @@ class FichaController extends Controller
         $historial->codInstitucionHC = '1000';
         $historial->entrada = $request->entrada;
         $historial->esPublico = $esPublico;
-        
+        $historial->especialidad = $strEspecialidades;
         $historial->save();
 
         return redirect('ficha/'.$request->idPaciente);

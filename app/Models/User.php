@@ -21,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'lastName',
         'email',
         'tipo',
         'password',
@@ -46,4 +47,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function historialclinicos()
+    {
+        return $this->hasMany('App\Models\historialClinico','codUsuarioHC');
+    }
 }

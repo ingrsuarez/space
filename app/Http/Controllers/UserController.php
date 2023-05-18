@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -14,9 +17,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('lastName','asc')->paginate(10);
         // return $users;
-        return view('usuarios.listado_usuarios',compact('users'));
+        return view('user.listado_usuarios',compact('users'));
     }
 
     /**
@@ -27,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         
-        
+        return view('user.nuevo_usuario');
     }
 
     /**
@@ -38,7 +41,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $user = new User;
         
+        $user->fechaNacimiento = $request->fechaNacimiento;
+        $user->name = strtolower($request->name);
+        $user->lastName = strtolower($request->lastName);
+        $user->password = $request->password;
+        $user->tipo = $request->tipo;
+        $user->telefono = $request->telefono;
+        $user->email = strtolower($request->email);
+        $user->localidad = strtolower($request->localidad);
+        try 
+        {
+            $user->save();
+            return redirect('user')->with('message', 'usuario guardado correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'Usuario ya existente!');
+            }
+            else{
+             return back()->with('error', $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -47,11 +74,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    // public function show()
+    // {
 
-       return view('home',['id'=>$id]);
-    }
+    //    // return view('home',['id'=>$id]);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -59,9 +86,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        
+        $roles = Role::all();
+        return view('user.edit',compact('user','roles'));
+
     }
 
     /**
@@ -71,9 +100,36 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id,Request $request)
     {
         
+       $user = User::find($id);
+
+        $user->fechaNacimiento = $request->fechaNacimiento;
+        $user->name = strtolower($request->name);
+        $user->lastName = strtolower($request->lastName);
+        $user->tipo = $request->tipo;
+        $user->estado = $request->estado;
+        $user->telefono = $request->telefono;
+        $user->email = strtolower($request->email);
+        $user->localidad = strtolower($request->localidad);
+        
+        $user->roles()->sync($request->roles);
+        try 
+        {
+            $user->save();
+            return redirect('user')->with('message', 'usuario guardado correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'Usuario ya existente!');
+            }
+            else{
+             return back()->with('error', $e->getMessage());
+            }
+        } 
     }
 
     /**

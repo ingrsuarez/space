@@ -27,7 +27,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-public function index(Request $request)
+    public function index(Request $request)
     {
         $today = Carbon::now();
         $data['ultimosPacientes'] = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',['2022-01-28 17:36:03',$today])->count();

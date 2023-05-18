@@ -35,10 +35,13 @@
           </table>
         </div>
     </div>
-    @if(isset($paciente))
-     {!!$pacientes->appends($search)->links()!!}
-     {{-- {{$paciente}} --}}
-    @endif
+    <div class="card-footer">
+        @if(isset($paciente))
+         {!!$pacientes->appends($search)->links()!!}
+
+        @endif
+    </div>
+
 </div>
 
     

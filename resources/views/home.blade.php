@@ -9,12 +9,6 @@
                 <div class="card-header">{{ __('Pacientes atendidos el último mes') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     {{ $ultimosPacientes }}
                 </div>
             </div>
@@ -42,11 +36,11 @@
         
         <div class="col-sm" style="max-width: 28rem;">
             <form id="nuevo-trabajo" action="{{ route('searchPaciente') }}" method="POST" class="d-flex">
-            @csrf
-            <input class="form-control me-2" name="dni" type="search" placeholder="DNI" aria-label="Search" >
-            <input class="form-control me-2" name="nombre" type="search" placeholder="Nombre" aria-label="Search" >
-            <input class="form-control me-2" name="apellido" type="search" placeholder="Apellido" aria-label="Search" >
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
+                @csrf
+                <input class="form-control me-2" name="dni" type="search" placeholder="DNI" aria-label="Search" >
+                <input class="form-control me-2" name="nombre" type="search" placeholder="Nombre" aria-label="Search" >
+                <input class="form-control me-2" name="apellido" type="search" placeholder="Apellido" aria-label="Search" >
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
         </div>
         <div class="col-sm"></div>
