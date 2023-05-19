@@ -123,17 +123,17 @@
                         
                             <div class="collapse" id="collapsePaciente">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('pacientes.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nuevo Paciente</a>
+                                    <a class="dropdown-item ms-4" href="{{route('paciente.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nuevo Paciente</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapsePaciente">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('pacientes.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Pacientes</a>
+                                    <a class="dropdown-item ms-4" href="{{route('paciente.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Pacientes</a>
                                 </span>
                             </div>
                         </li>
                         <li><hr class="divider"></li>
-                        {{-- @can('user') --}}
+                        @can('user')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseUsuario" role="button" aria-expanded="false" aria-controls="collapseUsuario">
                                 <span class="mx-2"><i class="fa-solid fa-users"></i></span>
@@ -152,8 +152,9 @@
                             </div>
                             
                         </li>
-                        {{-- @endcan --}}
+                        
                         <li><hr class="divider"></li>
+                        @endcan
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
                                 <span class="mx-2"><i class="fa-solid fa-building-shield"></i></span>

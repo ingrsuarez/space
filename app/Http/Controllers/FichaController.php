@@ -20,8 +20,7 @@ class FichaController extends Controller
 
     public function index($idPaciente)
     {
-        DB::enableQueryLog();
-        
+       
         $paciente = Paciente::where('idPaciente',$idPaciente)->first();
         //Edad del paciente
         $today = Carbon::now();
@@ -33,34 +32,32 @@ class FichaController extends Controller
         $codPaciente = $paciente->codPaciente;
         $data['historiales'] = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        // dd($data['especialidades']);
-        // dd($data['historiales']);
         return view('pacientes.nueva_atencion',$data);
     }
 
-    public function updateFicha(Request $request)
-    {
-        try {
-            $paciente = Paciente::find($request->codPaciente);
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         $paciente = Paciente::find($request->codPaciente);
 
-            $paciente->idPaciente = $request->idPaciente;
-            $paciente->celularPaciente = $request->telefono; 
-            $paciente->emailPaciente = $request->email;
-            $paciente->CoberturaPaciente = $request->cobertura;
-            $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
-            $paciente->domicilioPaciente = $request->domicilio;
-            $paciente->localidadPaciente = $request->localidad;
-            $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;   
-        // Validate the value...
-            $paciente->save();
-        } catch (QueryException $exception) {
+    //         $paciente->idPaciente = $request->idPaciente;
+    //         $paciente->celularPaciente = $request->telefono; 
+    //         $paciente->emailPaciente = $request->email;
+    //         $paciente->CoberturaPaciente = $request->cobertura;
+    //         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
+    //         $paciente->domicilioPaciente = $request->domicilio;
+    //         $paciente->localidadPaciente = $request->localidad;
+    //         $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;   
+    //     // Validate the value...
+    //         $paciente->save();
+    //     } catch (QueryException $exception) {
                
 
-            return back()->withError('No puede dejar un campo en blanco'.$exception->getMessage())->withInput();
-        }   
+    //         return back()->withError('No puede dejar un campo en blanco'.$exception->getMessage())->withInput();
+    //     }   
         
-        return redirect('ficha/'.$request->idPaciente);
-    }
+    //     return redirect('ficha/'.$request->idPaciente);
+    // }
     public function store(Request $request)
     {
         

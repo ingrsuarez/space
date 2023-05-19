@@ -6,7 +6,7 @@
         <div class="row justify-content-center mb-4">
             
             <div class="col-sm" style="max-width: 28rem;">
-                <form id="nuevo-trabajo" action="{{ route('searchPaciente') }}" method="POST" class="d-flex">
+                <form id="nuevo-trabajo" action="{{ route('paciente.show') }}" method="POST" class="d-flex">
                 @csrf
                 <input class="form-control me-2" name="dni" type="search" placeholder="DNI" aria-label="Search" >
                 <input class="form-control me-2" name="nombre" type="search" placeholder="Nombre" aria-label="Search" >

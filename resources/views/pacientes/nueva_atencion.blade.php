@@ -15,14 +15,21 @@
             </div>
             
             <div class="card-body">
-              <form id="actualizar-ficha" action="{{ url('ficha/'.$paciente->idPaciente) }}" method="POST">
+              <form id="actualizar-ficha" action="{{ route('paciente.update',$paciente->idPaciente) }}" method="POST">
               @csrf
+              @method('put')
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="dni">DNI</span>
                   <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="dni" name="dni" value="{{$paciente->idPaciente}}" readonly>
                   <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
                   <span class="input-group-text" id="edad">Edad</span>
                   <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" value="{{$edad}}" readonly>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Nombre</span>
+                  <input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre" value="{{$paciente->nombrePaciente}}">
+                  <span class="input-group-text">Apellido</span>
+                  <input type="text" class="form-control" aria-label="Username"id="apellido" name="apellido" value="{{$paciente->apellidoPaciente}}">
                 </div>
                 <div class="input-group mb-3">
                   <span class="input-group-text" id="telefono">Celular</span>
@@ -54,7 +61,7 @@
                 </div>
               </form>
 
-              @if(Auth::user()->tipo < 3)
+              @can('ficha') 
                 <form id="nueva-atencion" action="{{ url('historial/'.$paciente->idPaciente) }}" method="POST">
                   @csrf
                   <label for="nueva-atencion" class="form-label"><strong>Nueva atención</strong></label>
@@ -68,12 +75,12 @@
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar</button>
                   </div>
                 </form>  
-              @endif  
+              @endcan  
             </div>
           </div>
         </div>
       
-     @if(Auth::user()->tipo < 3)
+      @can('ficha')
       <div class="col-sm px-5">
         <div class="card mb-3" style="max-width: 50rem;">
           <div class="card-body m-2">
@@ -110,5 +117,5 @@
           </div>
         </div>
       </div>
-    @endif    
+    @endcan    
 @endsection

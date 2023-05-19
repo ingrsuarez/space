@@ -13,7 +13,7 @@
                 Nuevo Paciente: 
             </div>
             <div class="card-body">
-              	<form id="actualizar-ficha" action="{{ route('pacientes.store') }}" method="POST">
+              	<form id="actualizar-ficha" action="{{ route('paciente.store') }}" method="POST">
             		@csrf
             		<div class="input-group mb-3">
 						<span class="input-group-text" id="dni">DNI</span>

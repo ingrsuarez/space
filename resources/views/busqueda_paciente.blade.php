@@ -21,7 +21,7 @@
                 @if(isset($pacientes))
                 @foreach($pacientes as $paciente)
                 <tr>
-                  <td><a href="{{url("ficha/".$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td> 
+                  <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td> 
                   <td>{{strtoupper($paciente->apellidoPaciente)}}</td>
                   <td>{{strtoupper($paciente->nombrePaciente)}}</td>
                   <td>{{$paciente->celularPaciente}}</td>

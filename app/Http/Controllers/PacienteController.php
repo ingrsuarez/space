@@ -6,6 +6,10 @@ use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 class PacienteController extends Controller
 {
     /**
@@ -15,8 +19,22 @@ class PacienteController extends Controller
      */
     public function index(Request $request)
     {
+        if(isset($request->dni)){
+            $data['search'] = ['dni'=>$request->dni];
+            $data['pacientes'] = Paciente::where('idPaciente','LIKE',$request->dni.'%')->orderBy('apellidoPaciente')->paginate(10);
 
-        $data['pacientes'] = Paciente::orderBy('apellidoPaciente')->paginate(10);
+        }elseif(isset($request->nombre)){
+            $data['search'] = ['nombre'=>$request->nombre];
+            $data['pacientes'] = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->orderBy('nombrePaciente')->paginate(10);
+
+        }elseif(isset($request->apellido)){
+            $data['search'] = ['apellido'=>$request->apellido];
+            $data['pacientes'] = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->orderBy('apellidoPaciente')->paginate(10);
+        }else{
+            $data['pacientes'] = Paciente::orderBy('apellidoPaciente')->paginate(10);
+        }
+        
+        
         return view('pacientes.listado_pacientes',$data);
     }
     
@@ -77,7 +95,7 @@ class PacienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function busqueda(Request $request)
+    public function show(Request $request)
     {
         //
         if(isset($request->dni)){
@@ -113,9 +131,35 @@ class PacienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id,Request $request)
     {
         //
+        $paciente = Paciente::where('idPaciente',$id)->first();
+        
+        $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
+        $paciente->nombrePaciente = strtolower($request->nombre);
+        $paciente->apellidoPaciente = strtolower($request->apellido);
+        $paciente->celularPaciente = $request->telefono;
+        $paciente->emailPaciente = strtolower($request->email);
+        $paciente->CoberturaPaciente = strtolower($request->cobertura);
+        $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
+        $paciente->domicilioPaciente = strtolower($request->domicilio);
+        $paciente->localidadPaciente = strtolower($request->localidad);
+        try 
+        {
+            $paciente->save();
+            return back()->with('message', 'Paciente guardado correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'Paciente ya existente!');
+            }
+            else{
+             return back()->with('error', $e->getMessage());
+            }
+        }
     }
 
     /**
