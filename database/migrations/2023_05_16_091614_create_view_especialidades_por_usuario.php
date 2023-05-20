@@ -20,7 +20,7 @@ return new class extends Migration
             SELECT 
                 users.id AS user_id, CONCAT(users.name,' ',users.lastName) AS nombre, especialidadesMedicas.codEspecialidad , especialidadesMedicas.nombreEspecialidad, especialidadesPorUsuario.estado
             FROM 
-               especialidadesporusuario 
+               especialidadesPorUsuario 
                     INNER JOIN 
                     users  ON users.id = especialidadesPorUsuario.codUsuarioEPU
                     INNER JOIN
