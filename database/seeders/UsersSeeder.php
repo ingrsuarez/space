@@ -61,6 +61,7 @@ class UsersSeeder extends Seeder
             $rodrigo->email_verified_at = '2023-05-11 12:33:15';
             $rodrigo->tipo = 1;
             $rodrigo->estado = 'activo';
+            $rodrigo->assignRole('profesional', 'admin');
 
             $rodrigo->save();
         }
