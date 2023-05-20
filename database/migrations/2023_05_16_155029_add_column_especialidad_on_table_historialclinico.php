@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('historialclinico', function (Blueprint $table) {
+        Schema::table('historialClinico', function (Blueprint $table) {
             $table->string('especialidad')->after('entrada');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('historialclinico', function (Blueprint $table) {
+        Schema::table('historialClinico', function (Blueprint $table) {
             $table->dropColumn('especialidad');
         });
     }

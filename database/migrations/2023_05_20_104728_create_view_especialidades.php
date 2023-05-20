@@ -13,10 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('view_especialidades', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        DB::statement("DROP VIEW IF EXISTS view_especialidades");
+        DB::statement("
+            CREATE VIEW view_especialidades
+            AS
+            SELECT 
+                users.id AS user_id, CONCAT(users.name,' ',users.lastName) AS nombre, especialidadesMedicas.codEspecialidad , especialidadesMedicas.nombreEspecialidad, especialidadesPorUsuario.estado
+            FROM 
+               especialidadesPorUsuario 
+                    INNER JOIN 
+                    users  ON users.id = especialidadesPorUsuario.codUsuarioEPU
+                    INNER JOIN
+                    especialidadesMedicas ON especialidadesMedicas.codEspecialidad = especialidadesPorUsuario.codEspecialidadEPU
+                    ORDER BY especialidadesMedicas.nombreEspecialidad DESC
+        ");
     }
 
     /**
@@ -26,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('view_especialidades');
+        DB::statement("DROP VIEW IF EXISTS view_especialidades");
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('especialidadesporusuario', function (Blueprint $table) {
+        Schema::table('especialidadesPorUsuario', function (Blueprint $table) {
             $table->timestamp('vencimiento')->after('matricula');
             $table->string('estado')->after('codEspecialidadEPU');
         });
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('especialidadesporusuario', function (Blueprint $table) { 
+        Schema::table('especialidadesPorUsuario', function (Blueprint $table) { 
             $table->dropColumn('vencimiento');
             $table->dropColumn('estado');
         });
