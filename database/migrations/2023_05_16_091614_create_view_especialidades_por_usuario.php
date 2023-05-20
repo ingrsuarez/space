@@ -24,7 +24,7 @@ return new class extends Migration
                     INNER JOIN 
                     users  ON users.id = especialidadesPorUsuario.codUsuarioEPU
                     INNER JOIN
-                    especialidadesmedicas ON especialidadesMedicas.codEspecialidad = especialidadesPorUsuario.codEspecialidadEPU
+                    especialidadesMedicas ON especialidadesMedicas.codEspecialidad = especialidadesPorUsuario.codEspecialidadEPU
                     ORDER BY especialidadesMedicas.nombreEspecialidad DESC
         ");
     }
