@@ -65,7 +65,7 @@ class UsersSeeder extends Seeder
 
             $rodrigo->save();
         }else{
-            $rodrigo = User::find(17)
+            $rodrigo = User::find(17);
             $rodrigo->syncRoles('profesional', 'admin');
         }
 
