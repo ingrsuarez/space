@@ -39,10 +39,11 @@ Route::middleware(['verified'])->group(function(){
     //USUARIOS
 
     Route::resource('user', UserController::class)->name('*','user');
-    // Route::get('/pacientes/busqueda',[PacienteController::class,'busqueda'])->name('pacientes.busqueda');
-    // Route::post('/pacientes/busqueda',[PacienteController::class,'busqueda'])->name('pacientes.busqueda');
+
+    //PACIENTES
     Route::resource('paciente', PacienteController::class)->names('paciente');
-    Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.search');
+    Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');
+    Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
 });
 
 

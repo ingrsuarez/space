@@ -34,7 +34,7 @@ class PacienteController extends Controller
             $data['pacientes'] = Paciente::orderBy('apellidoPaciente')->paginate(10);
         }
         
-        
+       // return 'paciente.index'; 
         return view('pacientes.listado_pacientes',$data);
     }
     
@@ -73,7 +73,7 @@ class PacienteController extends Controller
         try 
         {
             $paciente->save();
-            return redirect('pacientes')->with('message', 'Paciente guardado correctamente!');
+            return back()->with('message', 'Paciente guardado correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
         {

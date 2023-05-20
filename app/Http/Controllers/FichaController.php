@@ -99,7 +99,6 @@ class FichaController extends Controller
         // $paciente = Paciente::where('idPaciente',$idPaciente)->get();
         $historial = HistorialClinico::find($request->codPosteo);
 
-
         $historial->entrada = $request->entrada;
                 
         $historial->save();
