@@ -18,14 +18,14 @@ return new class extends Migration
             CREATE VIEW view_especialidades
             AS
             SELECT 
-                users.id AS user_id, CONCAT(users.name,' ',users.lastName) AS nombre, especialidadesmedicas.codEspecialidad , especialidadesmedicas.nombreEspecialidad, especialidadesporusuario.estado
+                users.id AS user_id, CONCAT(users.name,' ',users.lastName) AS nombre, especialidadesMedicas.codEspecialidad , especialidadesMedicas.nombreEspecialidad, especialidadesPorUsuario.estado
             FROM 
                especialidadesporusuario 
                     INNER JOIN 
-                    users  ON users.id = especialidadesporusuario.codUsuarioEPU
+                    users  ON users.id = especialidadesPorUsuario.codUsuarioEPU
                     INNER JOIN
-                    especialidadesmedicas ON especialidadesmedicas.codEspecialidad = especialidadesporusuario.codEspecialidadEPU
-                    ORDER BY especialidadesmedicas.nombreEspecialidad DESC
+                    especialidadesmedicas ON especialidadesMedicas.codEspecialidad = especialidadesPorUsuario.codEspecialidadEPU
+                    ORDER BY especialidadesMedicas.nombreEspecialidad DESC
         ");
     }
 
