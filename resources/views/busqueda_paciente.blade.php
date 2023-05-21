@@ -5,7 +5,7 @@
         <div class="card-header text-white bg-primary">
             Resultado de la búsqueda:
         </div>
-        <div class="card-body">
+        <div class="card-body  shadow">
             
             <table class="table">
             <thead class="table-light">

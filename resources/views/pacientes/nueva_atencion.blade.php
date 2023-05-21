@@ -9,7 +9,7 @@
         </div>
         @endif
         <div class="col-sm px-5">
-          <div class="card mb-3" style="max-width: 50rem;">
+          <div class="card mb-3 shadow" style="max-width: 50rem;">
             <div class="card-header text-white bg-primary">
                 Ficha Paciente: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
             </div>
@@ -62,7 +62,7 @@
               </form>
 
               @can('ficha') 
-                <form id="nueva-atencion" action="{{ url('historial/'.$paciente->idPaciente) }}" method="POST">
+                <form id="nueva-atencion" action="{{ route('ficha.store',$paciente->idPaciente) }}" method="POST">
                   @csrf
                   <label for="nueva-atencion" class="form-label h5"><strong>Nueva atención</strong></label>
                   <textarea class="form-control" id="nueva-atencion" rows="3" name="entrada" required></textarea>
@@ -72,7 +72,7 @@
                     Es publico
                   </label>
                   <div class="input-group mb-3">
-                  <input type="datetime-local" class="form-control col-2 me-auto py-2" id="fechaAtencion" name="fechaAtencion" value="{{Carbon\Carbon::parse(now())}}" style="max-width: 15rem;">
+                  <input type="datetime-local" class="form-control col-2 me-auto py-2" id="fechaAtencion" name="fechaAtencion" value="{{Carbon\Carbon::parse(now())->format('Y-m-d\Th:i:s')}}" style="max-width: 15rem;">
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar</button>
                   </div>
@@ -85,7 +85,7 @@
       
       @can('ficha')
       <div class="col-sm px-5">
-        <div class="card mb-3" style="max-width: 50rem;">
+        <div class="card mb-3 shadow" style="max-width: 50rem;">
           <div class="card-body m-2">
             @foreach ($historiales as $historial)
               <form id="editar{{$historial->codPosteo}}" action="{{ url('editar/ficha/')}}" method="POST">

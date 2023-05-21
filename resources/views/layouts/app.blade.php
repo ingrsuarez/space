@@ -134,11 +134,37 @@
                             </div>
                         </li>
                         <li><hr class="divider"></li>
+                        {{-- @can('especialidad') --}}
+                        <li class="nav-item dropdown ">                           
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseEspecialidad" role="button" aria-expanded="false" aria-controls="collapseUsuario">
+                                {{-- <span class="mx-2"><i class="fa-solid fa-users"></i></span> --}}
+                                <span class="mx-2">ESPECIALIDADES</span>
+                            </a>
+                        
+                            <div class="collapse" id="collapseEspecialidad">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('profession.add')}}"><i class="fa-solid fa-graduation-cap mx-2"></i>Agregar Especialidad</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapseEspecialidad">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('user.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nueva Especialidad</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapseEspecialidad">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('user.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Especialidades</a>
+                                </span>
+                            </div>
+                            
+                        </li>
+                        
+                        <li><hr class="divider"></li>
+                        {{-- @endcan --}}
                         @can('user')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseUsuario" role="button" aria-expanded="false" aria-controls="collapseUsuario">
-                                <span class="mx-2"><i class="fa-solid fa-users"></i></span>
-                                <span>USUARIOS</span>
+                                <span class="mx-2">USUARIOS</span>
                             </a>
                         
                             <div class="collapse" id="collapseUsuario">
@@ -159,7 +185,7 @@
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
                                 <span class="mx-2"><i class="fa-solid fa-building-shield"></i></span>
-                                <span>OBRA SOCIAL</span>
+                                <span>COBERTURA</span>
                             </a>
                         
                             <div class="collapse" id="collapseObraSocial">
