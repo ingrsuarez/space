@@ -39,7 +39,7 @@ Route::middleware(['verified'])->group(function(){
     //USUARIOS
 
     Route::resource('user', UserController::class)->name('*','user');
-
+    
     //PACIENTES
     Route::resource('paciente', PacienteController::class)->names('paciente');
     Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');

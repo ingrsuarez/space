@@ -64,16 +64,19 @@
               @can('ficha') 
                 <form id="nueva-atencion" action="{{ url('historial/'.$paciente->idPaciente) }}" method="POST">
                   @csrf
-                  <label for="nueva-atencion" class="form-label"><strong>Nueva atención</strong></label>
+                  <label for="nueva-atencion" class="form-label h5"><strong>Nueva atención</strong></label>
                   <textarea class="form-control" id="nueva-atencion" rows="3" name="entrada" required></textarea>
-                  <input type="hidden" value="{{$paciente->codPaciente}}" name="codPaciente">
+                  <input type="hidden" value="{{$paciente->codPaciente}}" name="codPaciente"> 
                   <input class="form-check-input" type="checkbox" name="esPublico" id="flexCheckChecked" checked>
                   <label class="form-check-label" for="flexCheckChecked">
                     Es publico
                   </label>
+                  <div class="input-group mb-3">
+                  <input type="datetime-local" class="form-control col-2 me-auto py-2" id="fechaAtencion" name="fechaAtencion" value="{{Carbon\Carbon::parse(now())}}" style="max-width: 15rem;">
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar</button>
                   </div>
+                </div>
                 </form>  
               @endcan  
             </div>

@@ -81,7 +81,7 @@ class FichaController extends Controller
         $historial = new HistorialClinico;
         $historial->codPacienteHC = $request->codPaciente;
         $historial->codUsuarioHC = Auth::user()->id;
-        $historial->fechaHC = Carbon::now();
+        $historial->fechaHC = Carbon::parse($request->fechaAtencion)->toDateTimeString();
         $historial->codInstitucionHC = '1000';
         $historial->entrada = $request->entrada;
         $historial->esPublico = $esPublico;

@@ -9,7 +9,7 @@
                 <div class="card-header">{{ __('Pacientes atendidos el último mes') }}</div>
 
                 <div class="card-body">
-                    {{ $ultimosPacientes }}
+                    Total: {{ $ultimosPacientes }}
                 </div>
             </div>
         </div>
@@ -18,16 +18,16 @@
               <div class="card-header text-white bg-primary">Pacientes en espera:</div>
               <div class="card-body">
                 <h5 class="card-title">Total de pacientes en espera: </h5>
-                <p class="card-text">Segun agenda del día.</p>
+                <p class="card-text">Según agenda del día.</p>
               </div>
             </div>
         </div>
         <div class="col">
             <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-              <div class="card-header">Estadisticas</div>
+              <div class="card-header">INSTITUCIÓN:</div>
               <div class="card-body">
-                <h5 class="card-title">Secondary {{Auth::user()->tipo}}</h5>
-                <p class="card-text">Mis estadisticas de atención.</p>
+                <h5 class="card-title"></h5>
+                <p class="card-text">Institución actual!</p>
               </div>
             </div>
         </div>
