@@ -47,6 +47,7 @@ Route::middleware(['verified'])->group(function(){
 
     //PROFESSION
     Route::get('profession.add',[App\Http\Controllers\ProfessionController::class,'add'])->name('profession.add');
+    Route::post('profession.user',[App\Http\Controllers\ProfessionController::class,'user'])->name('profession.user');
 });
 
 
