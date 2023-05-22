@@ -134,7 +134,7 @@
                             </div>
                         </li>
                         <li><hr class="divider"></li>
-                        {{-- @can('especialidad') --}}
+                        @can('especialidad')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseEspecialidad" role="button" aria-expanded="false" aria-controls="collapseUsuario">
                                 {{-- <span class="mx-2"><i class="fa-solid fa-users"></i></span> --}}
@@ -143,24 +143,24 @@
                         
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('profession.add')}}"><i class="fa-solid fa-graduation-cap mx-2"></i>Agregar Especialidad</a>
+                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-graduation-cap mx-2"></i>Agregar Especialidad</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('user.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nueva Especialidad</a>
+                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nueva Especialidad</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('user.index')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Especialidades</a>
+                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Especialidades</a>
                                 </span>
                             </div>
                             
                         </li>
                         
                         <li><hr class="divider"></li>
-                        {{-- @endcan --}}
+                        @endcan
                         @can('user')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseUsuario" role="button" aria-expanded="false" aria-controls="collapseUsuario">

@@ -11,11 +11,10 @@
     <div class="col-sm px-5">
     	<div class="card mb-3" style="max-width: 50rem;">
     		<div class="card-header text-white bg-primary">
-                Editar Usuario: 
+                Mis Especialidades: 
             </div>
             <div class="card-body">
-              	<form id="actualizar-ficha" action="{{ route('user.update',$user) }}" method="POST">
-              		@method('PUT')
+              	<form id="actualizar-ficha" action="{{ route('home') }}" method="POST">
             		@csrf
             		<div class="input-group mb-3">
 						<span class="input-group-text">Nombre</span>
