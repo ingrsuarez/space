@@ -79,7 +79,7 @@ class PacienteController extends Controller
         {
             $errorCode = $e->errorInfo[1];
             if($errorCode == '1062'){
-               return back()->with('error', $e->getMessage());
+               return back()->with('error', 'Paciente ya existente!');
             }
             else{
              return back()->with('error', $e->getMessage());
