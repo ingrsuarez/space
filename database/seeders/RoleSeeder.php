@@ -47,12 +47,12 @@ class RoleSeeder extends Seeder
 
         // Permission::create(['name' => 'entity.create'])->syncRoles([$roleAdmin]);
         // Permission::create(['name' => 'entity.store'])->syncRoles([$roleAdmin]);
-
-        Permission::create(['name' => 'registration.list'])->syncRoles([$roleProfesional]);
-        Permission::create(['name' => 'registration.delete'])->syncRoles([$roleProfesional]);
-
         
+        // Permission::create(['name' => 'registration.list'])->syncRoles([$roleProfesional]);
+        // Permission::create(['name' => 'registration.delete'])->syncRoles([$roleProfesional]);
 
+        $roleProfesional->givePermissionTo('registration.list'); 
+        $roleProfesional->givePermissionTo('registration.delete'); 
 
 
     }
