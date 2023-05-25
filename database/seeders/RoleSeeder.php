@@ -34,17 +34,22 @@ class RoleSeeder extends Seeder
         // Permission::create(['name' => 'ficha.store'])->syncRoles([$roleProfesional]);
         // Permission::create(['name' => 'ficha.update'])->syncRoles([$roleProfesional]);
 
-        // Permission::create(['name' => 'profession'])->syncRoles([$roleAdmin,$roleProfesional]);
-        // Permission::create(['name' => 'profession.index'])->syncRoles([$roleProfesional]);
-        // Permission::create(['name' => 'profession.edit'])->syncRoles([$roleAdmin]);
-        // Permission::create(['name' => 'profession.update'])->syncRoles([$roleAdmin]);
-        // Permission::create(['name' => 'profession.create'])->syncRoles([$roleAdmin]);
-        // Permission::create(['name' => 'profession.store'])->syncRoles([$roleAdmin]);
-        // Permission::create(['name' => 'profession.add'])->syncRoles([$roleProfesional]);
-        // Permission::create(['name' => 'profession.remove'])->syncRoles([$roleProfesional]);
+        Permission::create(['name' => 'profession'])->syncRoles([$roleAdmin,$roleProfesional]);
+        Permission::create(['name' => 'profession.index'])->syncRoles([$roleProfesional]);
+        Permission::create(['name' => 'profession.edit'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'profession.update'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'profession.create'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'profession.store'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'profession.add'])->syncRoles([$roleProfesional]);
+        Permission::create(['name' => 'profession.remove'])->syncRoles([$roleProfesional]);
+        Permission::create(['name' => 'profession.attach'])->syncRoles([$roleProfesional]);
+        Permission::create(['name' => 'profession.detach'])->syncRoles([$roleProfesional]);
 
-        // Permission::create(['name' => 'entity.create'])->syncRoles([$roleAdmin]);
-        // Permission::create(['name' => 'entity.store'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'entity.create'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'entity.store'])->syncRoles([$roleAdmin]);
+
+        Permission::create(['name' => 'registration.list'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'registration.delete'])->syncRoles([$roleAdmin]);
 
         
 
