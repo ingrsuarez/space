@@ -5,7 +5,7 @@ use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use App\Models\User;
 use App\Models\EspecialidadesMedicas;
-use App\Models\EspecialidadesPorUsuarioView;
+use App\Models\Profession;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -35,29 +35,7 @@ class FichaController extends Controller
         return view('pacientes.nueva_atencion',$data);
     }
 
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         $paciente = Paciente::find($request->codPaciente);
-
-    //         $paciente->idPaciente = $request->idPaciente;
-    //         $paciente->celularPaciente = $request->telefono; 
-    //         $paciente->emailPaciente = $request->email;
-    //         $paciente->CoberturaPaciente = $request->cobertura;
-    //         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
-    //         $paciente->domicilioPaciente = $request->domicilio;
-    //         $paciente->localidadPaciente = $request->localidad;
-    //         $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;   
-    //     // Validate the value...
-    //         $paciente->save();
-    //     } catch (QueryException $exception) {
-               
-
-    //         return back()->withError('No puede dejar un campo en blanco'.$exception->getMessage())->withInput();
-    //     }   
-        
-    //     return redirect('ficha/'.$request->idPaciente);
-    // }
+    
     public function store(Request $request)
     {
         
@@ -67,12 +45,12 @@ class FichaController extends Controller
         }else{
             $esPublico = 0;
         }
-        $especialidades = EspecialidadesPorUsuarioView::where('user_id',Auth::user()->id)->get();
-        // dd($especialidades);
+        $especialidades = Auth::user()->professions;
+
         $strEspecialidades = "";
         foreach ($especialidades as $especialidad)
         {
-            $strEspecialidades .= $especialidad->nombreEspecialidad." - "; 
+            $strEspecialidades .= $especialidad->name." - "; 
             
         }
 

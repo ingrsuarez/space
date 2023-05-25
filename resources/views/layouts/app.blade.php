@@ -118,8 +118,8 @@
                             
                             
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapsePaciente" role="button" aria-expanded="false" aria-controls="collapsePaciente">
-                                <span class="mx-2"><i class="fa-solid fa-hospital-user"></i></span>
-                                <span>PACIENTES</span>
+                                
+                                <span class="ms-2">PACIENTES</span>
                             </a>
                         
                             <div class="collapse" id="collapsePaciente">
@@ -134,29 +134,43 @@
                             </div>
                         </li>
                         <li><hr class="divider"></li>
-                        @can('especialidad')
+                        @can('profession')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseEspecialidad" role="button" aria-expanded="false" aria-controls="collapseUsuario">
                                 {{-- <span class="mx-2"><i class="fa-solid fa-users"></i></span> --}}
                                 <span class="mx-2">ESPECIALIDADES</span>
                             </a>
-                        
+                            @can('profession.add')
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-graduation-cap mx-2"></i>Agregar Especialidad</a>
+                                    <a class="dropdown-item ms-4" href="{{route('profession.index',)}}"><i class="fa-solid fa-graduation-cap mx-2"></i>Agregar Especialidad</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nueva Especialidad</a>
+                                    <a class="dropdown-item ms-4" href="{{route('registration.list',)}}"><i class="fa-solid fa-id-card mx-2"></i>Mis Matrículas</a>
+                                </span>
+                            </div>
+                            @endcan
+                            @can('profession.create')
+                            <div class="collapse" id="collapseEspecialidad">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('profession.create')}}"><i class="fa-solid fa-user-plus mx-2"></i>Nueva Especialidad</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapseEspecialidad">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Especialidades</a>
+                                    <a class="dropdown-item ms-4" href="{{route('profession.list')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Especialidades</a>
                                 </span>
                             </div>
-                            
+                            @endcan
+                            @can('entity.create')
+                            <div class="collapse" id="collapseEspecialidad">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('entity.create')}}"><i class="fa-regular fa-building mx-2"></i>Entidades</a>
+                                </span>
+                            </div>
+                            @endcan
                         </li>
                         
                         <li><hr class="divider"></li>

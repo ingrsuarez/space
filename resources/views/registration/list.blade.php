@@ -9,47 +9,7 @@
         </div>
     @endif
     
-    <div class="col-sm px-5">
-    	<div class="card mb-3" style="max-width: 50rem;">
-			<div class="card-header text-white bg-primary">
-                Agregar Especialidad: 
-            </div>
-            <div class="card-body">
-            	<form id="agregar-especialidad" action="{{ route('profession.attach',$profession) }}" method="POST">
-            		@csrf
-					
-					<div class="input-group mb-3">
-						<span class="input-group-text">Especialidad</span>
-						<input type="text" class="form-control" id="nombre" name="profession_id" value="{{$profession->name}}" readonly>
-						<span class="input-group-text">Matrícula</span>
-						<input type="number" class="form-control" id="number" name="number" required>
-	                </div>
-
-	                <div class="input-group mb-3">
-						<span class="input-group-text">Fecha de matriculación</span>
-						<input type="date" class="form-control" id="fecha_expedicion" name="expedition" required>
-						<span class="input-group-text">Vencimiento</span>
-						<input type="date" class="form-control" id="expiration" name="expiration" required>
-	                </div>
-	                <div class="input-group mb-3">
-						<label class="input-group-text" for="inputGroupSelect01">Entidad</label>
-						<select class="form-select" id="inputGroupSelect01" name="entity" required>
-							<option selected>Entidad...</option>
-							@foreach ($entities as $entity)
-							<option value="{{$entity->id}}">{{$entity->name}}</option>
-							@endforeach
-						</select>
-					</div>
-
-					<div class="d-grid gap-2 d-md-flex justify-content-md-end">     	<button class="btn btn-outline-success " type="submit">Guardar</button>
-	                </div>
-				</form>
-			</div>
-		</div>
-    </div>
-
-
-    <div class="card mb-3">
+    <div class="card mb-3 mx-2 shadow">
         <div class="card-header text-white bg-primary">
             <label class="h5">Mis Matrículas:</label>               
         </div>

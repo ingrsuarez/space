@@ -54,7 +54,7 @@
          {!!$users->links()!!}
 
         @endif
-    </div>
+        </div>
     </div>
 </div>
 </form>

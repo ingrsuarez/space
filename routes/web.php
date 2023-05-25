@@ -46,8 +46,25 @@ Route::middleware(['verified'])->group(function(){
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
 
     //PROFESSION
-    Route::get('profession.add',[App\Http\Controllers\ProfessionController::class,'add'])->name('profession.add');
-    Route::post('profession.user',[App\Http\Controllers\ProfessionController::class,'user'])->name('profession.user');
+    Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');
+    Route::get('profession/add/{profession}',[App\Http\Controllers\ProfessionController::class,'add'])->middleware('can:profession.add')->name('profession.add');
+    Route::post('profession/attach/{profession}',[App\Http\Controllers\ProfessionController::class,'attach'])->middleware('can:profession.attach')->name('profession.attach');
+    Route::post('profession/detach/{profession}',[App\Http\Controllers\ProfessionController::class,'detach'])->middleware('can:profession.detach')->name('profession.detach');
+
+    Route::get('profession/edit/{id}',[App\Http\Controllers\ProfessionController::class,'edit'])->middleware('can:profession.edit')->name('profession.edit');
+    Route::post('profession/update/{profession}',[App\Http\Controllers\ProfessionController::class,'update'])->middleware('can:profession.update')->name('profession.update');    
+    Route::get('profession/new',[App\Http\Controllers\ProfessionController::class,'create'])->middleware('can:profession.create')->name('profession.create');
+    Route::get('profession/list',[App\Http\Controllers\ProfessionController::class,'list'])->middleware('can:profession.list')->name('profession.list');
+    Route::post('profession/store',[App\Http\Controllers\ProfessionController::class,'store'])->middleware('can:profession.store')->name('profession.store');
+ 
+    Route::get('entity/new',[App\Http\Controllers\EntityController::class,'create'])->middleware('can:entity.create')->name('entity.create');
+    Route::post('entity/store',[App\Http\Controllers\EntityController::class,'store'])->middleware('can:entity.store')->name('entity.store');
+
+    
+
+    Route::get('registration/list',[App\Http\Controllers\RegistrationController::class,'list'])->middleware('can:registration.list')->name('registration.list');
+    Route::post('registration/delete/{registration}',[App\Http\Controllers\RegistrationController::class,'delete'])->middleware('can:registration.delete')->name('registration.delete');
+
 });
 
 

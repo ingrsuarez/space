@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Profession_user;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -50,5 +53,23 @@ class User extends Authenticatable implements MustVerifyEmail
     public function historialclinicos()
     {
         return $this->hasMany('App\Models\historialClinico','codUsuarioHC');
+    }
+
+    public function professions()
+    {
+        return $this->belongsToMany('App\Models\Profession');
+    }
+
+    public function hasProfession($profession_id)
+    {
+        
+        $user = User::find(Auth::user()->id);
+        $hasProfession = $user->professions()->where('id', $profession_id)->exists();
+        return $hasProfession;
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany('App\Models\registration');
     }
 }
