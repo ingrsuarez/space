@@ -97,8 +97,7 @@ class ProfessionController extends Controller
     {
         $entities = Entity::all();
         $registrations = Auth::user()->registrations;
-        dd($registrations);
-        // return view('profession.add',compact('profession','entities','registrations'));
+        return view('profession.add',compact('profession','entities','registrations'));
     }
 
     public function attach(Profession $profession, Request $request)

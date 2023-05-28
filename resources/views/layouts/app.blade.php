@@ -137,7 +137,7 @@
                         @can('profession')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseEspecialidad" role="button" aria-expanded="false" aria-controls="collapseUsuario">
-                                {{-- <span class="mx-2"><i class="fa-solid fa-users"></i></span> --}}
+                                
                                 <span class="mx-2">ESPECIALIDADES</span>
                             </a>
                             @can('profession.add')
@@ -193,9 +193,33 @@
                             </div>
                             
                         </li>
-                        
                         <li><hr class="divider"></li>
                         @endcan
+                        
+                        @can('institution.index')
+
+                        <li class="nav-item dropdown ">                           
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseInstitution" role="button" aria-expanded="false" aria-controls="collapseUsuario">
+                                
+                            <span class="mx-2">INSTITUCIONES</span>
+                            </a>
+                            {{-- @can('profession.add') --}}
+                            <div class="collapse" id="collapseInstitution">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('institution.index',)}}"><i class="fa-solid fa-hospital mx-2"></i>Listado</a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapseInstitution">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('institution.create',)}}"><i class="fa-solid fa-plus mx-2"></i>Nueva Institución</a>
+                                </span>
+                            </div>
+                            
+
+                        </li>
+                        <li><hr class="divider"></li>
+                        @endcan
+                        
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
                                 <span class="mx-2"><i class="fa-solid fa-building-shield"></i></span>
@@ -213,6 +237,7 @@
                                 </span>
                             </div>
                         </li>
+
                     </ul>
                 </nav>    
             </div>  

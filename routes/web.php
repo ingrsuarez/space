@@ -65,6 +65,12 @@ Route::middleware(['verified'])->group(function(){
     Route::get('registration/list',[App\Http\Controllers\RegistrationController::class,'list'])->middleware('can:registration.list')->name('registration.list');
     Route::post('registration/delete/{registration}',[App\Http\Controllers\RegistrationController::class,'delete'])->middleware('can:registration.delete')->name('registration.delete');
 
+    Route::get('institution/index',[App\Http\Controllers\InstitutionController::class,'index'])->middleware('can:institution.index')->name('institution.index');
+    Route::get('institution/create',[App\Http\Controllers\InstitutionController::class,'create'])->middleware('can:institution.create')->name('institution.create');
+    Route::post('institution/store',[App\Http\Controllers\InstitutionController::class,'store'])->middleware('can:institution.store')->name('institution.store');
+    Route::get('institution/edit/{institution}',[App\Http\Controllers\InstitutionController::class,'edit'])->middleware('can:institution.edit')->name('institution.edit');
+    Route::post('institution/update/{institution}',[App\Http\Controllers\InstitutionController::class,'update'])->middleware('can:institution.update')->name('institution.update');
+
 });
 
 

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Registration;
 use App\Models\Profession_user;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function registrations()
     {
-        return $this->hasMany('App\Models\registration');
+        return $this->hasMany('App\Models\Registration');
     }
 }
