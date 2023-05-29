@@ -74,5 +74,7 @@ class RoleSeeder extends Seeder
         $roleProfesional->givePermissionTo('institution.attach');
         $roleProfesional->givePermissionTo('institution.detach');
 
+        Permission::create(['name' => 'user.delete']);
+        $roleAdmin->givePermissionTo('user.delete');
     }
 }
