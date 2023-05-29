@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('error'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{ session('error') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
 <form id="nuevo-trabajo" action="{{ route('user.update',$users[0]) }}" method="POST">
 @csrf
 @method('PUT'){{-- This is to send to update controller method --}}
@@ -20,7 +27,7 @@
                     <th>Email</th>
                     <th>Teléfono</th>
                     <th>Estado</th>
-                    <th></th>
+                    <th colspan="2"></th>
                 </thead>
                 <tbody>
               
@@ -42,6 +49,9 @@
                     <td>{{$user->estado}}</td>
                     <td width="10px">
                       <a class="btn btn-primary text-white" href="{{ route('user.edit',$user) }}">Editar</a>
+                    </td>
+                    <td>
+                      <a class="btn btn-danger text-white" href="{{ route('user.delete',$user) }}">Eliminar</a>
                     </td>
                 </tr>   
                 @endforeach

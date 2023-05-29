@@ -140,6 +140,25 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $user = User::find($id);
+        try 
+        {
+            $user->delete();
+            return redirect('user')->with('message', 'usuario eliminado correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'Usuario ya existente!');
+            }elseif($errorCode == '1451'){
+               return back()->with('error', 'Este usuario tiene Historiales Clínicos asociados y no puede ser eliminado.');
+            }
+            else{
+             return back()->with('error', $errorCode);
+            }
+            // $e->getMessage()
+        } 
         
     }
 }

@@ -73,4 +73,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Models\Registration');
     }
+
+    public function institutions()
+    {
+        return $this->belongsToMany('App\Models\Institution');
+    }
+
+    public function hasInstitution($institution_id)
+    {
+        
+        $user = User::find(Auth::user()->id);
+        $hasInstitution = $user->institutions()->where('id', $institution_id)->exists();
+        return $hasInstitution;
+    }
+
+
 }

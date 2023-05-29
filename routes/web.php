@@ -29,7 +29,7 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
-    //PROYECTOS
+    //HISTORIAL
 
     Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index'])->name('ficha.index');
     Route::post('/historial/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('ficha.store');
@@ -39,6 +39,7 @@ Route::middleware(['verified'])->group(function(){
     //USUARIOS
 
     Route::resource('user', UserController::class)->name('*','user');
+    Route::get('user/delete/{user}',[App\Http\Controllers\UserController::class,'destroy'])->middleware('can:user.delete')->name('user.delete');
 
     //PACIENTES
     Route::resource('paciente', PacienteController::class)->names('paciente');
@@ -70,6 +71,11 @@ Route::middleware(['verified'])->group(function(){
     Route::post('institution/store',[App\Http\Controllers\InstitutionController::class,'store'])->middleware('can:institution.store')->name('institution.store');
     Route::get('institution/edit/{institution}',[App\Http\Controllers\InstitutionController::class,'edit'])->middleware('can:institution.edit')->name('institution.edit');
     Route::post('institution/update/{institution}',[App\Http\Controllers\InstitutionController::class,'update'])->middleware('can:institution.update')->name('institution.update');
+    Route::get('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])->middleware('can:institution.show')->name('institution.show');
+    Route::post('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])->middleware('can:institution.show')->name('institution.search');
+    Route::get('institution/add/{institution}',[App\Http\Controllers\InstitutionController::class,'attach'])->middleware('can:institution.attach')->name('institution.attach');
+    Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
+    
 
 });
 

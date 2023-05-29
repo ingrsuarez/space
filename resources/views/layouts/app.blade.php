@@ -48,10 +48,12 @@
                             Instituciones
                           </a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{url('trabajo/nuevo')}}">Nuevo</a></li>
+                            <li><a class="dropdown-item" href="{{route('institution.show')}}">Seleccionar</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{url('trabajo/listado')}}">Listado</a></li>
-                            <li><a class="dropdown-item" href="#">item</a></li>
+                            <li><a class="dropdown-item" href="{{route('institution.show')}}">Buscar</a></li>
+                            
+                            
+                            
                           </ul>
                         </li>
 

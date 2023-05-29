@@ -40,7 +40,16 @@
 	                  	<span class="input-group-text">Provincia</span>
 	                  	<input type="text" class="form-control" id="state" name="state" value="{{$institution->state}}">	                  
 	                </div>
-	                
+	                <div class="input-group mb-3" style="max-width: 20rem;">
+	                	<span class="input-group-text">Estado:</span>
+	                	<select class="form-select" name="status" id="status">
+	                		<option value="{{$institution->status}}">Estado..</option>
+	                		<option value="activa">Activa</option>
+	                		<option value="inactiva">Inactiva</option>
+
+	                	</select>
+
+	                </div>
 	                <div class="d-grid gap-2 d-md-flex justify-content-md-end">	                	
 	                	<button class="btn btn-outline-success " type="submit">Guardar</button>
 	                </div>

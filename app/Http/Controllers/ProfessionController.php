@@ -73,7 +73,7 @@ class ProfessionController extends Controller
 
     public function update(Request $request, Profession $profession)
     {
-        // $profession = Profession::find($id);
+        
         $profession->name = $request->name;
 
         try 

@@ -30,7 +30,7 @@
                 <tbody>
               
                 @foreach($institutions as $institution)
-                @if ($institution->status)
+                @if ($institution->status == 'activa')
                     <tr>
                 @else
                     <tr class="table-warning">
