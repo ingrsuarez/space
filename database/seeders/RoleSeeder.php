@@ -55,10 +55,10 @@ class RoleSeeder extends Seeder
         // $roleProfesional->givePermissionTo('registration.delete'); 
 
         // Permission::create(['name' => 'institution.index']);
-        Permission::create(['name' => 'institution.create']);
-        Permission::create(['name' => 'institution.store']);
-        Permission::create(['name' => 'institution.edit']);
-        Permission::create(['name' => 'institution.update']);
+        // Permission::create(['name' => 'institution.create']);
+        // Permission::create(['name' => 'institution.store']);
+        // Permission::create(['name' => 'institution.edit']);
+        // Permission::create(['name' => 'institution.update']);
         Permission::create(['name' => 'institution.show']);
         Permission::create(['name' => 'institution.attach']);
         Permission::create(['name' => 'institution.detach']);

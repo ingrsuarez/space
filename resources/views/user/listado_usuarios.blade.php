@@ -51,7 +51,7 @@
                       <a class="btn btn-primary text-white" href="{{ route('user.edit',$user) }}">Editar</a>
                     </td>
                     <td>
-                      <a class="btn btn-danger text-white" href="{{ route('user.delete',$user) }}">Eliminar</a>
+                      <a class="btn btn-danger text-white" href="{{ route('user.delete',[$user,'page='.$users->currentPage()]) }}">Eliminar</a>
                     </td>
                 </tr>   
                 @endforeach

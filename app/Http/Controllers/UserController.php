@@ -138,13 +138,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $user = User::find($id);
         try 
         {
             $user->delete();
-            return redirect('user')->with('message', 'usuario eliminado correctamente!');
+           
+            return redirect('user?page='.$request->page)->with('message', 'usuario eliminado correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
         {
