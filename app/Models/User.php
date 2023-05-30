@@ -87,5 +87,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $hasInstitution;
     }
 
+    public function adminInstitutions()
+    {
+        return $this->belongsToMany('App\Models\Institution', 'institution_admin', 'user_id', 'institution_id');
+    }
 
+    public function adminsInstitution($institution_id)
+    {
+        
+        
+        $hasInstitution = $this->adminInstitutions()->where('id', $institution_id)->exists();
+        return $hasInstitution;
+    }
 }

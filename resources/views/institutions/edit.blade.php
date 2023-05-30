@@ -56,5 +56,63 @@
           		</form>
       		</div>
     	</div>
-    </div>	
+    </div>
+    <div class="col-sm px-5">
+	    <div class="card mb-3">
+	        <div class="card-header text-white bg-primary">
+	            Usuarios de la Institución
+	            
+	        </div>
+	        <div class="card-body">
+	            
+	            <table class="table">
+	                <thead class="table-light">
+	                    <th>Nombre</th>
+	                    <th>Email</th>
+	                    <th>Teléfono</th>
+	                    <th>Especialidad</th>
+	                    <th colspan="2">Administrador</th>
+	                </thead>
+	                <tbody>
+	              
+	                @foreach($users as $user)
+	                @if ($user->email_verified_at)
+	                    <tr>
+	                @else
+	                    <tr class="table-warning">
+	                @endif
+ 
+	                    <td>{{ucfirst($user->lastName).' '.ucfirst($user->name)}}
+	                    	@if($user->adminsInstitution($institution->id))
+	                    	<br><span class="text-primary">Administrador</span>
+	                    	@endif
+	                    </td>
+	                    <td>{{$user->email}}</td>
+	                    <td>{{$user->telefono}}</td>
+	                    <td>
+	                    	@foreach($user->professions as $profession)
+	                    	{{$profession->name.' - '}} 
+	                    	@endforeach
+	                    </td>
+	                    <td width="10px">
+	                    @if($user->adminsInstitution($institution->id))
+	                    	<a class="btn btn-danger text-white" href="{{ route('institution.detachAdmin',['institution'=>$institution,'user'=>$user]) }}">Eliminar</a>
+	                     @else
+	                     	<a class="btn btn-primary text-white" href="{{ route('institution.attachAdmin',['institution'=>$institution,'user'=>$user]) }}">Agregar</a>
+	                     @endif
+	                    </td>
+	                </tr>   
+	                @endforeach
+	              
+	            </tbody>
+	          </table>
+	        </div>
+	        {{-- <div class="card-footer">
+	        @if(isset($users))
+	         {!!$users->links()!!}
+
+	        @endif
+	        </div> --}}
+	    </div>
+	</div>	
 @endsection

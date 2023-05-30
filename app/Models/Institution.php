@@ -15,5 +15,10 @@ class Institution extends Model
         return $this->belongsToMany('App\Models\User');
     }
 
+    public function admins()
+    {
+        return $this->belongsToMany('App\Models\User', 'institution_admin', 'institution_id', 'user_id');
+    }
+
 
 }

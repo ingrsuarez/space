@@ -75,7 +75,8 @@ Route::middleware(['verified'])->group(function(){
     Route::post('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])->middleware('can:institution.show')->name('institution.search');
     Route::get('institution/add/{institution}',[App\Http\Controllers\InstitutionController::class,'attach'])->middleware('can:institution.attach')->name('institution.attach');
     Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
-    
+    Route::get('institution/addAdmin/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachAdmin'])->middleware('can:institution.attach')->name('institution.attachAdmin');
+    Route::get('institution/deleteAdmin/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'detachAdmin'])->middleware('can:institution.attach')->name('institution.detachAdmin');
 
 });
 

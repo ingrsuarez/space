@@ -59,7 +59,10 @@ class InstitutionController extends Controller
     public function edit(Institution $institution)
     {
 
-        return view('institutions.edit',compact('institution'));
+        $users = $institution->users; 
+
+        
+        return view('institutions.edit',compact('institution','users'));
     }
 
     public function update(Request $request, Institution $institution)
@@ -155,5 +158,24 @@ class InstitutionController extends Controller
             }
         }
     }
+
+    public function attachAdmin(Institution $institution,User $user)
+    {
+
+
+        $user->adminInstitutions()->attach($institution->id,['status'=>'activo']);
+        return back()->with('message', 'Administrador agregado correctamente!');
+        
+    }
+
+    public function detachAdmin(Institution $institution,User $user)
+    {
+
+
+        $user->adminInstitutions()->detach($institution->id);
+        return back()->with('message', 'Administrador eliminado correctamente!');
+        
+    }
+    
     
 }

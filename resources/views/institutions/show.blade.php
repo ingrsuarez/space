@@ -46,9 +46,9 @@
                             <td width="10px">
 
                             @if($user->hasInstitution($institution->id))    
-                                <a class="btn btn-danger text-white" href="{{ route('institution.detach',$institution) }}">Eliminar</a>
+                                <a class="btn btn-danger text-white" href="{{ route('institution.detach',$institution) }}">Salir</a>
                             @else
-                                <a class="btn btn-info text-white" href="{{ route('institution.attach',$institution) }}">Agregar</a>
+                                <a class="btn btn-info text-white" href="{{ route('institution.attach',$institution) }}">Unirme</a>
                             
                             @endif
                             </td>

@@ -113,7 +113,7 @@
                         <li>
                             <a class="nav-link text-dark" href="{{route('home')}}">
                                 <span class="mx-2"><i class="fa-solid fa-gauge"></i></span>
-                                <span>PANEL</span></a>
+                                <span class="text-primary fw-bold">PANEL</span></a>
                         </li>
                         <li><hr class="divider"></li>
                         <li class="nav-item dropdown ">
@@ -121,7 +121,7 @@
                             
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapsePaciente" role="button" aria-expanded="false" aria-controls="collapsePaciente">
                                 
-                                <span class="ms-2">PACIENTES</span>
+                                <span class="text-primary fw-bold ms-2">PACIENTES</span>
                             </a>
                         
                             <div class="collapse" id="collapsePaciente">
@@ -140,7 +140,7 @@
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseEspecialidad" role="button" aria-expanded="false" aria-controls="collapseUsuario">
                                 
-                                <span class="mx-2">ESPECIALIDADES</span>
+                                <span class="text-primary fw-bold mx-2">ESPECIALIDADES</span>
                             </a>
                             @can('profession.add')
                             <div class="collapse" id="collapseEspecialidad">
@@ -180,7 +180,7 @@
                         @can('user')
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseUsuario" role="button" aria-expanded="false" aria-controls="collapseUsuario">
-                                <span class="mx-2">USUARIOS</span>
+                                <span class="text-primary fw-bold mx-2">USUARIOS</span>
                             </a>
                         
                             <div class="collapse" id="collapseUsuario">
@@ -203,7 +203,7 @@
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseInstitution" role="button" aria-expanded="false" aria-controls="collapseUsuario">
                                 
-                            <span class="mx-2">INSTITUCIONES</span>
+                            <span class="text-primary fw-bold mx-2">INSTITUCIONES</span>
                             </a>
                             {{-- @can('profession.add') --}}
                             <div class="collapse" id="collapseInstitution">
@@ -224,8 +224,8 @@
                         
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
-                                <span class="mx-2"><i class="fa-solid fa-building-shield"></i></span>
-                                <span>COBERTURA</span>
+                                
+                                <span class="text-primary fw-bold mx-2">COBERTURA</span>
                             </a>
                         
                             <div class="collapse" id="collapseObraSocial">
