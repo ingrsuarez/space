@@ -72,7 +72,7 @@
                     Es publico
                   </label>
                   <div class="input-group mb-3">
-                  <input type="datetime-local" class="form-control col-2 me-auto py-2" id="fechaAtencion" name="fechaAtencion" value="{{Carbon\Carbon::parse(now())->format('Y-m-d\Th:i:s')}}" style="max-width: 15rem;">
+                  <input type="date" class="form-control col-2 me-auto py-2" id="fechaAtencion" name="fechaAtencion" value="{{Carbon\Carbon::parse(now())->format('Y-m-d')}}" style="max-width: 15rem;">
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar</button>
                   </div>
