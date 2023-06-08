@@ -10,14 +10,13 @@
     <title>{{ config('app.name', 'ADMESYS') }}</title>
 
     <!-- Scripts -->
-     
-    <script src="{{ asset('public/js/app.js') }}"></script>
-    {{-- <script src="{{ asset('publ}c/vendor/livewire/livewire.js?id=90730a3b0e7144480175') }}"></script> --}}
+    <script src="{{ asset('public/js/app.js') }}" defer></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/38a763211a.js" crossorigin="anonymous"></script>
-        @livewireStyles 
+    {{-- @livewireStyles --}}
     <!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 </head>
@@ -46,17 +45,14 @@
                         </li>
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle mx-4 " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Institución
+                            Instituciones
                           </a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="">Buscar</a></li>
+                            <li><a class="dropdown-item" href="{{route('institution.show')}}">Buscar</a></li>
                             <li><a class="dropdown-item" href="{{route('institution.show')}}">Usuarios</a></li>
-                            
+                            <li><a class="dropdown-item" href="{{route('institution.show')}}">Seleccionar</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            
-                            
-                            
-                            
+
                           </ul>
                         </li>
 
@@ -225,27 +221,6 @@
                         <li><hr class="divider"></li>
                         @endcan
                         
-                        @can('role.index')
-                        <li class="nav-item dropdown ">                           
-                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseRoles" role="button" aria-expanded="false" aria-controls="collapseRoles">
-                                
-                                <span class="text-primary fw-bold mx-2">PERMISOS</span>
-                            </a>
-                        
-                            <div class="collapse" id="collapseRoles">
-                                <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('role.index')}}"><i class="fa-solid fa-user-lock mx-2"></i>Roles</a>
-                                </span>
-                            </div>
-                            <div class="collapse" id="collapseRoles">
-                                <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('permission.create')}}"><i class="fa-solid fa-lock mx-2"></i>Nuevo Permiso</a>
-                                </span>
-                            </div>
-                        </li>
-                        <li><hr class="divider"></li>
-                        @endcan
-                        
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
                                 
@@ -278,8 +253,6 @@
         
     </div>
     
-
-
+    @livewireScripts
 </body>
-@livewireScripts
 </html>

@@ -29,21 +29,26 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
+        $institution = $user->currentInstitution;
         $today = Carbon::now();
-        $data['ultimosPacientes'] = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',['2022-01-28 17:36:03',$today])->count();
-
+        $ultimosPacientes = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',['2022-01-28 17:36:03',$today])->count();
+        $institutions = Auth::user()->institutions;
         if(isset($request->dni)){
-            $data['search'] = ['dni'=>$request->dni];
+            $search = ['dni'=>$request->dni];
 
-            $data['pacientes'] = Paciente::where('idPaciente','LIKE',$request->dni.'%')->paginate(5);
+            $pacientes = Paciente::where('idPaciente','LIKE',$request->dni.'%')->paginate(5);
+            return view('home',compact('institutions','ultimosPacientes','search','pacientes'));
         }elseif(isset($request->nombre)){
-            $data['search'] = ['nombre'=>$request->nombre];
-            $data['pacientes'] = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->paginate(5);
+            $search = ['nombre'=>$request->nombre];
+            $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->paginate(5);
+            return view('home',compact('institutions','ultimosPacientes','search','pacientes'));
         }elseif(isset($request->apellido)){
-            $data['search'] = ['apellido'=>$request->apellido];
-            $data['pacientes'] = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->paginate(5);
+            $search = ['apellido'=>$request->apellido];
+            $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->paginate(5);
+            return view('home',compact('institutions','ultimosPacientes','search','pacientes'));
         }
-        return view('home',$data);
+        return view('home',compact('institutions','ultimosPacientes','institution'));
     }
     
     

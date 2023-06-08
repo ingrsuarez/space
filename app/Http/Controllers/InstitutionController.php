@@ -59,8 +59,7 @@ class InstitutionController extends Controller
     public function edit(Institution $institution)
     {
 
-        $users = $institution->users; 
-
+        $users = $institution->users;
         
         return view('institutions.edit',compact('institution','users'));
     }
@@ -97,24 +96,39 @@ class InstitutionController extends Controller
 
     public function show(Request $request)
     {
-        $user = User::find(Auth::user()->id);
-        $search = '';
-        if(isset($request->name)){
-            $search = ['name'=>$request->name];
-
-            $institutions = Institution::where('name','LIKE','%'.$request->name.'%')->paginate(5);
-        }elseif(isset($request->city)){
-            $search = ['city'=>$request->city];
-
-            $institutions = Institution::where('city','LIKE','%'.(strtolower($request->city)).'%')->paginate(5);
-        }else
-        {
-            $institutions = Institution::paginate(5);
-        }
 
         
+        $user = User::find(Auth::user()->id);
+        $institution = $user->currentInstitution;
+        $userInstitutions = $user->institutions;
+        $search = '';
+        if($user->adminsInstitution($institution->id))
+        {
+            if(isset($request->name)){
+            $search = ['name'=>$request->name];
 
-         return view('institutions.show',compact('institutions','search','user'));
+            $users = User::where('name','LIKE','%'.$request->name.'%')->paginate(5);
+        }elseif(isset($request->lastName)){
+            $search = ['lastName'=>$request->lastName];
+
+            $users = User::where('lastName','LIKE','%'.$request->lastName.'%')->paginate(5);
+            
+        }elseif(isset($request->email)){
+            $search = ['email'=>$request->email];
+
+            $users = User::where('email','LIKE','%'.$request->email.'%')->paginate(5);
+            
+        }else{
+            $users = $institution->users()->paginate(5);
+        }
+        
+       
+         return view('institutions.show',compact('institution','search','users','userInstitutions'));
+        }else
+        {
+            return back(); 
+        }
+        
     }
 
     public function attach(Institution $institution)
@@ -157,6 +171,23 @@ class InstitutionController extends Controller
              return back()->with('error', $e->getMessage());
             }
         }
+    }
+
+    public function attachUser(Institution $institution,User $user)
+    {
+
+        $user->institutions()->attach($institution->id);
+        return back()->with('message', 'Usuario agregado correctamente!');
+        
+    }
+
+    public function detachUser(Institution $institution,User $user)
+    {
+
+        
+        $user->institutions()->detach($institution->id);
+        return back()->with('message', 'Usuario eliminado correctamente!');
+        
     }
 
     public function attachAdmin(Institution $institution,User $user)
