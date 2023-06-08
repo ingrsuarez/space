@@ -51,10 +51,10 @@ return [
     | will load its JavaScript assets from the app's "relative root".
     |'asset_url' , 'http://localhost/space',
     | Examples: "/assets", "myurl.com/app".
-    |
+    |https://www.space4clinic.com/home
     */
 
-    'asset_url' => 'http://localhost/space/public',
+    'asset_url' => 'https://www.space4clinic.com/',
 
     /*
     |--------------------------------------------------------------------------

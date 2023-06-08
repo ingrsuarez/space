@@ -3,8 +3,7 @@
 @section('content')
 <div class="container">
     
-    
-    @livewire('show-patients')
+@livewire('show-patients')  
    
     
 </div>

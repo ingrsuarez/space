@@ -17,7 +17,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/38a763211a.js" crossorigin="anonymous"></script>
-        @livewireStyles 
+@livewireStyles()
     <!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 </head>
@@ -274,6 +274,7 @@
  
         <main class="py-4 position-relative top56">
             @yield('content')
+
         </main>
         
     </div>
@@ -281,5 +282,6 @@
 
 
 </body>
+
 @livewireScripts
 </html>
