@@ -52,9 +52,10 @@ return [
     |'asset_url' , 'http://localhost/space',
     | Examples: "/assets", "myurl.com/app".
     |https://www.space4clinic.com/home
+    https://www.space4clinic.com/
     */
 
-    'asset_url' => 'https://www.space4clinic.com/',
+    'asset_url' => 'https://www.space4clinic.com/public',
 
     /*
     |--------------------------------------------------------------------------
