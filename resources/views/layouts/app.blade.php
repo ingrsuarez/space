@@ -280,8 +280,8 @@
     </div>
     
 
-
+<livewire:scripts />
 </body>
 
-@livewireScripts
+{{-- @livewireScripts --}}
 </html>
