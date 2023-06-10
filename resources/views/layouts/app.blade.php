@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <livewire:styles>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
      {{-- <meta http-equiv="refresh" content="30"> --}}
@@ -12,13 +13,12 @@
     <!-- Scripts -->
      
     <script src="{{ asset('public/js/app.js') }}"></script>
-    {{-- <script src="{{ asset('publ}c/vendor/livewire/livewire.js?id=90730a3b0e7144480175') }}"></script> --}}
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/38a763211a.js" crossorigin="anonymous"></script>
-@livewireStyles()
-    <!-- Styles -->
+
+<!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -278,10 +278,9 @@
         </main>
         
     </div>
-    
 
-<livewire:scripts />
+<livewire:scripts>
 </body>
 
-{{-- @livewireScripts --}}
+
 </html>

@@ -77,6 +77,10 @@ class RoleSeeder extends Seeder
         // Permission::create(['name' => 'user.delete']);
         // $roleAdmin->givePermissionTo('user.delete');
 
-        Permission::create(['name' => 'role.index'])->syncRoles([$roleAdmin]);
+        // Permission::create(['name' => 'role.index'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'permission.attach'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'permission.detach'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'permission.create'])->syncRoles([$roleAdmin]);
+        Permission::create(['name' => 'permission.store'])->syncRoles([$roleAdmin]);
     }
 }
