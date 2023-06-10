@@ -100,34 +100,42 @@ class InstitutionController extends Controller
         
         $user = User::find(Auth::user()->id);
         $institution = $user->currentInstitution;
-        $userInstitutions = $user->institutions;
-        $search = '';
-        if($user->adminsInstitution($institution->id))
+        if(empty($institution))
         {
-            if(isset($request->name)){
-            $search = ['name'=>$request->name];
-
-            $users = User::where('name','LIKE','%'.$request->name.'%')->paginate(5);
-        }elseif(isset($request->lastName)){
-            $search = ['lastName'=>$request->lastName];
-
-            $users = User::where('lastName','LIKE','%'.$request->lastName.'%')->paginate(5);
-            
-        }elseif(isset($request->email)){
-            $search = ['email'=>$request->email];
-
-            $users = User::where('email','LIKE','%'.$request->email.'%')->paginate(5);
-            
-        }else{
-            $users = $institution->users()->paginate(5);
-        }
-        
-       
-         return view('institutions.show',compact('institution','search','users','userInstitutions'));
+            return back()->with('error', 'Debe seleccionar una institución!');    
         }else
         {
-            return back(); 
+            $userInstitutions = $user->institutions;
+            $search = '';
+            if($user->adminsInstitution($institution->id))
+            {
+                if(isset($request->name)){
+                $search = ['name'=>$request->name];
+
+                $users = User::where('name','LIKE','%'.$request->name.'%')->paginate(5);
+            }elseif(isset($request->lastName)){
+                $search = ['lastName'=>$request->lastName];
+
+                $users = User::where('lastName','LIKE','%'.$request->lastName.'%')->paginate(5);
+                
+            }elseif(isset($request->email)){
+                $search = ['email'=>$request->email];
+
+                $users = User::where('email','LIKE','%'.$request->email.'%')->paginate(5);
+                
+            }else{
+                $users = $institution->users()->paginate(5);
+            }
+            
+           
+             return view('institutions.show',compact('institution','search','users','userInstitutions'));
+            }else
+            {
+                return back(); 
+            }
+            
         }
+        
         
     }
 
