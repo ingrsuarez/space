@@ -10,4 +10,12 @@ class Paciente extends Model
 {
     protected  $primaryKey = 'codPaciente';
     use HasFactory;
+
+
+    public function historialclinico()
+    {
+        return $this->hasMany('App\Models\historialClinico','codPacienteHC','codPaciente');
+    }
+
+
 }

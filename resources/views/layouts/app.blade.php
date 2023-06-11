@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <livewire:styles>
+@livewireStyles
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
      {{-- <meta http-equiv="refresh" content="30"> --}}
@@ -278,8 +278,7 @@
         </main>
         
     </div>
-
-<livewire:scripts>
+@livewireScripts
 </body>
 
 

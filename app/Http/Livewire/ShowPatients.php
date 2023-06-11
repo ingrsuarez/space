@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ShowPatients extends Component
 {
@@ -46,9 +47,19 @@ class ShowPatients extends Component
 
         }else
         {
-            $pacientes = Paciente::paginate(10);
+            
+        
+            $pacientes = DB::table('pacientes')
+            ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
+            ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
+            ->where('historialClinico.codUsuarioHC','=',Auth::user()->id)
+            ->orderBy('historialClinico.fechaHC','DESC')
+            ->paginate(10);
+
             return view('livewire.show-patients',compact('pacientes'));
+        
         }
+
     }
 
 
