@@ -60,7 +60,7 @@ class PacienteController extends Controller
     {
         //
         $paciente = new Paciente;
-        $paciente->idPaciente = $request->dni;
+        $paciente->codPaciente = $request->dni;
         $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
         $paciente->nombrePaciente = strtolower($request->nombre);
         $paciente->apellidoPaciente = strtolower($request->apellido);
