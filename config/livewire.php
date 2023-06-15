@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'app_url' => "http://localhost/space",
+    'app_url' => "https://www.space4clinic.com",
 
     /*
     |--------------------------------------------------------------------------
