@@ -28,6 +28,7 @@ class FichaController extends Controller
         $data['edad'] = $fecha_nacimiento->diffInYears($today);
         $data['paciente'] = $paciente;
         
+
         //Historial clínico del paciente
         $codPaciente = $paciente->codPaciente;
         $data['historiales'] = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
@@ -54,13 +55,16 @@ class FichaController extends Controller
             
         }
 
+        $time = date("h:i:s");
+        $date = date($request->fechaAtencion.' '.$time);
+        $user =  User::find(Auth::user()->id);
         
         // $paciente = Paciente::where('idPaciente',$idPaciente)->get();
         $historial = new HistorialClinico;
         $historial->codPacienteHC = $request->codPaciente;
         $historial->codUsuarioHC = Auth::user()->id;
-        $historial->fechaHC = Carbon::parse($request->fechaAtencion)->toDateTimeString();
-        $historial->codInstitucionHC = '1000';
+        $historial->fechaHC = Carbon::parse($date)->toDateTimeString();
+        $historial->codInstitucionHC = ($user->currentInstitution)->id;
         $historial->entrada = $request->entrada;
         $historial->esPublico = $esPublico;
         $historial->especialidad = $strEspecialidades;
