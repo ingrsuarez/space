@@ -50,9 +50,11 @@ class SecureController extends Controller
     {
         $roleAdmin = Role::find(1);
 
-        if(Permission::where('name',$request->name))
+        if(Permission::where('name','=',strtolower($request->name))->exists())
         {
-            return back()->with('error', 'El permiso ya existe!');
+            $permission = Permission::where('name','=',strtolower($request->name));
+            dd($permission);
+            // return back()->with('error', 'El permiso ya existe!');
         }else{
             Permission::create(['name' => $request->name])->syncRoles([$roleAdmin]);
             return back()->with('success', 'Permiso '.$request->name.' creado correctamente!');

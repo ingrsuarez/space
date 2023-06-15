@@ -77,6 +77,38 @@
       </div>
     </div>
   </div>
+{{--                    Receptionist view                  --}}
+
+    {{-- @can('') --}}
+    <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+      <div class="accordion" id="accordionWaitingList">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="WaitingList">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#WaitingList-collapseOne" aria-expanded="true" aria-controls="WaitingList-collapseOne">
+            <div class="">
+                Agregar a lista de espera: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+            </div>
+          </button>
+          </h2>
+          <div id="WaitingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WaitingList-headingOne">
+            <div class="accordion-body">
+              <div class="card mb-3 shadow" >
+                <form id="actualizar-ficha" action="{{ route('paciente.update',$paciente->idPaciente) }}" method="POST">
+                  @csrf
+                  @method('put')
+
+                  
+                </form>
+              </div>
+            </div>    
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {{-- @endcan --}}
+
+{{--                     Professional view                 --}}
       @can('ficha')
       <div class="col-sm px-5" style="max-width:50rem">
         <div class="card mb-3 shadow">
