@@ -52,11 +52,13 @@
                                                         @if ($professional->hasRole('profesional'))
                                                                     
                                                             @foreach($professional->watingMe as $paciente)
+                                                                @if($paciente->pivot->institution_id == $institution->id)
                                                                 <tr>
                                                                     <td>{{strtoupper($professional->name.' '.$professional->lastName)}}</td>
                                                                     <td>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</td>
                                                                     <td>{{($paciente->pivot->created_at)->format('H:i:s A')}}</td>
                                                                 </tr>
+                                                                @endif
                                                             @endforeach
                                                             
                                                         @endif
