@@ -31,7 +31,14 @@ class ShowPatients extends Component
        $this->userInstitutions = Auth::user()->institutions; 
        $this->institution = Auth::user()->currentInstitution;
        $this->user = Auth::user();
-       $this->professionals = $this->institution->users;
+       if(!empty($this->institution))
+        {
+            $this->professionals = $this->institution->users;
+        }else
+        {
+            $this->professionals = null;
+        }
+       
     }
 
     
