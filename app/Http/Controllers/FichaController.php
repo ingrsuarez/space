@@ -28,7 +28,7 @@ class FichaController extends Controller
         $edad = $fecha_nacimiento->diffInYears($today);
         $user = Auth::user();
         $institution = $user->currentInstitution;
-        
+        $user->watingMe()->detach($paciente->codPaciente);
         
         
         //Historial clínico del paciente
@@ -44,7 +44,7 @@ class FichaController extends Controller
         
         $paciente = Paciente::find($request->codPaciente);
         $user = Auth::user();
-        $user->watingMe()->detach($paciente->codPaciente);
+        
 
 
         if ($request->esPublico){
