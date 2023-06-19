@@ -1,8 +1,81 @@
 <div>
 
 
-    <div class="row justify-content-center my-4">
-        <div class="col-sm">
+    <div class="row my-2">
+
+        @can('profession')
+        <div class="col-md-4">
+        @else
+        <div class="col-md-8">
+        @endcan    
+            <div class="card mb-4 shadow-sm" style="max-width: 48rem;">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item ">
+                        <h2 class="accordion-header card-header text-white" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button collapsed text-white bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <div>
+                                 <strong>Pacientes en espera:</strong>
+                            </div>
+                        </button>
+                        </h2> 
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body"> 
+                                
+                                    <div class="card-body">                
+                                        @can('wating.list')
+                                            <p class="card-text">
+
+                                            @foreach($user->watingMe as $paciente)
+
+                                                @if($paciente->pivot->institution_id == $institution->id)
+                                                    {{(($loop->index)+1).' - '}}  
+                                                    <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
+                                                    {{strtoupper($paciente->apellidoPaciente).' '.
+                                                    strtoupper($paciente->nombrePaciente)}}
+                                                    </a><br>
+                                                @endif
+                                            @endforeach
+                                            </p>
+                                        @else                        
+                                            
+                                            <table class="table">
+                                                <thead class="table-light">
+                                                    <th>Profesional</th>
+                                                    <th>Paciente</th>
+                                                    <th>Hora de ingreso</th>
+                                                    <th></th>
+                                                </thead>
+                                                <tbody>   
+                                                    @foreach($professionals as $professional) 
+
+                                                        @if ($professional->hasRole(2))
+                                                                    
+                                                            @foreach($professional->watingMe as $paciente)
+                                                                <tr>
+                                                                    <td>{{strtoupper($professional->name.' '.$professional->lastName)}}</td>
+                                                                    <td>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</td>
+                                                                    <td>{{($paciente->pivot->created_at)->format('H:i:s A')}}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                            
+                                                        @endif
+                                                    @endforeach
+                                                   
+                                                </tbody>
+                                            </table>    
+
+                                        @endcan    
+                                    
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+
+        </div>
+        @can('profession')
+        <div class="col-sm-4">
             <div class="card mb-3 shadow-sm">
                 <div class="card-header">{{ __('Pacientes atendidos el último mes') }}</div>
 
@@ -11,48 +84,40 @@
                 </div>
             </div>
         </div>
-        <div class="col-md">
-            <div class="card mb-3 shadow-sm" style="max-width: 18rem;">
-              <div class="card-header text-white bg-primary">Pacientes en espera:</div>
-              <div class="card-body">
-                <h5 class="card-title">Total de pacientes en espera: </h5>
-                <p class="card-text">Según agenda del día.</p>
-              </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card text-white bg-secondary mb-3 shadow-sm" style="max-width: 28rem;">
-              <div class="card-header"><i class="fa-solid fa-hospital mx-2"></i> 
-                INSTITUCIÓN:    
-                
-              <div class="card-body">
-                <h5 class="card-title"></h5>
+        @endcan
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary mb-3 shadow-sm" style="max-width: 18rem;">
+                  <div class="card-header"><i class="fa-solid fa-hospital mx-2"></i> 
+                    INSTITUCIÓN:    
+                    
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
 
-                <select class="form-select" wire:change="changeEvent($event.target.value)">
-                    @if(isset($institution))
-                        <option value="{{$institution->id}}">{{strtoupper($institution->name)}}</option>
-                        @if(isset($userInstitutions))
+                    <select class="form-select" wire:change="changeEvent($event.target.value)">
+                        @if(isset($institution))
+                            <option value="{{$institution->id}}">{{strtoupper($institution->name)}}</option>
+                            @if(isset($userInstitutions))
+                                @foreach($userInstitutions as $userInstitution)
+                                    @if($institution->id != $userInstitution->id)
+                                    <option value="{{$userInstitution->id}}">{{strtoupper($userInstitution->name)}}</option>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @else
+                            <option value="">Seleccione institución</option>
                             @foreach($userInstitutions as $userInstitution)
-                                @if($institution->id != $userInstitution->id)
+                                   
                                 <option value="{{$userInstitution->id}}">{{strtoupper($userInstitution->name)}}</option>
-                                @endif
-                            @endforeach
-                        @endif
-                    @else
-                        <option value="">Seleccione institución</option>
-                        @foreach($userInstitutions as $userInstitution)
-                               
-                            <option value="{{$userInstitution->id}}">{{strtoupper($userInstitution->name)}}</option>
-                                
-                        @endforeach    
+                                    
+                            @endforeach    
 
-                    @endif    
-                </select>
-              </div>
+                        @endif    
+                    </select>
+                  </div>
+                </div>
+
             </div>
-        </div>
-
-         
+        </div>    
     </div>
 
 

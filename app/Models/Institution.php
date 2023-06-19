@@ -20,5 +20,9 @@ class Institution extends Model
         return $this->belongsToMany('App\Models\User', 'institution_admin', 'institution_id', 'user_id');
     }
 
+    public function watingPatients()
+    {
+        return $this->belongsToMany('App\Models\Paciente','wating_list','institution_id','paciente_id');
+    }
 
 }

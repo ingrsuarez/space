@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\HistorialClinico;
 use App\Models\Paciente;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Wating_list;
 
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -168,8 +170,26 @@ class PacienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function wating_attach(Paciente $paciente, $institution, Request $request)
     {
-        //
+        
+        $user = User::find($request->user_id);
+        
+
+        $wating = new Wating_list;
+        $wating->user_id = $request->user_id;
+        $wating->institution_id = $institution;
+        $wating->paciente_id = $paciente->codPaciente;
+        if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
+        {
+            return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
+             
+        }else
+        {
+            $wating->save();
+            return redirect('home/')->with('message', 'Paciente enviado a lista de espera!');
+        }  
+        
     }
+
 }

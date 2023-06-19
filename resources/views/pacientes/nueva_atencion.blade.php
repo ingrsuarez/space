@@ -8,6 +8,12 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   @endif
+  @if (session('message'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="max-width: 50rem;">
+      <strong>{{ session('message') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
   <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
@@ -79,34 +85,51 @@
   </div>
 {{--                    Receptionist view                  --}}
 
-    {{-- @can('') --}}
+    @can('wating.attach')
     <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
-      <div class="accordion" id="accordionWaitingList">
+      <div class="accordion" id="accordionWatingList">
         <div class="accordion-item">
-          <h2 class="accordion-header" id="WaitingList">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#WaitingList-collapseOne" aria-expanded="true" aria-controls="WaitingList-collapseOne">
+          <h2 class="accordion-header" id="WatingList">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#WatingList-collapseOne" aria-expanded="true" aria-controls="WatingList-collapseOne">
             <div class="">
                 Agregar a lista de espera: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
             </div>
           </button>
           </h2>
-          <div id="WaitingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WaitingList-headingOne">
+          <div id="WatingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WatingList-headingOne">
             <div class="accordion-body">
-              <div class="card mb-3 shadow" >
-                <form id="actualizar-ficha" action="{{ route('paciente.update',$paciente->idPaciente) }}" method="POST">
+              
+                <form id="wating" action="{{route('wating.attach',['paciente'=>$paciente,'institution'=>$institution])}}" method="POST">
                   @csrf
-                  @method('put')
+                  {{-- @method('put') --}}
+                  <div class="input-group mb-3">
+                    <select class="form-select" name = 'user_id'>
+                        @if(isset($institution))
 
-                  
+                          @foreach($institution->users as $user)
+                            @if($user->hasRole(2))
+
+                            <option value="{{$user->id}}">{{strtoupper($user->name)}}</option>
+                            @endif
+                          @endforeach
+
+                        @endif
+                    </select>  
+        
+                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>
+                      
+                  </div>
+                                     
+
                 </form>
-              </div>
+              
             </div>    
           </div>
 
         </div>
       </div>
     </div>
-    {{-- @endcan --}}
+    @endcan
 
 {{--                     Professional view                 --}}
       @can('ficha')

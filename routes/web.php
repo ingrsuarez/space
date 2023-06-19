@@ -47,6 +47,8 @@ Route::middleware(['verified'])->group(function(){
     Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
 
+    Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
+
     //PROFESSION
     Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');
     Route::get('profession/add/{profession}',[App\Http\Controllers\ProfessionController::class,'add'])->middleware('can:profession.add')->name('profession.add');
@@ -91,7 +93,7 @@ Route::middleware(['verified'])->group(function(){
     Route::get('institution/addUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachUser'])->middleware('can:institution.attach')->name('userInstitution.attach');
     Route::get('institution/removeUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'detachUser'])->middleware('can:institution.detach')->name('userInstitution.detach');
     Route::get('institution/addAdmin/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachAdmin'])->middleware('can:institution.attach')->name('institution.attachAdmin');
-    Route::get('institution/deleteAdmin/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'detachAdmin'])->middleware('can:institution.attach')->name('institution.detachAdmin');
+    Route::get('institution/deleteAdmin/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'detachAdmin'])->middleware('can:institution.detach')->name('institution.detachAdmin');
 
     //Roles
     Route::get('secure/roles',[App\Http\Controllers\SecureController::class,'index'])->middleware('can:role.index')->name('role.index');

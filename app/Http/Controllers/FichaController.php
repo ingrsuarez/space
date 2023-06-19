@@ -25,21 +25,27 @@ class FichaController extends Controller
         //Edad del paciente
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
-        $data['edad'] = $fecha_nacimiento->diffInYears($today);
-        $data['paciente'] = $paciente;
+        $edad = $fecha_nacimiento->diffInYears($today);
+        $user = Auth::user();
+        $institution = $user->currentInstitution;
         
-
+        
+        
         //Historial clínico del paciente
         $codPaciente = $paciente->codPaciente;
-        $data['historiales'] = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
+        $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',$data);
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution'));
     }
 
     
     public function store(Request $request)
     {
         
+        $paciente = Paciente::find($request->codPaciente);
+        $user = Auth::user();
+        $user->watingMe()->detach($paciente->codPaciente);
+
 
         if ($request->esPublico){
             $esPublico = 1;
@@ -56,10 +62,10 @@ class FichaController extends Controller
         }
 
         $time = date("h:i:s");
-        $date = date($request->fechaAtencion.' '.$time);
+        $date = date($request->fechaAtencion.' '.$time); //Combine given date with current time
         $user =  User::find(Auth::user()->id);
+
         
-        // $paciente = Paciente::where('idPaciente',$idPaciente)->get();
         $historial = new HistorialClinico;
         $historial->codPacienteHC = $request->codPaciente;
         $historial->codUsuarioHC = Auth::user()->id;
@@ -70,8 +76,8 @@ class FichaController extends Controller
         $historial->especialidad = $strEspecialidades;
         $historial->save();
 
-        return redirect('ficha/'.$request->idPaciente);
-
+        
+        return redirect('home/');
         
     }
 

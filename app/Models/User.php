@@ -102,8 +102,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function adminsInstitution($institution_id)
     {
-        
-        
         $hasInstitution = $this->adminInstitutions()->where('id', $institution_id)->exists();
         return $hasInstitution;
     }
@@ -111,5 +109,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function currentInstitution()
     {
         return $this->belongsTo(Institution::class,'institution_id');
+    }
+
+    public function watingMe()
+    {
+        return $this->belongsToMany('App\Models\Paciente','wating_list','user_id','paciente_id')->withPivot('institution_id','created_at')->orderBy('pivot_created_at','ASC');
     }
 }

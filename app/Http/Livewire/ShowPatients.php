@@ -20,6 +20,9 @@ class ShowPatients extends Component
     public $ultimosPacientes;
     public $userInstitutions;
     public $institution;
+    public $wating;
+    public $user;
+    public $professionals;
 
     public function mount()
     {
@@ -27,6 +30,8 @@ class ShowPatients extends Component
        $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',['2022-01-28 17:36:03',$today])->count();
        $this->userInstitutions = Auth::user()->institutions; 
        $this->institution = Auth::user()->currentInstitution;
+       $this->user = Auth::user();
+       $this->professionals = $this->institution->users;
     }
 
     
