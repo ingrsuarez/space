@@ -45,7 +45,8 @@
                                                     <th>Hora de ingreso</th>
                                                     <th></th>
                                                 </thead>
-                                                <tbody>   
+                                                <tbody>
+                                                @if(!empty($professionals))   
                                                     @foreach($professionals as $professional) 
 
                                                         @if ($professional->hasRole(2))
@@ -60,7 +61,7 @@
                                                             
                                                         @endif
                                                     @endforeach
-                                                   
+                                                @endif   
                                                 </tbody>
                                             </table>    
 
