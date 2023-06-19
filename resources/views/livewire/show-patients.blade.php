@@ -49,7 +49,7 @@
                                                 @if(!empty($professionals))   
                                                     @foreach($professionals as $professional) 
 
-                                                        @if ($professional->hasRole(2))
+                                                        @if ($professional->hasRole('profesional'))
                                                                     
                                                             @foreach($professional->watingMe as $paciente)
                                                                 <tr>
