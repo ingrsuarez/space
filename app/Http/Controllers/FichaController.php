@@ -6,6 +6,7 @@ use App\Models\Paciente;
 use App\Models\User;
 use App\Models\EspecialidadesMedicas;
 use App\Models\Profession;
+use App\Models\Institution;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;

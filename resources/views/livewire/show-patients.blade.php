@@ -24,7 +24,7 @@
                                     <div class="card-body">                
                                         @can('wating.list')
                                             <p class="card-text">
-
+                                            @if(!empty($institution))    
                                             @foreach($user->watingMe as $paciente)
 
                                                 @if($paciente->pivot->institution_id == $institution->id)
@@ -35,6 +35,7 @@
                                                     </a><br>
                                                 @endif
                                             @endforeach
+                                            @endif
                                             </p>
                                         @else                        
                                             
@@ -49,7 +50,7 @@
                                                 @if(!empty($professionals))   
                                                     @foreach($professionals as $professional) 
 
-                                                        @if ($professional->hasRole('profesional'))
+                                                        @if ($professional->hasRole('profesional') && (!empty($institution)))
                                                                     
                                                             @foreach($professional->watingMe as $paciente)
                                                                 @if($paciente->pivot->institution_id == $institution->id)
