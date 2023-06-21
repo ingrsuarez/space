@@ -98,13 +98,13 @@
           </h2>
           <div id="WatingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WatingList-headingOne">
             <div class="accordion-body">
-              
+              @if(isset($institution))
                 <form id="wating" action="{{route('wating.attach',['paciente'=>$paciente,'institution'=>$institution])}}" method="POST">
                   @csrf
                   {{-- @method('put') --}}
                   <div class="input-group mb-3">
                     <select class="form-select" name = 'user_id'>
-                        @if(isset($institution))
+                        
 
                           @foreach($institution->users as $user)
                             @if($user->hasRole(2))
@@ -113,7 +113,7 @@
                             @endif
                           @endforeach
 
-                        @endif
+                        
                     </select>  
         
                     <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>
@@ -122,7 +122,7 @@
                                      
 
                 </form>
-              
+              @endif
             </div>    
           </div>
 
