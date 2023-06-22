@@ -14,6 +14,7 @@
      
     <script src="{{ asset('public/js/app.js') }}"></script>
     <!-- Fonts -->
+    <link rel="icon" href="{{ URL::asset('public/favicon.ico') }}" type="image/x-icon"/>
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/38a763211a.js" crossorigin="anonymous"></script>
