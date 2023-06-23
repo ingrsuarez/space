@@ -49,6 +49,7 @@ Route::middleware(['verified'])->group(function(){
 
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
 
+   Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
     //PROFESSION
     Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');
     Route::get('profession/add/{profession}',[App\Http\Controllers\ProfessionController::class,'add'])->middleware('can:profession.add')->name('profession.add');

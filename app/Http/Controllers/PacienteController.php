@@ -192,4 +192,14 @@ class PacienteController extends Controller
         
     }
 
+
+    public function wating_detach(Paciente $paciente, $institution)
+    {
+        
+        $paciente->watingFor()->detach();
+        return redirect('home/')->with('message', 'Paciente eliminado de lista de espera!');
+
+        
+    }
+
 }
