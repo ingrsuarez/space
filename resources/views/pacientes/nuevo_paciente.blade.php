@@ -17,19 +17,19 @@
             		@csrf
             		<div class="input-group mb-3">
 						<span class="input-group-text" id="dni">DNI</span>
-						<input type="text" class="form-control" aria-label="dni"id="dni" name="dni" autofocus>
+						<input type="text" class="form-control" aria-label="dni"id="dni" name="dni"required autofocus>
 						<span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
-                  		<input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento">			
+                  		<input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento" required>			
                 	</div>
                 	<div class="input-group mb-3">
 						<span class="input-group-text">Nombre</span>
-						<input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre">
+						<input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre" required>
 						<span class="input-group-text">Apellido</span>
-						<input type="text" class="form-control" aria-label="Username"id="apellido" name="apellido">
+						<input type="text" class="form-control" aria-label="Username"id="apellido" name="apellido" required>
 	                </div>
                 	<div class="input-group mb-3">
                   		<span class="input-group-text" id="telefono">Teléfono</span>
-                  		<input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono">
+                  		<input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono" required>
                   		<span class="input-group-text" id="email">Correo</span>
                   		<input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email">
                 	</div>
