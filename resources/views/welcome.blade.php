@@ -11,8 +11,9 @@
         <title>{{ config('app.name', 'ADMESYS') }}</title>
 
         <!-- Scripts -->
-        <script src="{{ asset('public/js/app.js') }}" defer></script>
-
+        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
+        
+        <script src="{{ asset('public/js/app.js') }}"></script>
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -63,7 +64,7 @@
                                
             </nav>  
             @endif
-
+            
             <div class="py-4 position-relative top-0 start-0">
                 
 
@@ -134,6 +135,6 @@
                     </div> --}}
                 </div>
             </div>
-        
+           
     </body>
 </html>

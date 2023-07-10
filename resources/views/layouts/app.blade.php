@@ -7,12 +7,12 @@
      {{-- <meta http-equiv="refresh" content="30"> --}}
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
     <title>{{ config('app.name', 'ADMESYS') }}</title>
 
     <!-- Scripts -->
-     
     <script src="{{ asset('public/js/app.js') }}"></script>
+    
     <!-- Fonts -->
     <link rel="icon" href="{{ URL::asset('public/favicon.ico') }}" type="image/x-icon"/>
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -42,8 +42,15 @@
                         <li class="nav-item">
                           <a class="nav-link mx-4 active" aria-current="page" href="{{url('home')}}">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link mx-4 " href="">Pacientes</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle mx-4 " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Turnos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{route('appointment.index')}}">Agendar un turno</a></li>
+                                <li><a class="dropdown-item" href="{{route('agendas.index')}}">Agendas</a></li>
+
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle mx-4 " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,10 +61,7 @@
                             <li><a class="dropdown-item" href="{{route('institution.show')}}">Usuarios</a></li>
                             
                             <li><hr class="dropdown-divider"></li>
-                            
-                            
-                            
-                            
+
                           </ul>
                         </li>
 
@@ -280,6 +284,7 @@
         
     </div>
 @livewireScripts
+
 </body>
 
 

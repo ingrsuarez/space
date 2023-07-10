@@ -13,6 +13,18 @@ $side-width: 270px;
 	min-width: 80px;
 }
 
+
+
+// Bootstrap Variables
+$primary: #04aa6d;
+$offcanvas-horizontal-width: 270px;
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap-icons/font/bootstrap-icons.css';
+@import '~bootstrap-icons/font/bootstrap-icons';
+
 @media (min-width: 769px){
 	.offcanvas-backdrop::before{
 		display: none;
@@ -32,16 +44,16 @@ $side-width: 270px;
 }
 
 
-// Bootstrap Variables
-$primary: #04aa6d;
-$offcanvas-horizontal-width: 270px;
-@import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//Fullcalendar
 
-//style
-// @import 'layout1';
+.fc .fc-button-primary { 
+	color: #FFFFF; 
+	background-color: #04aa6d !important; 
+	border-color: #FFFFFF !important; 
+	border-radius: 10%;
+}
 
-
-
+.fc-event{
+    cursor: pointer;
+}

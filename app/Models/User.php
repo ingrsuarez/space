@@ -115,4 +115,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany('App\Models\Paciente','wating_list','user_id','paciente_id')->withPivot('institution_id','created_at')->orderBy('pivot_created_at','ASC');
     }
+
+    public function appointments()
+    {
+        return $this->hasMany('App\Models\Appointments');
+    }
+
+    public function agenda()
+    {
+        return $this->hasMany('App\Models\Agenda');
+    }
 }

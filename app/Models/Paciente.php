@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Paciente extends Model
 {
     protected  $primaryKey = 'codPaciente';
+
+    protected $fillable = [
+        'nombrePaciente',
+    ];
     use HasFactory;
 
 
@@ -25,6 +29,11 @@ class Paciente extends Model
     public function waitingIn()
     {
         return $this->belongsToMany('App\Models\Institution', 'wating_list', 'institution_id', 'paciente_id');
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany('App\Models\Appointment');
     }
     
 }

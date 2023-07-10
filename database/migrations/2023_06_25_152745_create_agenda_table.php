@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('agenda', function (Blueprint $table) {
+        Schema::create('agendas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('institution_id')->unsigned()->index();
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade');
@@ -21,8 +21,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('room_id')->unsigned()->index();
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
-            $table->string('description');
-            $table->timestamps();
+            $table->string('day');
+            $table->integer('frequency'); //minutes
+            $table->time('start'); //hour
+            $table->time('end'); //hour
+            $table->integer('max_days');//max date from now to schedule
+            $table->boolean('overturn');
             $table->timestamps();
         });
     }
@@ -34,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agenda');
+        Schema::dropIfExists('agendas');
     }
 };

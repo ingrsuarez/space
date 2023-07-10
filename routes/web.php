@@ -90,6 +90,20 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
 
+    //CALENDAR EVENTS
+
+    Route::get('calendar/index',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.index');
+    Route::get('calendar/show',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.show');
+    Route::post('calendar/show',[App\Http\Controllers\AppointmentController::class,'show'])->middleware('can:appointment.index')->name('appointment.show');
+    Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])->middleware('can:appointment.index')->name('appointment.store');
+    Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])->middleware('can:appointment.index')->name('appointment.cancel');
+
+    //AGENDAS
+    Route::get('agendas/index',[App\Http\Controllers\AgendaController::class,'index'])->middleware('can:appointment.index')->name('agendas.index');
+    Route::post('agenda/store',[App\Http\Controllers\AgendaController::class,'store'])->middleware('can:appointment.index')->name('agenda.store');
+    Route::post('agenda/edit',[App\Http\Controllers\AgendaController::class,'edit'])->middleware('can:appointment.index')->name('agenda.edit');
+    Route::get('agenda/delete/{agenda}',[App\Http\Controllers\AgendaController::class,'delete'])->middleware('can:appointment.index')->name('agenda.delete');
+
     //Add Remove User
     Route::get('institution/addUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachUser'])->middleware('can:institution.attach')->name('userInstitution.attach');
     Route::get('institution/removeUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'detachUser'])->middleware('can:institution.detach')->name('userInstitution.detach');

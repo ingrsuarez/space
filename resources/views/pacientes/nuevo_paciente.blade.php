@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="col-sm px-5">
-    	<div class="card mb-3" style="max-width: 50rem;">
+    	<div class="card mb-3 shadow" style="max-width: 50rem;">
     		<div class="card-header text-white bg-primary">
                 Nuevo Paciente: 
             </div>
