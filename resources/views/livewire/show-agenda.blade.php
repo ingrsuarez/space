@@ -58,7 +58,7 @@
                     <th>Inicio</th>
                     <th>Finaliza</th>
                     <th>Lugar</th>
-                    <th></th>
+                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody>
