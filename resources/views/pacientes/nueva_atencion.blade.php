@@ -107,7 +107,7 @@
                         
 
                           @foreach($institution->users as $user)
-                            @if($user->hasRole(2))
+                            @if($user->hasRole('profesional'))
 
                             <option value="{{$user->id}}">{{strtoupper($user->name)}}</option>
                             @endif
