@@ -30,7 +30,7 @@
                         
                             <option value="">Seleccione profesional...</option>
                           @foreach($professionals as $professional)
-                            @if($professional->hasRole(2))
+                            @if($professional->hasRole('profesional'))
 
                             <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
                             @endif
