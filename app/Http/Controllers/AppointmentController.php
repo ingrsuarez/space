@@ -50,7 +50,7 @@ class AppointmentController extends Controller
             'start' => $appointment->start,
             'end' => $appointment->end,
             'editable' => false,
-            'backgroundColor' => '#f35a17'
+            'backgroundColor' => '#4040a1'
             ];  
             
         }
@@ -68,13 +68,16 @@ class AppointmentController extends Controller
                     'startTime' => $agenda->start,
                     'endTime' => $agenda->end,
                     'display' => 'inverse-background',
-                    'color' => '#ccc'
+                    'color' => '#ccc',
+                    'backgroundColor' => '#ffcc5c'
+                    
                 ];
                 $availableAgenda[] = [
                     'id' => $agenda->room_id,
                     'groupId' => 'room',
                     'daysOfWeek' => [$agenda->day],
                     'title' => $agenda->room->name,
+                    
                 ];
 
                 if($frequency > $agenda->frequency)
