@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'ADMESYS') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('public/js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     
     <!-- Fonts -->
     <link rel="icon" href="{{ URL::asset('public/favicon.ico') }}" type="image/x-icon"/>
@@ -20,7 +20,7 @@
     <script src="https://kit.fontawesome.com/38a763211a.js" crossorigin="anonymous"></script>
 
 <!-- Styles -->
-    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'layout' => 'layout.app',
+    'layout' => 'layouts.app',
 
     /*
     |--------------------------------------------------------------------------
@@ -49,13 +49,12 @@ return [
     | This value sets the path to Livewire JavaScript assets, for cases where
     | your app's domain root is not the correct path. By default, Livewire
     | will load its JavaScript assets from the app's "relative root".
-    |'asset_url' , 'http://localhost/space',
+    |
     | Examples: "/assets", "myurl.com/app".
-    |https://www.space4clinic.com/home
-    https://www.space4clinic.com/
+    |
     */
 
-    'asset_url' => 'https://www.space4clinic.com/public',
+    'asset_url' => "http://localhost/space/public",
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +68,7 @@ return [
     |
     */
 
-    'app_url' => "https://www.space4clinic.com",
+    'app_url' => "http://localhost/space/public",
 
     /*
     |--------------------------------------------------------------------------
