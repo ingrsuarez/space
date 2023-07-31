@@ -97,6 +97,7 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/show',[App\Http\Controllers\AppointmentController::class,'show'])->middleware('can:appointment.institution')->name('appointment.show');
     Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])->middleware('can:appointment.store')->name('appointment.store');
     Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])->middleware('can:appointment.cancel')->name('appointment.cancel');
+    Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])->middleware('can:appointment.index')->name('appointment.storeLock');
 
     //AGENDAS
     Route::get('agendas/index',[App\Http\Controllers\AgendaController::class,'index'])->middleware('can:agenda.index')->name('agendas.index');

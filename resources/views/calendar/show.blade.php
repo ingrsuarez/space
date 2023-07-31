@@ -10,7 +10,17 @@
     </div>
     <div class="card-body">
 
-      <!-- Modal -->
+    <!-- Modal -->
+    <form id="lock" action="{{ route('appointment.storeLock') }}" method="POST">
+      @method('POST')
+      @csrf
+        <input type="hidden" name="user_id" value="{{$professional->id}}">
+        <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateLock" readonly>
+        <input type="hidden" id="startDateLock" name="startDate" readonly>
+        <input type="hidden" id="endDateLock" name="endDate" readonly>
+        <input type="hidden" id="roomLock" name="room_id">
+        <input type="hidden" id="institutionLock" name="institution_id" value="{{$institution->id}}">
+    </form>
     <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
       @method('POST')
       @csrf
@@ -39,22 +49,31 @@
                 </div>
                 <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="time" name="startTime" readonly>
                 <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                  <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
                 </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
+                <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEnd" name="endTime" readonly>
+                
                 <input type="hidden" id="startDate" name="startDate" readonly>
                 <input type="hidden" id="endDate" name="endDate" readonly>
                 <input type="hidden" id="room" name="room_id">
                 <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
               </div>
-               <div class="input-group mb-3">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
                 </div>
                 <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
               </div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-info my-2" id="saveModalBtn">Agendar Turno</button>
+              
+              <div class="d-flex mb-3">
+                <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
+                <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
+              </div>
               @livewire('find-patients')
             </div>
             <div class="modal-footer">
@@ -89,7 +108,8 @@
             var eid = '3';
             var agenda = @json($availableAgenda);
             var frequency = @json($frequency);
-            
+            var today = new Date();
+            today.setDate(today.getDate() + 7);
             let calendarEl = document.getElementById('calendar');
 
             var calendar = new Calendar(calendarEl, {
@@ -99,6 +119,7 @@
               locale: 'es',
               editable: true,
               initialView: 'timeGridWeek',
+              initialDate: today,
               selectable: true,
               slotMinTime: '07:30',
               slotMaxTime: '20:00',
@@ -135,27 +156,38 @@
                 
                 if(info.event.title != '')
                 { 
-                  if(confirm('Desea cancelar el turno de '+info.event.title))
+                  locked = info.event.title.slice(0, 9);
+                  if(locked != 'Bloqueado')
                   {
-                    alert('Cancelado!');
-                    let event_id = info.event.id;
-                    $.ajax({
-                        url: "{{route('appointment.cancel')}}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {event_id},
-                        success:function(response)
-                        {
-                          console.log(response)
-                        },
-                        error:function(error)
-                        {
-                          console.log(error);
-                        }
-                      });
+                    if(confirm('Desea cancelar el turno de '+info.event.title))
+                    {
+                      alert('Cancelado!');
+                      let event_id = info.event.id;
+                      $.ajax({
+                          url: "{{route('appointment.cancel')}}",
+                          type: "POST",
+                          dataType: 'json',
+                          data: {event_id},
+                          success:function(response)
+                          {
+                            console.log(response)
+                          },
+                          error:function(error)
+                          {
+                            console.log(error);
+                          }
+                        });
+                        
+                        location.reload();
+                    }
+
+                  }
+                  else{
+                    if(confirm('Desea anular el bloqueo'))
+                    {
+                    }
+                  }
                       
-                      location.reload();
-                  }    
 
                 }
                 
@@ -191,26 +223,20 @@
                 console.log(today);
                 console.log(start.start);
                 $('#room').val(eid);
+                $('#roomLock').val(eid);
                 $('#calendarModalLabel').text('Agendar turno');
                 $('#time').val(moment(start.startStr).format('HH:mm:ss'));
+                $('#timeEnd').val(moment(start.endStr).format('HH:mm:ss'));
                 $('#startDate').val(startDate);
+                $('#startDateLock').val(startDate);
                 $('#endDate').val(endDate);
+                $('#endDateLock').val(endDate);
                 $('#date').val(dateText);
+                $('#dateLock').val(dateText);
                 if(start.start <= today){
                   alert('La fecha seleccionada ya pasó')
                 }else{
-                    $('#calendarModal').modal('toggle');
-                    $('#saveModalBtn').click(function(){
-                      var title = $('#modalTitle').val();
-                      var start_date = start.startStr;
-                      var end = new Date(start_date);
-                      var end_date = moment(end);
-                      end_date.add(15,'minutes');
-                      var end_parse = end_date.format("YYYY-MM-DDTHH:mm:ssZ");
-                      
-                      
-                    
-                    })
+                  $('#calendarModal').modal('toggle');
                 }
                
               }
