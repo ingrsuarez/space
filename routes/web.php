@@ -93,7 +93,7 @@ Route::middleware(['verified'])->group(function(){
     //CALENDAR EVENTS
 
     Route::get('calendar/index',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.index');
-    Route::get('calendar/show',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.show');
+    Route::get('calendar/show/{institution?}{user?}',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.show');
     Route::post('calendar/show',[App\Http\Controllers\AppointmentController::class,'show'])->middleware('can:appointment.institution')->name('appointment.show');
     Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])->middleware('can:appointment.store')->name('appointment.store');
     Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])->middleware('can:appointment.cancel')->name('appointment.cancel');

@@ -121,7 +121,7 @@
               initialView: 'timeGridWeek',
               initialDate: today,
               selectable: true,
-              slotMinTime: '07:30',
+              slotMinTime: '07:00',
               slotMaxTime: '20:00',
               scrollTime: '08:00:00',
               slotDuration: frequency,
@@ -144,12 +144,11 @@
                 daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
 
                 startTime: '07:00', // a start time (10am in this example)
-                endTime: '18:00', // an end time (6pm in this example)
+                endTime: '19:00', // an end time (6pm in this example)
               },
 
               nowIndicator: true,
               events: appointments.concat(agenda),
-
              
 
               eventClick: function(info) {
@@ -183,9 +182,7 @@
 
                   }
                   else{
-                    if(confirm('Desea anular el bloqueo'))
-                    {
-                    }
+                    console.log(info);
                   }
                       
 
