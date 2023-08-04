@@ -7,10 +7,11 @@ use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Wating_list;
-
+use App\Models\Institution;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\Appointment;
 
 class PacienteController extends Controller
 {
@@ -52,12 +53,22 @@ class PacienteController extends Controller
         return view('pacientes.nuevo_paciente');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function createWithAppointment(Request $request)
+    {
+        
+        $professional = User::find($request->user_id);
+        $institution = Institution::find($request->institution_id);
+        $appointment = new Appointment;
+        $appointment->room_id = $request->room_id;
+        $appointment->start = $request->startDate;
+        $appointment->end = $request->endDate;
+        $appointment->medicare = 'issn';
+        $appointment->obs = $request->obs;
+        $appointment->status = 'active';
+        $appointment->overturn = 0;
+        
+        return view('pacientes.nuevo_turno',compact('institution','professional','appointment'));
+    }
     public function store(Request $request)
     {
         //
@@ -99,20 +110,23 @@ class PacienteController extends Controller
      */
     public function show(Request $request)
     {
-        //
-        if(isset($request->dni)){
-            $data['search'] = ['dni'=>$request->dni];
-            $data['pacientes'] = Paciente::where('idPaciente','LIKE',$request->dni.'%')->orderBy('apellidoPaciente')->paginate(10);
+        return back();
+    //     //
 
-        }elseif(isset($request->nombre)){
-            $data['search'] = ['nombre'=>$request->nombre];
-            $data['pacientes'] = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->orderBy('nombrePaciente')->paginate(10);
+    //     if(isset($request->dni)){
+    //         $data['search'] = ['dni'=>$request->dni];
+    //         $data['pacientes'] = Paciente::where('idPaciente','LIKE',$request->dni.'%')->orderBy('apellidoPaciente')->paginate(10);
 
-        }elseif(isset($request->apellido)){
-            $data['search'] = ['apellido'=>$request->apellido];
-            $data['pacientes'] = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->orderBy('apellidoPaciente')->paginate(10);
-        }
-        return view('pacientes.listado_pacientes',$data);
+    //     }elseif(isset($request->nombre)){
+    //         $data['search'] = ['nombre'=>$request->nombre];
+    //         $data['pacientes'] = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->orderBy('nombrePaciente')->paginate(10);
+
+    //     }elseif(isset($request->apellido)){
+    //         $data['search'] = ['apellido'=>$request->apellido];
+    //         $data['pacientes'] = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->orderBy('apellidoPaciente')->paginate(10);
+    //     }
+        
+    //     return view('pacientes.listado_pacientes',$data);
     }
 
     /**

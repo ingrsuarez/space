@@ -107,6 +107,7 @@ class AppointmentController extends Controller
 
     public function show(Request $request)
     {
+        
         $institution = Institution::find($request->institution_id);
         $professional = User::find($request->user_id);
         $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
@@ -118,7 +119,9 @@ class AppointmentController extends Controller
             $events[] = [
             'id'=> $appointment->id,
             'room' => $appointment->room_id,
-            'title' => ucfirst($appointment->paciente->nombrePaciente).' '.ucfirst($appointment->paciente->apellidoPaciente).' - '.ucfirst($appointment->obs),
+            'title' => ucfirst($appointment->paciente->nombrePaciente).
+                ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
             'start' => $appointment->start,
             'end' => $appointment->end,
             'editable' => false,
@@ -265,5 +268,54 @@ class AppointmentController extends Controller
         return $lock;
     }
 
+    public function storePatient(Request $request)
+    {
+        
+        $paciente = new Paciente;
+        $paciente->idPaciente = $request->dni;
+        $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
+        $paciente->nombrePaciente = strtolower($request->nombre);
+        $paciente->apellidoPaciente = strtolower($request->apellido);
+        $paciente->celularPaciente = $request->telefono;
+        $paciente->emailPaciente = strtolower($request->email);
+        $paciente->CoberturaPaciente = strtolower($request->cobertura);
+        $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
+        $paciente->domicilioPaciente = strtolower($request->domicilio);
+        $paciente->localidadPaciente = strtolower($request->localidad);
+        try 
+        {
+            $paciente->save();
+            $paciente_id = $paciente->codPaciente;
+        
+        
+
+            $appointment = new Appointment;
+
+            $appointment->institution_id = $request->institution_id;
+            $appointment->user_id = $request->user_id;
+            $appointment->paciente_id = $paciente_id;
+            $appointment->room_id = $request->room_id;
+            $appointment->start = $request->startDate;
+            $appointment->end = $request->endDate;
+            $appointment->medicare = 'issn';
+            $appointment->obs = $request->obs;
+            $appointment->status = 'active';
+            $appointment->overturn = 0;
+            
+            $appointment->save();
+            return redirect()->route('appointment.show',[
+                'institution_id' => $appointment->institution_id,
+                'user_id' => $appointment->user_id
+            ]);
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+            return back()->with('error', $e->getMessage());
+            
+        }
+        
+    }
 
 }

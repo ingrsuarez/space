@@ -10,85 +10,99 @@
     </div>
     <div class="card-body">
 
-    <!-- Modal -->
-    <form id="lock" action="{{ route('appointment.storeLock') }}" method="POST">
-      @method('POST')
-      @csrf
+      <!-- Modal -->
+      <form id="lock" action="{{ route('appointment.storeLock') }}" method="POST">
+        @method('POST')
+        @csrf
+          <input type="hidden" name="user_id" value="{{$professional->id}}">
+          <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateLock" readonly>
+          <input type="hidden" id="startDateLock" name="startDate" readonly>
+          <input type="hidden" id="endDateLock" name="endDate" readonly>
+          <input type="hidden" id="roomLock" name="room_id">
+          <input type="hidden" id="institutionLock" name="institution_id" value="{{$institution->id}}">
+      </form>
+      <form id="createAndAppoint" action="{{ route('createAndAppoint') }}" method="POST">
+        @method('POST')
+        @csrf
         <input type="hidden" name="user_id" value="{{$professional->id}}">
         <input type="hidden" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateLock" readonly>
-        <input type="hidden" id="startDateLock" name="startDate" readonly>
-        <input type="hidden" id="endDateLock" name="endDate" readonly>
-        <input type="hidden" id="roomLock" name="room_id">
-        <input type="hidden" id="institutionLock" name="institution_id" value="{{$institution->id}}">
-    </form>
-    <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
-      @method('POST')
-      @csrf
+        <input type="hidden" id="startDateNew" name="startDate" readonly>
+        <input type="hidden" id="endDateNew" name="endDate" readonly>
+        <input type="hidden" id="roomNew" name="room_id">
+        <input type="hidden" id="obsNew" name="obs">
+        <input type="hidden" id="institutionNew" name="institution_id" value="{{$institution->id}}">
+      </form>
+      <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
+        @method('POST')
+        @csrf
 
-      
-      <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="calendarModalLabel">{{$institution->name}}</h5>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Profesional:</span>
-                </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="user" value="{{ucfirst($professional->lastName).' '.ucfirst($professional->name)}}" readonly>
-                <input type="hidden" name="user_id" value="{{$professional->id}}">
+        
+        <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="calendarModalLabel">{{$institution->name}}</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Hora:</span>
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Profesional:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="user" value="{{ucfirst($professional->lastName).' '.ucfirst($professional->name)}}" readonly>
+                  <input type="hidden" name="user_id" value="{{$professional->id}}">
                 </div>
-                <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="time" name="startTime" readonly>
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hora:</span>
+                  </div>
+                  <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="time" name="startTime" readonly>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
+                  </div>
+                  <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEnd" name="endTime" readonly>
+                  
+                  <input type="hidden" id="startDate" name="startDate" readonly>
+                  <input type="hidden" id="endDate" name="endDate" readonly>
+                  <input type="hidden" id="room" name="room_id">
+                  <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
                 </div>
-                <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEnd" name="endTime" readonly>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
+                  </div>
+                  <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
+                </div>
                 
-                <input type="hidden" id="startDate" name="startDate" readonly>
-                <input type="hidden" id="endDate" name="endDate" readonly>
-                <input type="hidden" id="room" name="room_id">
-                <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                <div class="d-flex mb-3">
+                  <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
+                  
+                  
+                  <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
+                  <button type="submit" class="btn btn-primary ms-auto px-2 mb-2" id="newPatient" form="createAndAppoint">Nuevo Paciente</button>
+                  <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
                 </div>
-                <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
-                </div>
-                <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
+                @livewire('find-patients')
               </div>
-              
-              <div class="d-flex mb-3">
-                <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
-                <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
-              </div>
-              @livewire('find-patients')
-            </div>
-            <div class="modal-footer">
+              <div class="modal-footer">
 
-              
+                
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
 
 
 
 
-      <div class="container-fluid mx-6" id="calendar"></div>
+        <div class="container-fluid mx-6" id="calendar"></div>
 
 
       </form>
@@ -217,18 +231,20 @@
 
                 var startDate = moment(start.start).format('YYYY-MM-DD HH:mm:ss');
                 var endDate = moment(start.end).format('YYYY-MM-DD HH:mm:ss');
-                console.log(today);
-                console.log(start.start);
                 $('#room').val(eid);
                 $('#roomLock').val(eid);
+                $('#roomNew').val(eid);
                 $('#calendarModalLabel').text('Agendar turno');
                 $('#time').val(moment(start.startStr).format('HH:mm:ss'));
                 $('#timeEnd').val(moment(start.endStr).format('HH:mm:ss'));
                 $('#startDate').val(startDate);
+                $('#startDateNew').val(startDate);
                 $('#startDateLock').val(startDate);
                 $('#endDate').val(endDate);
+                $('#endDateNew').val(endDate);
                 $('#endDateLock').val(endDate);
                 $('#date').val(dateText);
+                $('#dateNew').val(dateText);
                 $('#dateLock').val(dateText);
                 if(start.start <= today){
                   alert('La fecha seleccionada ya pasó')

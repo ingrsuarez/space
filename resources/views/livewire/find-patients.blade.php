@@ -9,7 +9,7 @@
                 <input wire:model="name" class="form-control me-2 shadow-sm" type="text" placeholder="Nombre">
                 <input wire:model="lastName" class="form-control me-2 shadow-sm" type="search" placeholder="Apellido" aria-label="Search" >
                 
-                <a href="{{route('paciente.create')}}" class="btn btn-primary me-2 shadow-sm" aria-label="Search">Nuevo</a>
+                
             </div>
         </div>
         <div class="col-sm"></div>

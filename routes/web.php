@@ -46,7 +46,7 @@ Route::middleware(['verified'])->group(function(){
     Route::resource('paciente', PacienteController::class)->names('paciente');
     Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
-
+    Route::post('paciente/createAndAppoint',[App\Http\Controllers\PacienteController::class,'createWithAppointment'])->name('createAndAppoint');
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
 
    Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
@@ -92,12 +92,33 @@ Route::middleware(['verified'])->group(function(){
 
     //CALENDAR EVENTS
 
-    Route::get('calendar/index',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.index');
-    Route::get('calendar/show/{institution?}{user?}',[App\Http\Controllers\AppointmentController::class,'index'])->middleware('can:appointment.index')->name('appointment.show');
-    Route::post('calendar/show',[App\Http\Controllers\AppointmentController::class,'show'])->middleware('can:appointment.institution')->name('appointment.show');
-    Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])->middleware('can:appointment.store')->name('appointment.store');
-    Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])->middleware('can:appointment.cancel')->name('appointment.cancel');
-    Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])->middleware('can:appointment.index')->name('appointment.storeLock');
+    Route::get('calendar/index',[App\Http\Controllers\AppointmentController::class,'index'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.index');
+
+    Route::get('calendar/show/{institution_id?}{user_id?}',[App\Http\Controllers\AppointmentController::class,'show'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.show');
+
+    Route::post('calendar/show',[App\Http\Controllers\AppointmentController::class,'show'])
+        ->middleware('can:appointment.institution')
+        ->name('appointment.show');
+
+    Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])
+        ->middleware('can:appointment.store')
+        ->name('appointment.store');
+
+    Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])
+        ->middleware('can:appointment.cancel')
+        ->name('appointment.cancel');
+
+    Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.storeLock');
+
+    Route::post('calendar/storePatient',[App\Http\Controllers\AppointmentController::class,'storePatient'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.storePatient');
 
     //AGENDAS
     Route::get('agendas/index',[App\Http\Controllers\AgendaController::class,'index'])->middleware('can:agenda.index')->name('agendas.index');
