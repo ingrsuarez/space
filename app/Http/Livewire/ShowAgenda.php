@@ -15,6 +15,7 @@ class ShowAgenda extends Component
 
     public $institution;
     public $professionals;
+    public $professional;
     public $agenda;
     public $rooms;
     public $user;
@@ -25,11 +26,14 @@ class ShowAgenda extends Component
         $this->rooms = Room::where('institution_id',$this->institution->id)->get();
         $this->professionals = $this->institution->users;
         $this->user = $this->professionals[0];
+        $this->professional = Auth::user();
     }
 
     public function render()
     {
-
+        
+        $agenda = Agenda::where('user_id',$this->user->id)->where('institution_id',$this->institution->id)->orderBy('day')->get();
+        $this->agenda = $agenda;
         return view('livewire.show-agenda');
     }
 

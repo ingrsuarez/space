@@ -2,11 +2,12 @@
 
 @section('content')
   @if (session('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>{{ session('error') }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{ session('error') }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+  @if($user->hasRole('administrativo'))
     <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
       <div class="accordion" id="accordionWatingList">
         <div class="accordion-item">
@@ -26,16 +27,11 @@
                   <div class="input-group mb-3">
                     <input type="hidden" name="institution_id" value="{{$institution->id}}">
                     <select class="form-select" name = 'user_id' autofocus>
-                        
-
-                          @foreach($institution->users as $user)
-                            @if($user->hasRole('profesional'))
-
-                            <option value="{{$user->id}}">{{strtoupper($user->name)}}</option>
-                            @endif
-                          @endforeach
-
-                        
+                      @foreach($institution->users as $professional)
+                        @if($professional->hasRole('profesional'))
+                          <option value="{{$professional->id}}">{{strtoupper($professional->name)}}</option>
+                        @endif
+                      @endforeach   
                     </select>  
         
                     <button type="submit" class="btn btn-sm btn-primary text-white">Seleccionar</button>
@@ -51,7 +47,10 @@
         </div>
       </div>
     </div>
+  @endif
+  @if($user->hasRole('profesional'))
+    
 
-
+  @endif
 
 @endsection
