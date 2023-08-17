@@ -112,6 +112,18 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.cancel')
         ->name('appointment.cancel');
 
+    Route::post('calendar/reschedule',[App\Http\Controllers\AppointmentController::class,'reschedule'])
+        ->middleware('can:appointment.cancel')
+        ->name('appointment.reschedule');
+
+    Route::get('calendar/reschedule',[App\Http\Controllers\AppointmentController::class,'index'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.reschedule');
+
+    Route::post('calendar/restore',[App\Http\Controllers\AppointmentController::class,'restore'])
+        ->middleware('can:appointment.store')
+        ->name('appointment.restore');
+
     Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])
         ->middleware('can:appointment.index')
         ->name('appointment.storeLock');

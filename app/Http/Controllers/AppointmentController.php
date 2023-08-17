@@ -179,78 +179,88 @@ class AppointmentController extends Controller
 
     public function show(Request $request)
     {
-        
-        $institution = Institution::find($request->institution_id);
-        $professional = User::find($request->user_id);
-        $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
-        $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
-        $events = array();
-        $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
-        $frequency = 60;
-        foreach ($appointments as $appointment){
-            $events[] = [
-            'id'=> $appointment->id,
-            'room' => $appointment->room_id,
-            'title' => ucfirst($appointment->paciente->nombrePaciente).
-                ' '.ucfirst($appointment->paciente->apellidoPaciente).
-                ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
-            'start' => $appointment->start,
-            'end' => $appointment->end,
-            'editable' => false,
-            'backgroundColor' => '#4040a1'
-            ];  
-            
-        }
-        foreach ($locks as $lock){
-            $events[] = [
-                'groupId' => 'unAvailable',
-                'id'=> $lock->id,
-                'title' => 'Bloqueado por: '.ucfirst($lock->creator->name).' '.ucfirst($lock->creator->lastName),
-                'start' => $lock->start,
-                'end' => $lock->end,
-                'editable' => 'false',
-                'overlap' => 'false',
-                'display' => 'background',
-                'color' => '#ff4021'
-            ];
-        }
-        if(empty($agendas[0]))
+        if(empty($request->institution_id))
         {
-            return back()->with('error', 'Este Profesional no tiene una agenda abierta!');
-        }else
-        {
-            foreach ($agendas as $agenda)
-            {
-                $availableAgenda[] = [
-                    'id' => $agenda->room_id,
-                    'groupId' => 'available',
-                    'daysOfWeek' => [$agenda->day],
-                    'startTime' => $agenda->start,
-                    'endTime' => $agenda->end,
-                    'display' => 'inverse-background',
-                    'color' => '#ccc',
-                    'backgroundColor' => '#ffcc5c'
-                    
-                ];
-                $availableAgenda[] = [
-                    'id' => $agenda->room_id,
-                    'groupId' => 'room',
-                    'daysOfWeek' => [$agenda->day],
-                    'title' => $agenda->room->name,
-                    
-                ];
-
-                if($frequency > $agenda->frequency)
-                {
-                    $frequency = $agenda->frequency;   
-                }
+            return redirect()->route('appointment.index');
+        }else{
+           
+            $institution = Institution::find($request->institution_id);
+            $professional = User::find($request->user_id);
+            $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
+            $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
+            $events = array();
+            $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
+            $frequency = 60;
+            foreach ($appointments as $appointment){
+                $events[] = [
+                'id'=> $appointment->id,
+                'room' => $appointment->room_id,
+                'paciente' => $appointment->paciente_id,
+                'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
+                'title' => ucfirst($appointment->paciente->nombrePaciente).
+                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
+                'start' => $appointment->start,
+                'end' => $appointment->end,
+                'editable' => false,
+                'backgroundColor' => '#4040a1'
+                ];  
+                
             }
-            $frequency = '00:'.$frequency.':00';
-            
-            return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency'));  
+            foreach ($locks as $lock){
+                $events[] = [
+                    'groupId' => 'unAvailable',
+                    'id'=> $lock->id,
+                    'title' => 'Bloqueado por: '.ucfirst($lock->creator->name).' '.ucfirst($lock->creator->lastName),
+                    'start' => $lock->start,
+                    'end' => $lock->end,
+                    'editable' => 'false',
+                    'overlap' => 'false',
+                    'display' => 'background',
+                    'color' => '#ff4021'
+                ];
+            }
+            if(empty($agendas[0]))
+            {
+                return back()->with('error', 'Este Profesional no tiene una agenda abierta!');
+            }else
+            {
+                foreach ($agendas as $agenda)
+                {
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'available',
+                        'daysOfWeek' => [$agenda->day],
+                        'startTime' => $agenda->start,
+                        'endTime' => $agenda->end,
+                        'display' => 'inverse-background',
+                        'color' => '#ccc',
+                        'backgroundColor' => '#ffcc5c'
+                        
+                    ];
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'room',
+                        'daysOfWeek' => [$agenda->day],
+                        'title' => $agenda->room->name,
+                        
+                    ];
 
+                    if($frequency > $agenda->frequency)
+                    {
+                        $frequency = $agenda->frequency;   
+                    }
+                }
+                $frequency = '00:'.$frequency.':00';
+                
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency'));  
+
+            }
+
+
+            
         }
-        
+                
     }
 
     public function store(Request $request)
@@ -297,12 +307,16 @@ class AppointmentController extends Controller
 
     public function cancel(Request $request)
     {
+        
         $appointment = Appointment::find($request->event_id);
         $appointment->status = 'cancelled';
         try 
         {
             $appointment->save();
-            return 'Turno cancelado!';
+            return redirect()->route('appointment.show', [
+                'institution_id' => $appointment->institution_id,
+                'user_id' => $appointment->user_id
+            ]);
         
         } catch(\Illuminate\Database\QueryException $e)
         {
@@ -310,6 +324,149 @@ class AppointmentController extends Controller
             
              return 'error';
             
+        }
+
+    }
+
+    // public function reschedule(Request $request) 
+    // {
+    //     return $request;
+    // }
+
+    public function reschedule(Request $request) 
+    {
+        if(empty($request->institution_id))
+        {
+            return redirect()->route('appointment.index');
+        }else{
+            
+            $institution = Institution::find($request->institution_id);
+            $professional = User::find($request->professional_id);
+            $patient = Paciente::find($request->patient_id);
+            $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
+            $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
+            $events = array();
+            $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
+            $frequency = 60;
+            foreach ($appointments as $appointment){
+                $events[] = [
+                'id'=> $appointment->id,
+                'room' => $appointment->room_id,
+                'paciente' => $appointment->paciente_id,
+                'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
+                'title' => ucfirst($appointment->paciente->nombrePaciente).
+                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
+                'start' => $appointment->start,
+                'end' => $appointment->end,
+                'editable' => false,
+                'backgroundColor' => '#4040a1'
+                ];  
+                
+            }
+            foreach ($locks as $lock){
+                $events[] = [
+                    'groupId' => 'unAvailable',
+                    'id'=> $lock->id,
+                    'title' => 'Bloqueado por: '.ucfirst($lock->creator->name).' '.ucfirst($lock->creator->lastName),
+                    'start' => $lock->start,
+                    'end' => $lock->end,
+                    'editable' => 'false',
+                    'overlap' => 'false',
+                    'display' => 'background',
+                    'color' => '#ff4021'
+                ];
+            }
+            if(empty($agendas[0]))
+            {
+                return back()->with('error', 'Este Profesional no tiene una agenda abierta!');
+            }else
+            {
+                foreach ($agendas as $agenda)
+                {
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'available',
+                        'daysOfWeek' => [$agenda->day],
+                        'startTime' => $agenda->start,
+                        'endTime' => $agenda->end,
+                        'display' => 'inverse-background',
+                        'color' => '#ccc',
+                        'backgroundColor' => '#ffcc5c'
+                        
+                    ];
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'room',
+                        'daysOfWeek' => [$agenda->day],
+                        'title' => $agenda->room->name,
+                        
+                    ];
+
+                    if($frequency > $agenda->frequency)
+                    {
+                        $frequency = $agenda->frequency;   
+                    }
+                }
+                $frequency = '00:'.$frequency.':00';
+                $eventId = $request->event_id;
+                return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient'));  
+
+            }
+
+
+        }  
+    }
+
+    public function restore(Request $request)
+    {
+       
+        if (!empty($request->patient_id))
+        {
+            //First cancel previus appointment
+            $cancelAppointment = Appointment::find($request->event_id);
+            $cancelAppointment->status = 'cancelled';
+            try 
+            {
+                $cancelAppointment->save();
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return 'error';
+                
+            }
+            //Store new appointment
+            $appointment = new Appointment;
+
+            $appointment->institution_id = $request->institution_id;
+            $appointment->user_id = $request->user_id;
+            $appointment->paciente_id = $request->patient_id;
+            $appointment->room_id = $request->room_id;
+            $appointment->start = $request->startDate;
+            $appointment->end = $request->endDate;
+            $appointment->medicare = 'issn';
+            $appointment->obs = $request->obs;
+            $appointment->status = 'active';
+            $appointment->overturn = 0;
+
+    
+            try 
+            {
+                $appointment->save();
+                return redirect()->route('appointment.show', [
+                    'institution_id' => $appointment->institution_id,
+                    'user_id' => $appointment->user_id
+                ]);
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return back()->with('error', $e->getMessage());
+                
+            }
         }
 
     }

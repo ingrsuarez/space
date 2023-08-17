@@ -32,6 +32,7 @@
         <input type="hidden" id="obsNew" name="obs">
         <input type="hidden" id="institutionNew" name="institution_id" value="{{$institution->id}}">
       </form>
+      {{-- EMPTY DATE CLICKED --}}
       <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
         @method('POST')
         @csrf
@@ -106,8 +107,88 @@
 
 
       </form>
+
+      {{-- EVENT CLICKED --}}
+      <form id="eventAction" action="{{ route('appointment.cancel') }}" method="POST">
+        @method('POST')
+        @csrf
+
+        
+        <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eventPaciente"></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Profesional:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="userEvent" value="{{ucfirst($professional->lastName).' '.ucfirst($professional->name)}}" readonly>
+                  <input type="hidden" name="user_id" value="{{$professional->id}}">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Hora:</span>
+                  </div>
+                  <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEvent" name="startTime" readonly>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
+                  </div>
+                  <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEndEvent" name="endTime" readonly>
+                  <input type="hidden" id="event_id" name="event_id" readonly>
+                  <input type="hidden" id="startDateEvent" name="startDate" readonly>
+                  <input type="hidden" id="endDateEvent" name="endDate" readonly>
+                  <input type="hidden" id="roomEvent" name="room_id">
+                  <input type="hidden" id="institutionEvent" name="institution_id" value="{{$institution->id}}">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="dateEvent" readonly>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
+                  </div>
+                  <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obsEvent" name="obs" required>
+                </div>
+                
+                <div class="d-flex mb-3">
+                  <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
+                  
+                  
+                  {{-- <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Reagendar</button> --}}
+                  <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
+                  <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
+      {{-- EVENT CLICKED --}}
+      <form id="eventReschedule" action="{{ route('appointment.reschedule') }}" method="POST">
+        @method('POST')
+        @csrf
+        <input type="hidden" id="institutionEvent" name="institution_id" value="{{$institution->id}}">
+        <input type="hidden" id="professionalEvent" name="professional_id" value="{{$professional->id}}">
+        <input type="hidden" id="patientEvent" name="patient_id" value="">
+        <input type="hidden" id="eventId" name="event_id" value="">
+      </form>
     </div>
   </div>
+
   <script>
     
     $.ajaxSetup({
@@ -125,7 +206,7 @@
             var today = new Date();
             today.setDate(today.getDate() + 7);
             let calendarEl = document.getElementById('calendar');
-
+            
             var calendar = new Calendar(calendarEl, {
               
               plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin, momentPlugin, bootstrap5Plugin],
@@ -135,9 +216,9 @@
               initialView: 'timeGridWeek',
               initialDate: today,
               selectable: true,
-              slotMinTime: '07:00',
+              slotMinTime: '08:00',
               slotMaxTime: '20:00',
-              scrollTime: '08:00:00',
+              scrollTime: '09:00',
               slotDuration: frequency,
               slotLabelInterval: frequency,
               firstDay: 1,
@@ -166,41 +247,62 @@
              
 
               eventClick: function(info) {
+                $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
+                $('#eventModal').modal('toggle');
+                var today = new Date();
+                var dateText = moment(info.event.start).locale('es').format('dddd LLL');
+                var startDate = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss');
+                var endDate = moment(info.event.end).format('YYYY-MM-DD HH:mm:ss');
                 
-                if(info.event.title != '')
-                { 
-                  locked = info.event.title.slice(0, 9);
-                  if(locked != 'Bloqueado')
-                  {
-                    if(confirm('Desea cancelar el turno de '+info.event.title))
-                    {
-                      alert('Cancelado!');
-                      let event_id = info.event.id;
-                      $.ajax({
-                          url: "{{route('appointment.cancel')}}",
-                          type: "POST",
-                          dataType: 'json',
-                          data: {event_id},
-                          success:function(response)
-                          {
-                            console.log(response)
-                          },
-                          error:function(error)
-                          {
-                            console.log(error);
-                          }
-                        });
-                        
-                        location.reload();
-                    }
+                $('#patientEvent').val(info.event.extendedProps.paciente);
+                $('#dateEvent').val(dateText);
+                $('#event_id').val(info.event.id);
+                $('#startDateEvent').val(startDate);
+                $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));
+                $('#timeEndEvent').val(moment(endDate).format('HH:mm:ss'));
+                $('#startDateNew').val(startDate);
+                $('#startDateLock').val(startDate);
+                $('#endDateEvent').val(endDate);
+                $('#endDateNew').val(endDate);
+                $('#endDateLock').val(endDate);
+                $('#eventId').val(info.event.id);
+                // if(info.event.title != '')
+                // { 
 
-                  }
-                  else{
-                    console.log(info);
-                  }
+
+                  
+                  // locked = info.event.title.slice(0, 9);
+                  // if(locked != 'Bloqueado')
+                  // {
+                  //   if(confirm('Desea cancelar el turno de '+info.event.title))
+                  //   {
+                  //     alert('Cancelado!');
+                  //     let event_id = info.event.id;
+                  //     $.ajax({
+                  //         url: "{{route('appointment.cancel')}}",
+                  //         type: "POST",
+                  //         dataType: 'json',
+                  //         data: {event_id},
+                  //         success:function(response)
+                  //         {
+                  //           console.log(response)
+                  //         },
+                  //         error:function(error)
+                  //         {
+                  //           console.log(error);
+                  //         }
+                  //       });
+                        
+                  //       location.reload();
+                  //   }
+
+                  // }
+                  // else{
+                  //   console.log(info);
+                  // }
                       
 
-                }
+                
                 
                 
               },
@@ -224,7 +326,7 @@
                 
                 
                 console.log(eid);
-                var user = 57;
+                
                 // var end = moment(start).add(15,'minutes').format();
                 var today = new Date();
                 var dateText = moment(start.start).locale('es').format('dddd LLL');
