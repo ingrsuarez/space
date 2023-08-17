@@ -11,6 +11,7 @@ use App\Models\Paciente;
 use App\Models\Institution;
 use App\Models\User;
 use App\Models\Agenda;
+use App\Models\Wating_list;
 
 class AppointmentController extends Controller
 {
@@ -416,6 +417,26 @@ class AppointmentController extends Controller
 
 
         }  
+    }
+    public function toWaitingList(Request $request)
+    {
+        
+        $paciente = Paciente::find($request->patient_id);
+
+        $wating = new Wating_list;
+        $wating->user_id = $request->professional_id;
+        $wating->institution_id = $request->institution_id;
+        $wating->paciente_id = $request->patient_id;
+        if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
+        {
+            return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
+             
+        }else
+        {
+            $wating->save();
+            return redirect('home/')->with('message', 'Paciente enviado a lista de espera!');
+        }
+        return $request;
     }
 
     public function restore(Request $request)

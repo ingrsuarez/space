@@ -123,6 +123,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/restore',[App\Http\Controllers\AppointmentController::class,'restore'])
         ->middleware('can:appointment.store')
         ->name('appointment.restore');
+        
+    Route::post('calendar/wating',[App\Http\Controllers\AppointmentController::class,'toWaitingList'])
+        ->middleware('can:appointment.store')
+        ->name('appointment.toWaitingList');
 
     Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])
         ->middleware('can:appointment.index')

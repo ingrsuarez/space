@@ -161,7 +161,7 @@
                   <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
                   
                   
-                  {{-- <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Reagendar</button> --}}
+                  <button type="submit" class="btn btn-primary mx-2 px-2 mb-2" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
                   <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
                 </div>
@@ -176,6 +176,13 @@
         </div>
 
 
+      </form>
+      <form id="sendToWatingList" action="{{ route('appointment.toWaitingList') }}" method="POST">
+        @method('POST')
+        @csrf
+        <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
+        <input type="hidden" id="patient" name="patient_id" value="">
+        <input type="hidden" id="professional" name="professional_id" value="{{$professional->id}}">
       </form>
       {{-- EVENT CLICKED --}}
       <form id="eventReschedule" action="{{ route('appointment.reschedule') }}" method="POST">
@@ -255,6 +262,7 @@
                 var endDate = moment(info.event.end).format('YYYY-MM-DD HH:mm:ss');
                 
                 $('#patientEvent').val(info.event.extendedProps.paciente);
+                $('#patient').val(info.event.extendedProps.paciente);
                 $('#dateEvent').val(dateText);
                 $('#event_id').val(info.event.id);
                 $('#startDateEvent').val(startDate);
