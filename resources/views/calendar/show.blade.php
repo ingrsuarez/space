@@ -254,26 +254,29 @@
              
 
               eventClick: function(info) {
-                $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
-                $('#eventModal').modal('toggle');
-                var today = new Date();
-                var dateText = moment(info.event.start).locale('es').format('dddd LLL');
-                var startDate = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss');
-                var endDate = moment(info.event.end).format('YYYY-MM-DD HH:mm:ss');
-                
-                $('#patientEvent').val(info.event.extendedProps.paciente);
-                $('#patient').val(info.event.extendedProps.paciente);
-                $('#dateEvent').val(dateText);
-                $('#event_id').val(info.event.id);
-                $('#startDateEvent').val(startDate);
-                $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));
-                $('#timeEndEvent').val(moment(endDate).format('HH:mm:ss'));
-                $('#startDateNew').val(startDate);
-                $('#startDateLock').val(startDate);
-                $('#endDateEvent').val(endDate);
-                $('#endDateNew').val(endDate);
-                $('#endDateLock').val(endDate);
-                $('#eventId').val(info.event.id);
+                if(info.event.title != '')
+                {
+                  $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
+                  $('#eventModal').modal('toggle');
+                  var today = new Date();
+                  var dateText = moment(info.event.start).locale('es').format('dddd LLL');
+                  var startDate = moment(info.event.start).format('YYYY-MM-DD HH:mm:ss');
+                  var endDate = moment(info.event.end).format('YYYY-MM-DD HH:mm:ss');
+                  
+                  $('#patientEvent').val(info.event.extendedProps.paciente);
+                  $('#patient').val(info.event.extendedProps.paciente);
+                  $('#dateEvent').val(dateText);
+                  $('#event_id').val(info.event.id);
+                  $('#startDateEvent').val(startDate);
+                  $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));
+                  $('#timeEndEvent').val(moment(endDate).format('HH:mm:ss'));
+                  $('#startDateNew').val(startDate);
+                  $('#startDateLock').val(startDate);
+                  $('#endDateEvent').val(endDate);
+                  $('#endDateNew').val(endDate);
+                  $('#endDateLock').val(endDate);
+                  $('#eventId').val(info.event.id);
+                }
                 // if(info.event.title != '')
                 // { 
 
