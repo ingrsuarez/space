@@ -30,7 +30,7 @@
                     @if($professional->hasRole('profesional'))
                         <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>    
                     @else
-                        <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
+                        {{-- <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option> --}}
                         @foreach($professionals as $professional)
                             @if($professional->hasRole('profesional'))
                                 <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
