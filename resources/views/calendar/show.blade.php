@@ -164,6 +164,7 @@
                   <button type="submit" class="btn btn-primary mx-2 px-2 mb-2" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
                   <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
+                  <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
                 </div>
                 
               </div>
@@ -176,6 +177,10 @@
         </div>
 
 
+      </form>
+      <form id="sendConfirmation" action="{{ route('wa.send') }}" method="POST">
+        @method('POST')
+        @csrf
       </form>
       <form id="sendToWatingList" action="{{ route('appointment.toWaitingList') }}" method="POST">
         @method('POST')

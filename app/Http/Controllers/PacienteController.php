@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\Appointment;
+use App\Models\Insurance;
 
 class PacienteController extends Controller
 {
@@ -49,12 +50,13 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        //
-        return view('pacientes.nuevo_paciente');
+        $insurances = Insurance::all();
+        return view('pacientes.nuevo_paciente',compact('insurances'));
     }
 
     public function createWithAppointment(Request $request)
     {
+        
         
         $professional = User::find($request->user_id);
         $institution = Institution::find($request->institution_id);
@@ -157,7 +159,7 @@ class PacienteController extends Controller
         $paciente->apellidoPaciente = strtolower($request->apellido);
         $paciente->celularPaciente = $request->telefono;
         $paciente->emailPaciente = strtolower($request->email);
-        $paciente->CoberturaPaciente = strtolower($request->cobertura);
+        $paciente->insurance_id = strtolower($request->insurance_id);
         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
         $paciente->domicilioPaciente = strtolower($request->domicilio);
         $paciente->localidadPaciente = strtolower($request->localidad);

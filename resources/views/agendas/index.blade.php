@@ -4,7 +4,7 @@
 
 	<div class="container">
 
-		@livewire('show-agenda')
+		@livewire('show-agenda',['professionals' => $professionals])
     </div>
 
 @endsection

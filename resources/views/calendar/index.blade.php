@@ -29,7 +29,7 @@
                     <select class="form-select" name = 'user_id' autofocus>
                       @foreach($institution->users as $professional)
                         @if($professional->hasRole('profesional'))
-                          <option value="{{$professional->id}}">{{strtoupper($professional->name)}}</option>
+                          <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
                         @endif
                       @endforeach   
                     </select>  

@@ -54,7 +54,15 @@
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="edad">Cobertura médica</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="cobertura" value="{{$paciente->CoberturaPaciente}}">
+                    <select class="form-select" name="insurance_id" id="insurance_id" required>
+                      @isset($paciente->insurance_id)
+                        <option value="{{$paciente->insurance_id}}">{{$paciente->insurance->name}}
+                      @endisset
+                        @foreach ($insurances as $insurance)
+                          <option value="{{$insurance->id}}"> {{ucfirst($insurance->name)}}								
+                        @endforeach	
+                      
+                    </select>
                     <span class="input-group-text" id="edad">Número Afiliado</span>
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="numeroAfiliado" value="{{$paciente->numeroAfiliadoPaciente}}">
                     
@@ -109,18 +117,24 @@
                           @foreach($institution->users as $user)
                             @if($user->hasRole('profesional'))
 
-                            <option value="{{$user->id}}">{{strtoupper($user->name)}}</option>
+                            <option value="{{$user->id}}">{{strtoupper($user->lastName).' '.strtoupper($user->name)}}</option>
                             @endif
                           @endforeach
 
                         
                     </select>  
         
-                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>
+                    
                       
                   </div>
-                                     
-
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-text">.00</span>
+                  </div>
+                  <div class="d-grid gap-2 col-4 ms-auto py-2">
+                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>                    
+                  </div>
                 </form>
               @endif
             </div>    

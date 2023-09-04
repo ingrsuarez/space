@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use App\Models\Insurance;
 
 class FichaController extends Controller
 {
@@ -21,7 +22,7 @@ class FichaController extends Controller
 
     public function index($idPaciente)
     {
-       
+        $insurances = Insurance::all();
         $paciente = Paciente::where('idPaciente',$idPaciente)->first();
         //Edad del paciente
         $today = Carbon::now();
@@ -36,7 +37,7 @@ class FichaController extends Controller
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances'));
     }
 
     

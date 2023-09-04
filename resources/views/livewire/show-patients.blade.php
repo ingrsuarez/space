@@ -151,31 +151,31 @@
             <div class="card-body  shadow">
                 
                 <table class="table">
-                <thead class="table-light">
-                  <th>DNI</th>
-                  <th>Apellido</th>
-                  <th>Nombre</th>
-                  <th>Teléfono</th>
-                  <th>Fecha de nacimiento</th>
-                  <th>Email</th>
+                    <thead class="table-light">
+                        <th>DNI</th>
+                        <th>Apellido</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Email</th>
 
-                </thead>
-                <tbody>
-                    @if(isset($pacientes))
-                    @foreach($pacientes as $paciente)
-                    <tr>
-                      <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td> 
-                      <td>{{strtoupper($paciente->apellidoPaciente)}}</td>
-                      <td>{{strtoupper($paciente->nombrePaciente)}}</td>
-                      <td>{{$paciente->celularPaciente}}</td>
-                      <td>{{$paciente->fechaNacimientoPaciente}}</td>
-                      <td>{{$paciente->emailPaciente}}</td>
-                    </tr>   
-                    @endforeach
-                    @endif
+                    </thead>
+                    <tbody>
+                        @if(isset($pacientes))
+                        @foreach($pacientes as $paciente)
+                        <tr>
+                            <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td> 
+                            <td>{{strtoupper($paciente->apellidoPaciente)}}</td>
+                            <td>{{strtoupper($paciente->nombrePaciente)}}</td>
+                            <td>{{$paciente->celularPaciente}}</td>
+                            <td>{{$paciente->fechaNacimientoPaciente}}</td>
+                            <td>{{$paciente->emailPaciente}}</td>
+                        </tr>   
+                        @endforeach
+                        @endif
                   
-                </tbody>
-              </table>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="card-footer">

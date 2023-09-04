@@ -90,6 +90,29 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
 
+
+    // SEGURO MEDICO
+
+    Route::get('insurance/create',[App\Http\Controllers\InsuranceController::class,'create'])
+        ->middleware('can:insurance.create')
+        ->name('insurance.create');
+
+    Route::post('insurance/store',[App\Http\Controllers\InsuranceController::class,'store'])
+        ->middleware('can:insurance.store')
+        ->name('insurance.store');
+
+    Route::get('insurance/show',[App\Http\Controllers\InsuranceController::class,'show'])
+        ->middleware('can:insurance.show')
+        ->name('insurance.show');
+
+    Route::get('insurance/edit/{insurance}',[App\Http\Controllers\InsuranceController::class,'edit'])
+        ->middleware('can:insurance.show')
+        ->name('insurance.edit');
+
+    Route::get('insurance/delete',[App\Http\Controllers\InsuranceController::class,'delete'])
+        ->middleware('can:insurance.delete')
+        ->name('insurance.delete');
+
     //CALENDAR EVENTS
 
     Route::get('calendar/index',[App\Http\Controllers\AppointmentController::class,'index'])
@@ -135,6 +158,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/storePatient',[App\Http\Controllers\AppointmentController::class,'storePatient'])
         ->middleware('can:appointment.index')
         ->name('appointment.storePatient');
+
+    Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'send'])
+        ->middleware('can:appointment.index')
+        ->name('wa.send');
 
     //AGENDAS
     Route::get('agendas/index',[App\Http\Controllers\AgendaController::class,'index'])->middleware('can:agenda.index')->name('agendas.index');

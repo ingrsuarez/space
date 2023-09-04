@@ -259,12 +259,12 @@
                         
                             <div class="collapse" id="collapseObraSocial">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Obra Social</a>
+                                    <a class="dropdown-item ms-4" href="{{route('insurance.create')}}"><i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Obra Social</a>
                                 </span>
                             </div>
                             <div class="collapse" id="collapseObraSocial">
                                 <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('home')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
+                                    <a class="dropdown-item ms-4" href="{{route('insurance.show')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
                                 </span>
                             </div>
                         </li>

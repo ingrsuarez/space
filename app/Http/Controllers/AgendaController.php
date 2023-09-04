@@ -21,8 +21,19 @@ class AgendaController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
         
-        return view('agendas.index');
+        $professionals = User::whereHas(
+            'institutions', function($q)use($user){
+                $q->where('id', $user->institution_id);
+            }
+        )->whereHas(
+                'roles', function($q){
+                    $q->where('id', 2);
+                }
+            )->get();
+       
+        return view('agendas.index',compact('professionals','user'));
     }
 
     public function store(Request $request)

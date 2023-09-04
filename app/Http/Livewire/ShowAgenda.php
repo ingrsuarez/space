@@ -24,7 +24,7 @@ class ShowAgenda extends Component
     {
         $this->institution = User::find(Auth::user()->id)->currentInstitution;
         $this->rooms = Room::where('institution_id',$this->institution->id)->get();
-        $this->professionals = $this->institution->users;
+        // $this->professionals = $this->institution->users;
         $this->user = $this->professionals[0];
         $this->professional = Auth::user();
     }
