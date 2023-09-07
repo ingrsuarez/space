@@ -50,6 +50,12 @@ class InsuranceController extends Controller
         return view('insurances.show',compact('insurances'));
     }
 
+    public function active()
+    {
+        $insurances = Insurance::all();
+        return view('insurances.show',compact('insurances'));
+    }
+
     public function edit(Insurance $insurance)
     {
         return 'edit'.$insurance->name;

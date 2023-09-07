@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use App\Models\Lock;
 use App\Models\Paciente;
 use App\Models\Institution;
+use App\Models\Insurance;
 use App\Models\User;
 use App\Models\Agenda;
 use App\Models\Wating_list;
@@ -184,15 +185,25 @@ class AppointmentController extends Controller
         {
             return redirect()->route('appointment.index');
         }else{
-           
+            $insurances = Insurance::all();
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
+
             $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
+            
+            
             $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
             $events = array();
             $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
             $frequency = 60;
             foreach ($appointments as $appointment){
+                if(!empty($appointment->paciente->insurance_id))
+                {    
+                    $insurance = Insurance::find($appointment->paciente->insurance_id)->first();
+                }else
+                {
+                    $insurance = Insurance::where('name','LIKE','Particular')->first();
+                }
                 $events[] = [
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
@@ -200,7 +211,7 @@ class AppointmentController extends Controller
                 'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
                 'title' => ucfirst($appointment->paciente->nombrePaciente).
                     ' '.ucfirst($appointment->paciente->apellidoPaciente).
-                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
+                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.' '.$insurance->name,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'editable' => false,
@@ -254,7 +265,7 @@ class AppointmentController extends Controller
                 }
                 $frequency = '00:'.$frequency.':00';
                 
-                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency'));  
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances'));  
 
             }
 
@@ -268,6 +279,7 @@ class AppointmentController extends Controller
     {
         if (!empty($request->patient_id))
         {
+
             $appointment = new Appointment;
 
             $appointment->institution_id = $request->institution_id;
@@ -276,12 +288,14 @@ class AppointmentController extends Controller
             $appointment->room_id = $request->room_id;
             $appointment->start = $request->startDate;
             $appointment->end = $request->endDate;
-            $appointment->medicare = 'issn';
+            $appointment->medicare = '';
             $appointment->obs = $request->obs;
             $appointment->status = 'active';
             $appointment->overturn = 0;
+            $paciente = Paciente::find($request->patient_id)->first();
+            $paciente->insurance_id = $request->insurance_id;
+            $paciente->save();
 
-    
             try 
             {
                 $appointment->save();
@@ -528,10 +542,12 @@ class AppointmentController extends Controller
         $paciente->apellidoPaciente = strtolower($request->apellido);
         $paciente->celularPaciente = $request->telefono;
         $paciente->emailPaciente = strtolower($request->email);
-        $paciente->CoberturaPaciente = strtolower($request->cobertura);
+        $paciente->CoberturaPaciente = "";
+        $paciente->insurance_id = $request->insurance_id;
         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
         $paciente->domicilioPaciente = strtolower($request->domicilio);
         $paciente->localidadPaciente = strtolower($request->localidad);
+
         try 
         {
             $paciente->save();

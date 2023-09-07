@@ -105,6 +105,10 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:insurance.show')
         ->name('insurance.show');
 
+    Route::get('insurance/list',[App\Http\Controllers\InsuranceController::class,'active'])
+        ->middleware('can:insurance.active')
+        ->name('insurance.active');
+
     Route::get('insurance/edit/{insurance}',[App\Http\Controllers\InsuranceController::class,'edit'])
         ->middleware('can:insurance.show')
         ->name('insurance.edit');

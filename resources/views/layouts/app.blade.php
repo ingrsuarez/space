@@ -251,22 +251,33 @@
                         <li><hr class="divider"></li>
                         @endcan
                         
+                        
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">
                                 
                                 <span class="text-primary fw-bold mx-2">COBERTURA</span>
                             </a>
-                        
-                            <div class="collapse" id="collapseObraSocial">
-                                <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('insurance.create')}}"><i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Obra Social</a>
-                                </span>
-                            </div>
-                            <div class="collapse" id="collapseObraSocial">
-                                <span class="ms-2">
-                                    <a class="dropdown-item ms-4" href="{{route('insurance.show')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
-                                </span>
-                            </div>
+                            @can('insurance.index')
+                                <div class="collapse" id="collapseObraSocial">
+                                    <span class="ms-2">
+                                        <a class="dropdown-item ms-4" href="{{route('insurance.create')}}"><i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Obra Social</a>
+                                    </span>
+                                </div>
+                                <div class="collapse" id="collapseObraSocial">
+                                    <span class="ms-2">
+                                        <a class="dropdown-item ms-4" href="{{route('insurance.show')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
+                                    </span>
+                                </div>
+                            @endcan
+
+                            @can('insurance.active')
+                                <div class="collapse" id="collapseObraSocial">
+                                    <span class="ms-2">
+                                        <a class="dropdown-item ms-4" href="{{route('insurance.active')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
+                                    </span>
+                                </div>
+
+                            @endcan
                         </li>
 
                     </ul>

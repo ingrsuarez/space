@@ -56,8 +56,7 @@ class PacienteController extends Controller
 
     public function createWithAppointment(Request $request)
     {
-        
-        
+        $insurances = Insurance::all();
         $professional = User::find($request->user_id);
         $institution = Institution::find($request->institution_id);
         $appointment = new Appointment;
@@ -69,7 +68,7 @@ class PacienteController extends Controller
         $appointment->status = 'active';
         $appointment->overturn = 0;
         
-        return view('pacientes.nuevo_turno',compact('institution','professional','appointment'));
+        return view('pacientes.nuevo_turno',compact('institution','professional','appointment','insurances'));
     }
     public function store(Request $request)
     {

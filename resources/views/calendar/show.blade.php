@@ -80,6 +80,16 @@
                   </div>
                   <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
                 </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Cobertura:</span>
+                  </div>
+                  <select class="form-select" name="insurance_id" required>
+                    @foreach ($insurances as $insurance)
+                      <option value="{{$insurance->id}}">{{$insurance->name}}</option>
+                    @endforeach
+                  </select>
+                </div>
                 
                 <div class="d-flex mb-3">
                   <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
