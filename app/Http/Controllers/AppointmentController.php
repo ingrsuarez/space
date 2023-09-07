@@ -36,6 +36,7 @@ class AppointmentController extends Controller
             $institution = $user->currentInstitution;
             if($user->hasRole('profesional'))
             {
+                $insurances = Insurance::all();
                 $professional = $user;
                 $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
                 $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
@@ -100,7 +101,7 @@ class AppointmentController extends Controller
                     }
                     $frequency = '00:'.$frequency.':00';
                     
-                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency'));
+                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances'));
                 }
 
 
