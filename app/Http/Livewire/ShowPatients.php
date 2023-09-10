@@ -23,6 +23,7 @@ class ShowPatients extends Component
     public $wating;
     public $user;
     public $professionals;
+    
 
     public function mount()
     {
@@ -61,13 +62,23 @@ class ShowPatients extends Component
         {
             
         
-            $pacientes = DB::table('pacientes')
+            // $pacientes = DB::table('pacientes')
+            // ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
+            // ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
+            // ->join('insurances', 'insurances.id', '=', 'pacientes.insurance_id')
+            // ->where('historialClinico.codUsuarioHC','=',Auth::user()->id)
+            // ->orderBy('historialClinico.fechaHC','DESC')
+            // ->paginate(10);
+            $pacientes = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','pacientes.celularPaciente','pacientes.numeroAfiliadoPaciente','insurances.name AS cobertura')
             ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
             ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
+            ->leftJoin('insurances', 'insurances.id', '=', 'pacientes.insurance_id')
             ->where('historialClinico.codUsuarioHC','=',Auth::user()->id)
             ->orderBy('historialClinico.fechaHC','DESC')
             ->paginate(10);
-
+            
+            // dd($pacientes);
+            
             return view('livewire.show-patients',compact('pacientes'));
         
         }

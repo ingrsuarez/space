@@ -24,7 +24,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md vw-100 fixed-top navbar-dark bg-dark shadow-sm">
             <a class="navbar-toggler" data-bs-toggle="offcanvas" href="#offcanvas" role="button" aria-controls="offcanvas">
               <span class="navbar-toggler-icon"></span>
             </a>
@@ -273,11 +273,13 @@
                             @can('insurance.active')
                                 <div class="collapse" id="collapseObraSocial">
                                     <span class="ms-2">
-                                        <a class="dropdown-item ms-4" href="{{route('insurance.active')}}"><i class="fa-solid fa-list-ul mx-2"></i>Listado de Obra Sociales</a>
+                                        <a class="dropdown-item ms-4" href="{{route('insurance.active')}}"><i class="fa-solid fa-list-ul mx-2"></i>Mis Obras Sociales</a>
                                     </span>
                                 </div>
 
                             @endcan
+
+                            
                         </li>
 
                     </ul>

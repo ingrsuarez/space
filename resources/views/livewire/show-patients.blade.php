@@ -26,13 +26,13 @@
                                             <p class="card-text">
                                             @if(!empty($institution))    
                                             @foreach($user->watingMe as $paciente)
-
+                                                @php $insuranceName = explode(" ",$paciente->insurance->name);@endphp
                                                 @if($paciente->pivot->institution_id == $institution->id)
                                                     {{(($loop->index)+1).' - '}}  
                                                     <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
                                                     {{strtoupper($paciente->apellidoPaciente).' '.
                                                     strtoupper($paciente->nombrePaciente)}}
-                                                    </a><br>
+                                                    </a>{{' - '.$insuranceName[0]}}<br>
                                                 @endif
                                             @endforeach
                                             @endif
@@ -155,21 +155,23 @@
                         <th>DNI</th>
                         <th>Apellido</th>
                         <th>Nombre</th>
-                        <th>Teléfono</th>
-                        <th>Fecha de nacimiento</th>
-                        <th>Email</th>
+                        <th class="d-none d-md-table-cell">Teléfono</th>
+                        <th>Cobertura</th>
+                        <th  class="d-none d-md-table-cell">Nro. Afiliado</th>
 
                     </thead>
                     <tbody>
+                        
                         @if(isset($pacientes))
                         @foreach($pacientes as $paciente)
+                        @php $insuranceName = explode(" ",$paciente->cobertura);@endphp
                         <tr>
                             <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td> 
                             <td>{{strtoupper($paciente->apellidoPaciente)}}</td>
                             <td>{{strtoupper($paciente->nombrePaciente)}}</td>
-                            <td>{{$paciente->celularPaciente}}</td>
-                            <td>{{$paciente->fechaNacimientoPaciente}}</td>
-                            <td>{{$paciente->emailPaciente}}</td>
+                            <td class="d-none d-md-table-cell">{{$paciente->celularPaciente}}</td>
+                            <td>{{$insuranceName[0]}}</td>
+                            <td class="d-none d-md-table-cell">{{$paciente->numeroAfiliadoPaciente}}</td>
                         </tr>   
                         @endforeach
                         @endif

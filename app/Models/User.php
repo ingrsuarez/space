@@ -116,6 +116,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany('App\Models\Paciente','wating_list','user_id','paciente_id')->withPivot('institution_id','created_at')->orderBy('pivot_created_at','ASC');
     }
 
+    public function myPatients()
+    {
+        return $this->belongsToMany('App\Models\Paciente','historialclinico','codUsuarioHC','codPacienteHC')->withPivot('entrada', 'created_at')->orderByPivot('created_at', 'desc');
+    }
+
     public function appointments()
     {
         return $this->hasMany('App\Models\Appointments');
@@ -124,5 +129,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function agenda()
     {
         return $this->hasMany('App\Models\Agenda');
+    }
+
+    public function insurances()
+    {
+        return $this->belongsToMany('App\Models\Insurance','agreements')->withPivot('price','patient_charge');
+    }
+
+    public function hasInsurance($insurance_id)
+    {
+        
+        $user = Auth::user();
+        $hasInsurance = $user->insurances()->where('insurance_id', $insurance_id)->exists();
+        return $hasInsurance;
     }
 }

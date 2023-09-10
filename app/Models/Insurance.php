@@ -9,5 +9,14 @@ class Insurance extends Model
 {
     use HasFactory;
 
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User','agreements')->withPivot('price','patient_charge');
+    }
+
+    public function pacientes()
+    {
+        return $this->hasMany('App\Models\User');
+    }
 
 }

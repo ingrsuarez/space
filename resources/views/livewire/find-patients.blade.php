@@ -26,10 +26,10 @@
                 <thead class="table-light">
                     <th>#</th>
                     <th>DNI</th>
-                    <th>Apellido</th>
                     <th>Nombre</th>
                     <th>Teléfono</th>
-                    <th>Email</th>
+                    <th>Cobertura</th>
+                    <th>Nro. Afiliado</th>
 
                 </thead>
                 <tbody>
@@ -41,10 +41,10 @@
                         </div></td>  
                         {{-- <td><a href="{{route("appointment.store",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>  --}}
                         <td>{{$paciente->idPaciente}}</td>
-                        <td>{{strtoupper($paciente->apellidoPaciente)}}</td>
-                        <td>{{strtoupper($paciente->nombrePaciente)}}</td>
+                        <td>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</td>
                         <td>{{$paciente->celularPaciente}}</td>
-                        <td>{{$paciente->emailPaciente}}</td>
+                        <td>{{$paciente->CoberturaPaciente}}</td>
+                        <td>{{$paciente->numeroAfiliadoPaciente}}</td>
                     </tr>   
                     @endforeach
                     @endif

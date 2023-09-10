@@ -86,7 +86,7 @@
                   </div>
                   <select class="form-select" name="insurance_id" required>
                     @foreach ($insurances as $insurance)
-                      <option value="{{$insurance->id}}">{{$insurance->name}}</option>
+                      <option value="{{$insurance->id}}">{{$insurance->name.'  $'.$insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -170,11 +170,13 @@
                 <div class="d-flex mb-3">
                   <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
                   
-                  
+                  @if (!$user->hasRole('profesional'))
                   <button type="submit" class="btn btn-primary mx-2 px-2 mb-2" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
+                  
                   <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
+                  @endif
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
-                  <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
+                  {{-- <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button> --}}
                 </div>
                 
               </div>

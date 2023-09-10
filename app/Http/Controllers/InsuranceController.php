@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Insurance;
+use App\Models\User;
 
 class InsuranceController extends Controller
 {
@@ -52,8 +55,32 @@ class InsuranceController extends Controller
 
     public function active()
     {
+        $user = Auth::user();
         $insurances = Insurance::all();
-        return view('insurances.show',compact('insurances'));
+        
+        return view('insurances.active',compact('insurances','user'));
+    }
+
+    public function attach(Insurance $insurance, User $user)
+    {
+        
+        $user->insurances()->attach($insurance->id);
+        
+        return back()->with('success', 'Cobertura agregada correctamente!');
+    }
+
+    public function detach(Insurance $insurance, User $user)
+    {
+        $user->insurances()->detach($insurance);
+         return back()->with('success', 'Cobertura eliminada correctamente!');
+    }
+
+    public function patient_charge(Request $request)
+    {
+
+        $user = Auth::user();
+        $user->insurances()->updateExistingPivot( $request->myInsurance, ['patient_charge' => $request->patient_charge] );
+        return back()->with('success', 'Coseguro Paciente actualizado correctamente!');
     }
 
     public function edit(Insurance $insurance)

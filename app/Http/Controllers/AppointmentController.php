@@ -31,23 +31,46 @@ class AppointmentController extends Controller
 
     public function index(Request $request)
     {
-        if(empty($request->user_id)){
+        if(empty($request->user_id))
+        {
             $user = Auth::user();
             $institution = $user->currentInstitution;
             if($user->hasRole('profesional'))
             {
-                $insurances = Insurance::all();
+                // $insurances = Insurance::all();
                 $professional = $user;
+                $insurances = $professional->insurances;
                 $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
                 $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
                 $events = array();
                 $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
                 $frequency = 60;
                 foreach ($appointments as $appointment){
+
+                    if(!empty($appointment->paciente->insurance_id))
+                    {    
+                        $insurance = Insurance::where('id',$appointment->paciente->insurance_id)->first();
+                        if($insurance->users()->where('user_id', $request->user_id)->first())
+                        {
+                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                        }else{
+                            $price = '';
+                        }
+                        
+                    }else
+                    {
+                        $insurance = Insurance::where('name','LIKE','Particular')->first();
+                        $price = '';
+                    }
+
                     $events[] = [
                     'id'=> $appointment->id,
                     'room' => $appointment->room_id,
-                    'title' => ucfirst($appointment->paciente->nombrePaciente).' '.ucfirst($appointment->paciente->apellidoPaciente).' - '.ucfirst($appointment->obs),
+                    'title' => ucfirst($appointment->paciente->nombrePaciente).
+                            ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                            ' - '.ucfirst($appointment->obs).
+                            ' '.$insurance->name.
+                            ' $'.$price,
                     'start' => $appointment->start,
                     'end' => $appointment->end,
                     'editable' => false,
@@ -101,7 +124,7 @@ class AppointmentController extends Controller
                     }
                     $frequency = '00:'.$frequency.':00';
                     
-                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances'));
+                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user'));
                 }
 
 
@@ -175,7 +198,7 @@ class AppointmentController extends Controller
                 }
                 $frequency = '00:'.$frequency.':00';
                 
-                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency'));
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','user'));
             }
         }
     }
@@ -186,12 +209,11 @@ class AppointmentController extends Controller
         {
             return redirect()->route('appointment.index');
         }else{
-            $insurances = Insurance::all();
+            
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
-
+            $insurances = $professional->insurances;
             $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
-            
             
             $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
             $events = array();
@@ -200,11 +222,20 @@ class AppointmentController extends Controller
             foreach ($appointments as $appointment){
                 if(!empty($appointment->paciente->insurance_id))
                 {    
-                    $insurance = Insurance::find($appointment->paciente->insurance_id)->first();
+                    $insurance = Insurance::where('id',$appointment->paciente->insurance_id)->first();
+                    if($insurance->users()->where('user_id', $request->user_id)->first())
+                    {
+                        $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                    }else{
+                        $price = '';
+                    }
+                    
                 }else
                 {
                     $insurance = Insurance::where('name','LIKE','Particular')->first();
+                    $price = '';
                 }
+                
                 $events[] = [
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
@@ -212,7 +243,9 @@ class AppointmentController extends Controller
                 'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
                 'title' => ucfirst($appointment->paciente->nombrePaciente).
                     ' '.ucfirst($appointment->paciente->apellidoPaciente).
-                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.' '.$insurance->name,
+                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                    ' '.$insurance->name.
+                    ' $'.$price,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'editable' => false,
@@ -265,8 +298,8 @@ class AppointmentController extends Controller
                     }
                 }
                 $frequency = '00:'.$frequency.':00';
-                
-                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances'));  
+                $user = Auth::user();
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user'));  
 
             }
 
@@ -280,7 +313,7 @@ class AppointmentController extends Controller
     {
         if (!empty($request->patient_id))
         {
-
+            
             $appointment = new Appointment;
 
             $appointment->institution_id = $request->institution_id;
@@ -293,12 +326,15 @@ class AppointmentController extends Controller
             $appointment->obs = $request->obs;
             $appointment->status = 'active';
             $appointment->overturn = 0;
-            $paciente = Paciente::find($request->patient_id)->first();
+            
+            $paciente = Paciente::where('codPaciente',$request->patient_id)->first();
             $paciente->insurance_id = $request->insurance_id;
             $paciente->save();
-
+            
+            
             try 
             {
+                
                 $appointment->save();
                 return redirect()->route('appointment.show', [
                     'institution_id' => $appointment->institution_id,

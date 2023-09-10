@@ -109,6 +109,19 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:insurance.active')
         ->name('insurance.active');
 
+    Route::get('insurance/attach/{insurance}/{user}',[App\Http\Controllers\InsuranceController::class,'attach'])
+        ->middleware('can:insurance.active')
+        ->name('insurance.attach');
+
+    Route::get('insurance/detach/{insurance}/{user}',[App\Http\Controllers\InsuranceController::class,'detach'])
+        ->middleware('can:insurance.active')
+        ->name('insurance.detach');
+    
+    Route::post('insurance/update',[App\Http\Controllers\InsuranceController::class,'patient_charge'])
+        ->middleware('can:insurance.active')
+        ->name('insurance.patient_charge');
+        
+
     Route::get('insurance/edit/{insurance}',[App\Http\Controllers\InsuranceController::class,'edit'])
         ->middleware('can:insurance.show')
         ->name('insurance.edit');
