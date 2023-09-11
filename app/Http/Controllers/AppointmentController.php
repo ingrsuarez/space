@@ -46,13 +46,12 @@ class AppointmentController extends Controller
                 $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
                 $frequency = 60;
                 foreach ($appointments as $appointment){
-
-                    if(!empty($appointment->paciente->insurance_id))
+                    if(!empty($appointment->insurance_id))
                     {    
-                        $insurance = Insurance::where('id',$appointment->paciente->insurance_id)->first();
-                        if($insurance->users()->where('user_id', $request->user_id)->first())
+                        $insurance = Insurance::where('id',$appointment->insurance_id)->first();
+                        if($insurance->users()->where('user_id', $professional->id)->first())
                         {
-                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                            $price = $insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge;
                         }else{
                             $price = '';
                         }
@@ -60,9 +59,14 @@ class AppointmentController extends Controller
                     }else
                     {
                         $insurance = Insurance::where('name','LIKE','Particular')->first();
-                        $price = '';
+                        if($insurance->users()->where('user_id', $professional->id)->first())
+                        {
+                            $price = $insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge;
+                        }else{
+                            $price = '';
+                        }
                     }
-
+                    
                     $events[] = [
                     'id'=> $appointment->id,
                     'room' => $appointment->room_id,
@@ -141,10 +145,34 @@ class AppointmentController extends Controller
             $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
             $frequency = 60;
             foreach ($appointments as $appointment){
+                if(!empty($appointment->insurance_id))
+                    {    
+                        $insurance = Insurance::where('id',$appointment->insurance_id)->first();
+                        if($insurance->users()->where('user_id', $request->user_id)->first())
+                        {
+                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                        }else{
+                            $price = '';
+                        }
+                        
+                    }else
+                    {
+                        $insurance = Insurance::where('name','LIKE','Particular')->first();
+                        if($insurance->users()->where('user_id', $request->user_id)->first())
+                        {
+                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                        }else{
+                            $price = '';
+                        }
+                    }
                 $events[] = [
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
-                'title' => ucfirst($appointment->paciente->nombrePaciente).' '.ucfirst($appointment->paciente->apellidoPaciente).' - '.ucfirst($appointment->obs),
+                'title' => ucfirst($appointment->paciente->nombrePaciente).
+                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                    ' - '.ucfirst($appointment->obs).
+                    ' '.$insurance->name.
+                    ' $'.$price,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'editable' => false,
@@ -220,9 +248,9 @@ class AppointmentController extends Controller
             $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
             $frequency = 60;
             foreach ($appointments as $appointment){
-                if(!empty($appointment->paciente->insurance_id))
+                if(!empty($appointment->insurance_id))
                 {    
-                    $insurance = Insurance::where('id',$appointment->paciente->insurance_id)->first();
+                    $insurance = Insurance::where('id',$appointment->insurance_id)->first();
                     if($insurance->users()->where('user_id', $request->user_id)->first())
                     {
                         $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
@@ -233,13 +261,19 @@ class AppointmentController extends Controller
                 }else
                 {
                     $insurance = Insurance::where('name','LIKE','Particular')->first();
-                    $price = '';
+                    if($insurance->users()->where('user_id', $request->user_id)->first())
+                    {
+                        $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                    }else{
+                        $price = '';
+                    }
                 }
                 
                 $events[] = [
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
                 'paciente' => $appointment->paciente_id,
+                'insurance' => $appointment->insurance_id,
                 'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
                 'title' => ucfirst($appointment->paciente->nombrePaciente).
                     ' '.ucfirst($appointment->paciente->apellidoPaciente).
@@ -314,6 +348,7 @@ class AppointmentController extends Controller
         if (!empty($request->patient_id))
         {
             
+            $creator = Auth::user();
             $appointment = new Appointment;
 
             $appointment->institution_id = $request->institution_id;
@@ -326,7 +361,8 @@ class AppointmentController extends Controller
             $appointment->obs = $request->obs;
             $appointment->status = 'active';
             $appointment->overturn = 0;
-            
+            $appointment->creator_id = $creator->id;
+            $appointment->insurance_id = $request->insurance_id;
             $paciente = Paciente::where('codPaciente',$request->patient_id)->first();
             $paciente->insurance_id = $request->insurance_id;
             $paciente->save();
@@ -405,6 +441,7 @@ class AppointmentController extends Controller
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
                 'paciente' => $appointment->paciente_id,
+                'insurance' => $appointment->insurance_id,
                 'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
                 'title' => ucfirst($appointment->paciente->nombrePaciente).
                     ' '.ucfirst($appointment->paciente->apellidoPaciente).
@@ -473,11 +510,12 @@ class AppointmentController extends Controller
     {
         
         $paciente = Paciente::find($request->patient_id);
-
+        
         $wating = new Wating_list;
         $wating->user_id = $request->professional_id;
         $wating->institution_id = $request->institution_id;
         $wating->paciente_id = $request->patient_id;
+        $wating->insurance_id = $request->insurance_id;
         if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
         {
             return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
@@ -509,6 +547,7 @@ class AppointmentController extends Controller
                 return 'error';
                 
             }
+            $creator = Auth::user();
             //Store new appointment
             $appointment = new Appointment;
 
@@ -520,6 +559,7 @@ class AppointmentController extends Controller
             $appointment->end = $request->endDate;
             $appointment->medicare = 'issn';
             $appointment->obs = $request->obs;
+            $appointment->creator_id = $creator->id;
             $appointment->status = 'active';
             $appointment->overturn = 0;
 

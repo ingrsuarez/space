@@ -1,6 +1,5 @@
 <div>
 
-
     <div class="row my-2">
 
         @can('profession')
@@ -25,9 +24,9 @@
                                         @can('wating.list')
                                             <p class="card-text">
                                             @if(!empty($institution))    
-                                            @foreach($user->watingMe as $paciente)
-                                                @php $insuranceName = explode(" ",$paciente->insurance->name);@endphp
-                                                @if($paciente->pivot->institution_id == $institution->id)
+                                            @foreach($watingMe as $paciente)
+                                                @php $insuranceName = explode(" ",$paciente->insurance);@endphp
+                                                @if($paciente->institution_id == $institution->id)
                                                     {{(($loop->index)+1).' - '}}  
                                                     <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
                                                     {{strtoupper($paciente->apellidoPaciente).' '.

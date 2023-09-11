@@ -46,17 +46,24 @@ class ShowPatients extends Component
 
     public function render()
     {
+        $watingMe = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','insurances.name AS insurance','wating_list.institution_id')
+            ->join('wating_list', 'wating_list.paciente_id', '=', 'pacientes.codPaciente')
+            ->leftJoin('insurances', 'insurances.id', '=', 'wating_list.insurance_id')
+            ->where('wating_list.user_id','=',Auth::user()->id)
+            ->orderBy('wating_list.created_at','ASC')
+            ->get();
+
 
         if($this->name <> ''){    
             $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')->paginate(5); 
-            return view('livewire.show-patients',compact('pacientes'));
+            return view('livewire.show-patients',compact('pacientes','watingMe'));
         }elseif($this->lastName <> ''){
             $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')->paginate(7); 
-            return view('livewire.show-patients',compact('pacientes'));
+            return view('livewire.show-patients',compact('pacientes','watingMe'));
 
         }elseif($this->dni <> ''){
             $pacientes = Paciente::where('idPaciente','LIKE',$this->dni.'%')->paginate(5); 
-            return view('livewire.show-patients',compact('pacientes'));
+            return view('livewire.show-patients',compact('pacientes','watingMe'));
 
         }else
         {
@@ -77,9 +84,15 @@ class ShowPatients extends Component
             ->orderBy('historialClinico.fechaHC','DESC')
             ->paginate(10);
             
-            // dd($pacientes);
-            
-            return view('livewire.show-patients',compact('pacientes'));
+            // $watingMe = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','insurances.name AS insurance','wating_list.institution_id')
+            // ->join('wating_list', 'wating_list.paciente_id', '=', 'pacientes.codPaciente')
+            // ->leftJoin('insurances', 'insurances.id', '=', 'wating_list.insurance_id')
+            // ->where('wating_list.user_id','=',Auth::user()->id)
+            // ->orderBy('wating_list.created_at','ASC')
+            // ->get();
+
+           
+            return view('livewire.show-patients',compact('pacientes','watingMe'));
         
         }
 

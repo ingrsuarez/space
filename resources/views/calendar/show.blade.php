@@ -155,6 +155,7 @@
                   <input type="hidden" id="endDateEvent" name="endDate" readonly>
                   <input type="hidden" id="roomEvent" name="room_id">
                   <input type="hidden" id="institutionEvent" name="institution_id" value="{{$institution->id}}">
+                  
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -200,6 +201,7 @@
         <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
         <input type="hidden" id="patient" name="patient_id" value="">
         <input type="hidden" id="professional" name="professional_id" value="{{$professional->id}}">
+        <input type="hidden" id="insuranceId" name="insurance_id">
       </form>
       {{-- EVENT CLICKED --}}
       <form id="eventReschedule" action="{{ route('appointment.reschedule') }}" method="POST">
@@ -293,6 +295,8 @@
                   $('#endDateNew').val(endDate);
                   $('#endDateLock').val(endDate);
                   $('#eventId').val(info.event.id);
+                  $('#insuranceId').val(info.event.extendedProps.insurance);
+                  
                 }
                 // if(info.event.title != '')
                 // { 
