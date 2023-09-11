@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('historialclinico', function (Blueprint $table) { 
+        Schema::table('wating_list', function (Blueprint $table) { 
             $table->dropColumn('insurance_id');
         });
     }
