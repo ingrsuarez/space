@@ -27,8 +27,13 @@ class ShowPatients extends Component
 
     public function mount()
     {
-       $today = Carbon::now();
-       $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',['2022-01-28 17:36:03',$today])->count();
+        $user = Auth::user();    
+        $today = Carbon::now();
+        $monthAgo = Carbon::now()->subDays(30);
+        $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',$user->id)
+        ->whereBetween('fechaHC',[$monthAgo->format('Y-m-d').' 00:00:00',$today->format('Y-m-d').' 23:59:59'])
+        ->count();
+
        $this->userInstitutions = Auth::user()->institutions; 
        $this->institution = Auth::user()->currentInstitution;
        $this->user = Auth::user();

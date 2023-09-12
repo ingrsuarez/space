@@ -34,7 +34,10 @@ class HomeController extends Controller
         $institution = $user->currentInstitution;
         $today = Carbon::now();
         $monthAgo = Carbon::now()->subDays(30);
-        $ultimosPacientes = HistorialClinico::where('codUsuarioHc',Auth::user()->id)->whereBetween('fechaHC',[$monthAgo,$today])->count();
+        DB::enableQueryLog();
+        $ultimosPacientes = HistorialClinico::where('codUsuarioHc',$user->id)
+            ->whereBetween('fechaHC',[$monthAgo->format('Y-m-d').' 00:00:00',$today->format('Y-m-d').' 23:59:59'])
+            ->count();
         $institutions = Auth::user()->institutions;
         if(!empty($institution))
         {

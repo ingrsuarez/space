@@ -230,7 +230,7 @@
             var agenda = @json($availableAgenda);
             var frequency = @json($frequency);
             var today = new Date();
-            today.setDate(today.getDate() + 7);
+            today.setDate(today.getDate());
             let calendarEl = document.getElementById('calendar');
             
             var calendar = new Calendar(calendarEl, {
