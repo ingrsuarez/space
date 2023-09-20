@@ -9,6 +9,7 @@ use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Wating_list;
 
 class ShowPatients extends Component
 {
@@ -23,7 +24,7 @@ class ShowPatients extends Component
     public $wating;
     public $user;
     public $professionals;
-    
+    public $wating_institution;
 
     public function mount()
     {
@@ -33,17 +34,18 @@ class ShowPatients extends Component
         $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',$user->id)
         ->whereBetween('fechaHC',[$monthAgo->format('Y-m-d').' 00:00:00',$today->format('Y-m-d').' 23:59:59'])
         ->count();
-
-       $this->userInstitutions = Auth::user()->institutions; 
-       $this->institution = Auth::user()->currentInstitution;
-       $this->user = Auth::user();
-       if(!empty($this->institution))
-        {
-            $this->professionals = $this->institution->users;
-        }else
-        {
-            $this->professionals = null;
-        }
+        // $institution = $user->currentInstitution;
+        // $this->wating_institution = Wating_list::where('institution_id',$institution->id)->count();
+        $this->userInstitutions = Auth::user()->institutions; 
+        $this->institution = Auth::user()->currentInstitution;
+        $this->user = Auth::user();
+        if(!empty($this->institution))
+            {
+                $this->professionals = $this->institution->users;
+            }else
+            {
+                $this->professionals = null;
+            }
        
     }
 

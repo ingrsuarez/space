@@ -13,7 +13,7 @@
                         <h2 class="accordion-header card-header text-white" id="panelsStayOpen-headingOne">
                         <button class="accordion-button collapsed text-white bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                             <div>
-                                 <strong>Pacientes en espera:</strong>
+                                 <strong>Pacientes en espera: {{$wating_institution}}</strong>
                             </div>
                         </button>
                         </h2> 
