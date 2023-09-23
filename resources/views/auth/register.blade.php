@@ -56,7 +56,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Profesión') }}</label>
 
                             <div class="col-md-6">
-                                <select class="form-select form-select mb-3" aria-label=".form-select example" name="tipo" autocomplete="tipo">
+                                <select class="form-select form-select mb-3" aria-label=".form-select example" name="tipo" autocomplete="tipo" required>
                                   <option selected>......</option>
                                   <option value="3">Administrativo</option>
                                   <option value="2">Médico</option>
@@ -92,6 +92,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
+                                {!! NoCaptcha::display() !!}
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
