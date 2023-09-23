@@ -20,7 +20,27 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     {{-- Captcha --}}
-    {!! NoCaptcha::renderJs() !!}
+    {{-- {!! NoCaptcha::renderJs() !!} --}}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdQNEsoAAAAAP65UIQlJOGiGId3CbgNzGx024ZM"></script>
+
+    <script>
+        document.addEventListener('submit',function(e){
+            e.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdQNEsoAAAAAP65UIQlJOGiGId3CbgNzGx024ZM', {action: 'submit'}).then(function(token) {
+                    let form = e.target;
+                    let input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'response';
+                    input.value = token;
+
+                    form.appendChild(input);
+                    form.submit();
+
+                });
+            });
+        });
+    </script>
     
 </head>
 <body>
