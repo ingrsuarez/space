@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\Rules\Recaptcha;
 
 
 class RegisterController extends Controller
@@ -52,26 +52,16 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-
-       
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify',[
-        'secret' => '6LdQNEsoAAAAADIUegHyJKCVLoQAz6AEw7UhLmj_',
-        'response' => $data['response'] 
-        ])->object();
-        array_pop($data);
-        if ($response->success){
-            return Validator::make($data, [
-                'name' => ['required', 'string', 'max:255'],
-                'lastName' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'tipo' => ['required'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-            ]);
-        }else
-        {
-            return 'You are a robot';
-        }
-        
+         
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'tipo' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'response' => ['required',new \App\Rules\Recaptcha]
+        ]); 
+           
     }
 
     /**

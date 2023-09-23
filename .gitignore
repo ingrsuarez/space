@@ -6,6 +6,7 @@
 /vendor
 /customer_files/*
 /public_html/*
+/app/Rules/*
 .env
 .env.backup
 .phpunit.result.cache
