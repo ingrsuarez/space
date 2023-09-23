@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use App\Models\Insurance;
+use App\Models\Wating_list;
 
 class FichaController extends Controller
 {
@@ -30,6 +31,15 @@ class FichaController extends Controller
         $edad = $fecha_nacimiento->diffInYears($today);
         $user = Auth::user();
         $institution = $user->currentInstitution;
+        $wating = Wating_list::where('paciente_id',$paciente->codPaciente)->first();
+        if (!empty($wating))
+        {
+            $insurance = $wating->insurance_id;
+        }else
+        {
+            $insurance = null;
+        }
+        
         $user->watingMe()->detach($paciente->codPaciente);
         
         
@@ -37,7 +47,7 @@ class FichaController extends Controller
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance'));
     }
 
     
@@ -65,9 +75,8 @@ class FichaController extends Controller
 
         $time = date("h:i:s");
         $date = date($request->fechaAtencion.' '.$time); //Combine given date with current time
-        $user =  User::find(Auth::user()->id);
-
         
+
         $historial = new HistorialClinico;
         $historial->codPacienteHC = $request->codPaciente;
         $historial->codUsuarioHC = Auth::user()->id;
@@ -75,6 +84,7 @@ class FichaController extends Controller
         $historial->codInstitucionHC = ($user->currentInstitution)->id;
         $historial->entrada = $request->entrada;
         $historial->esPublico = $esPublico;
+        $historial->insurance_id = $request->insurance_id;
         $historial->especialidad = $strEspecialidades;
         $historial->save();
 
