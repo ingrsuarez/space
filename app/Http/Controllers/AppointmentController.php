@@ -70,8 +70,8 @@ class AppointmentController extends Controller
                     $events[] = [
                     'id'=> $appointment->id,
                     'room' => $appointment->room_id,
-                    'title' => ucfirst($appointment->paciente->nombrePaciente).
-                            ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                    'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
                             ' - '.ucfirst($appointment->obs).
                             ' '.$insurance->name.
                             ' $'.$price,
@@ -113,13 +113,13 @@ class AppointmentController extends Controller
                             'backgroundColor' => '#ffcc5c'
                             
                         ];
-                        $availableAgenda[] = [
-                            'id' => $agenda->room_id,
-                            'groupId' => 'room',
-                            'daysOfWeek' => [$agenda->day],
-                            'title' => $agenda->room->name,
+                        // $availableAgenda[] = [
+                        //     'id' => $agenda->room_id,
+                        //     'groupId' => 'room',
+                        //     'daysOfWeek' => [$agenda->day],
+                        //     'title' => $agenda->room->name,
                             
-                        ];
+                        // ];
     
                         if($frequency > $agenda->frequency)
                         {
@@ -168,8 +168,8 @@ class AppointmentController extends Controller
                 $events[] = [
                 'id'=> $appointment->id,
                 'room' => $appointment->room_id,
-                'title' => ucfirst($appointment->paciente->nombrePaciente).
-                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
                     ' - '.ucfirst($appointment->obs).
                     ' '.$insurance->name.
                     ' $'.$price,
@@ -211,13 +211,13 @@ class AppointmentController extends Controller
                         'backgroundColor' => '#ffcc5c'
                         
                     ];
-                    $availableAgenda[] = [
-                        'id' => $agenda->room_id,
-                        'groupId' => 'room',
-                        'daysOfWeek' => [$agenda->day],
-                        'title' => $agenda->room->name,
+                    // $availableAgenda[] = [
+                    //     'id' => $agenda->room_id,
+                    //     'groupId' => 'room',
+                    //     'daysOfWeek' => [$agenda->day],
+                    //     'title' => $agenda->room->name,
                         
-                    ];
+                    // ];
 
                     if($frequency > $agenda->frequency)
                     {
@@ -274,9 +274,9 @@ class AppointmentController extends Controller
                 'room' => $appointment->room_id,
                 'paciente' => $appointment->paciente_id,
                 'insurance' => $appointment->insurance_id,
-                'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
-                'title' => ucfirst($appointment->paciente->nombrePaciente).
-                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
                     ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                     ' '.$insurance->name.
                     ' $'.$price,
@@ -318,13 +318,13 @@ class AppointmentController extends Controller
                         'backgroundColor' => '#ffcc5c'
                         
                     ];
-                    $availableAgenda[] = [
-                        'id' => $agenda->room_id,
-                        'groupId' => 'room',
-                        'daysOfWeek' => [$agenda->day],
-                        'title' => $agenda->room->name,
+                    // $availableAgenda[] = [
+                    //     'id' => $agenda->room_id,
+                    //     'groupId' => 'room',
+                    //     'daysOfWeek' => [$agenda->day],
+                    //     'title' => $agenda->room->name,
                         
-                    ];
+                    // ];
 
                     if($frequency > $agenda->frequency)
                     {
@@ -442,9 +442,9 @@ class AppointmentController extends Controller
                 'room' => $appointment->room_id,
                 'paciente' => $appointment->paciente_id,
                 'insurance' => $appointment->insurance_id,
-                'nombrePaciente' => ucfirst($appointment->paciente->apellidoPaciente).' '.ucfirst($appointment->paciente->nombrePaciente),
-                'title' => ucfirst($appointment->paciente->nombrePaciente).
-                    ' '.ucfirst($appointment->paciente->apellidoPaciente).
+                'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
                     ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
@@ -484,13 +484,13 @@ class AppointmentController extends Controller
                         'backgroundColor' => '#ffcc5c'
                         
                     ];
-                    $availableAgenda[] = [
-                        'id' => $agenda->room_id,
-                        'groupId' => 'room',
-                        'daysOfWeek' => [$agenda->day],
-                        'title' => $agenda->room->name,
+                    // $availableAgenda[] = [
+                    //     'id' => $agenda->room_id,
+                    //     'groupId' => 'room',
+                    //     'daysOfWeek' => [$agenda->day],
+                    //     'title' => $agenda->room->name,
                         
-                    ];
+                    // ];
 
                     if($frequency > $agenda->frequency)
                     {

@@ -49,7 +49,7 @@
                             Turnos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{route('appointment.index')}}">Agendar un turno</a></li>
+                                <li><a class="dropdown-item" href="{{route('appointment.index')}}">Calendario</a></li>
                                 <li><a class="dropdown-item" href="{{route('agendas.index')}}">Agendas</a></li>
 
                             </ul>

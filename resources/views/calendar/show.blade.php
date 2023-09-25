@@ -228,6 +228,27 @@
             var appointments = @json($events);
             var eid = '3';
             var agenda = @json($availableAgenda);
+            
+            var scroll = '23:59:59';
+            agenda.forEach(function(item, index){
+              if (item.startTime < scroll)
+              {
+                scroll = item.startTime;
+              }
+              
+            });
+            
+            var hour = parseInt(scroll)-1;
+            if (hour > 9)
+            {
+              start = hour+':00';
+            }else{
+              start = '0'+hour+':00';
+            }
+            
+           
+
+            
             var frequency = @json($frequency);
             var today = new Date();
             today.setDate(today.getDate());
@@ -242,7 +263,7 @@
               initialView: 'timeGridWeek',
               initialDate: today,
               selectable: true,
-              slotMinTime: '08:00',
+              slotMinTime: start,
               slotMaxTime: '20:00',
               scrollTime: '09:00',
               slotDuration: frequency,
@@ -253,6 +274,8 @@
               selectOverlap: false,
               selectConstraint: 'available',
               eventConstraint: "available",
+              allDaySlot:false,
+              displayEventTime: false,
 
               headerToolbar: {
                 left: 'prev,next',
@@ -298,45 +321,7 @@
                   $('#insuranceId').val(info.event.extendedProps.insurance);
                   
                 }
-                // if(info.event.title != '')
-                // { 
 
-
-                  
-                  // locked = info.event.title.slice(0, 9);
-                  // if(locked != 'Bloqueado')
-                  // {
-                  //   if(confirm('Desea cancelar el turno de '+info.event.title))
-                  //   {
-                  //     alert('Cancelado!');
-                  //     let event_id = info.event.id;
-                  //     $.ajax({
-                  //         url: "{{route('appointment.cancel')}}",
-                  //         type: "POST",
-                  //         dataType: 'json',
-                  //         data: {event_id},
-                  //         success:function(response)
-                  //         {
-                  //           console.log(response)
-                  //         },
-                  //         error:function(error)
-                  //         {
-                  //           console.log(error);
-                  //         }
-                  //       });
-                        
-                  //       location.reload();
-                  //   }
-
-                  // }
-                  // else{
-                  //   console.log(info);
-                  // }
-                      
-
-                
-                
-                
               },
 
               selectOverlap: function(event) {
@@ -386,7 +371,10 @@
                   $('#calendarModal').modal('toggle');
                 }
                
-              }
+              },
+
+
+              
             });
             
             calendar.render();
