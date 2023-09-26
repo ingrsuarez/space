@@ -143,6 +143,76 @@
         </div>
       </div>
     </div>
+
+    {{-- LAST PATIENT APPOINMENTS --}}
+    <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+      <div class="accordion" id="accordionAppoinments">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="Appoinments">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Appoinments-collapseOne" aria-expanded="true" aria-controls="Appoinments-collapseOne">
+            <div class="">
+                Últimos turnos del paciente: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+            </div>
+          </button>
+          </h2>
+          <div id="Appoinments-collapseOne" class="accordion-collapse collapse" aria-labelledby="Appoinments-headingOne">
+            <div class="accordion-body">
+              @if(isset($institution))
+                <form id="wating" action="{{route('wating.attach',['paciente'=>$paciente,'institution'=>$institution])}}" method="POST">
+                  @csrf
+                  {{-- @method('put') --}}
+                  <div class="input-group mb-3">
+                    <table class="table">
+                      <thead class="table-light">
+                          <th>Profesional</th>
+                          <th>Fecha</th>
+                          <th>Cobertura</th>
+                          <th>Observaciones</th>
+                      </thead>
+                      <tbody>
+                      @if(!empty($appoinments))   
+                          @foreach($appoinments as $appointment) 
+
+                            <tr>
+                                <td>{{strtoupper($appointment->user->name.' '.$appointment->user->lastName)}}</td>
+                                <td>{{$appointment->start}}</td>
+                                <td>
+                                  @if (!empty($appointment->insurance_id))
+                                    {{$appointment->insurance->name}}
+                                  @endif  
+                                </td>
+                                <td>{{($appointment->obs)}}</td>
+                                
+                                  {{-- <a class="btn btn-danger text-white" href="{{ route('wating.detach',['paciente'=>$paciente,'institution'=>$institution]) }}">Quitar</a></td> --}}
+                            </tr>
+
+                                  
+
+                          @endforeach
+                      @endif   
+                      </tbody>
+                  </table>
+        
+                    
+                      
+                  </div>
+                  {{-- <div class="input-group mb-3">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                    <span class="input-group-text">.00</span>
+                  </div>
+                  <div class="d-grid gap-2 col-4 ms-auto py-2">
+                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>                    
+                  </div> --}}
+                </form>
+              @endif
+            </div>    
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     @endcan
 
 {{--                     Professional view                 --}}

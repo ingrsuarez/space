@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use App\Models\Insurance;
 use App\Models\Wating_list;
+use App\Models\Appointment;
 
 class FichaController extends Controller
 {
@@ -25,6 +26,8 @@ class FichaController extends Controller
     {
         $insurances = Insurance::all();
         $paciente = Paciente::where('idPaciente',$idPaciente)->first();
+        $appoinments = Appointment::where('paciente_id',$paciente->codPaciente)->orderBy('created_at', 'desc')->get();
+        
         //Edad del paciente
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
@@ -47,7 +50,7 @@ class FichaController extends Controller
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments'));
     }
 
     

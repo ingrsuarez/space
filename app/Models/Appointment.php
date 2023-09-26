@@ -24,4 +24,9 @@ class Appointment extends Model
     {
         return $this->belongsTo('App\Models\Institution');
     }
+
+    public function insurance()
+    {
+        return $this->belongsTo('App\Models\Insurance');
+    }
 }

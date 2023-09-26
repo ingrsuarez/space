@@ -177,7 +177,7 @@
                   <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
                   @endif
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
-                  {{-- <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button> --}}
+                  <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
                 </div>
                 
               </div>
@@ -194,6 +194,7 @@
       <form id="sendConfirmation" action="{{ route('wa.send') }}" method="POST">
         @method('POST')
         @csrf
+        <input type="hidden" id="wa_event_id" name="event_id" readonly>
       </form>
       <form id="sendToWatingList" action="{{ route('appointment.toWaitingList') }}" method="POST">
         @method('POST')
@@ -309,6 +310,7 @@
                   $('#patient').val(info.event.extendedProps.paciente);
                   $('#dateEvent').val(dateText);
                   $('#event_id').val(info.event.id);
+                  $('#wa_event_id').val(info.event.id);
                   $('#startDateEvent').val(startDate);
                   $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));
                   $('#timeEndEvent').val(moment(endDate).format('HH:mm:ss'));
