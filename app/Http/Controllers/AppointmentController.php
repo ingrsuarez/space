@@ -66,21 +66,37 @@ class AppointmentController extends Controller
                             $price = '';
                         }
                     }
-                    
-                    $events[] = [
-                    'id'=> $appointment->id,
-                    'room' => $appointment->room_id,
-                    'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
-                            ' - '.ucfirst($appointment->obs).
-                            ' '.$insurance->name.
-                            ' $'.$price,
-                    'start' => $appointment->start,
-                    'end' => $appointment->end,
-                    'editable' => false,
-                    'backgroundColor' => '#4040a1'
-                    ];  
-                    
+                    if ($appointment->overturn == 1)
+                    {
+                        $events[] = [
+                            'id'=> $appointment->id,
+                            'room' => $appointment->room_id,
+                            'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                            'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                                ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                                ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                                ' '.$insurance->name.
+                                ' $'.$price,
+                            'start' => $appointment->start,
+                            'end' => $appointment->end,
+                            'editable' => false,
+                            'backgroundColor' => '#d14c1f'
+                        ];  
+                    }else{
+                        $events[] = [
+                        'id'=> $appointment->id,
+                        'room' => $appointment->room_id,
+                        'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                                ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                                ' - '.ucfirst($appointment->obs).
+                                ' '.$insurance->name.
+                                ' $'.$price,
+                        'start' => $appointment->start,
+                        'end' => $appointment->end,
+                        'editable' => false,
+                        'backgroundColor' => '#4040a1'
+                        ];  
+                    }
                 }
                 foreach ($locks as $lock){
                     $events[] = [
@@ -139,46 +155,68 @@ class AppointmentController extends Controller
         }else{
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
-            $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
+            $appointments = Appointment::where('institution_id',$institution->id)
+                ->where('user_id',$professional->id)
+                ->where('status','!=','cancelled')
+                ->get();
             $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
             $events = array();
             $agendas = Agenda::where('user_id',$professional->id)->where('institution_id',$institution->id)->get();
             $frequency = 60;
             foreach ($appointments as $appointment){
                 if(!empty($appointment->insurance_id))
-                    {    
-                        $insurance = Insurance::where('id',$appointment->insurance_id)->first();
-                        if($insurance->users()->where('user_id', $request->user_id)->first())
-                        {
-                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
-                        }else{
-                            $price = '';
-                        }
-                        
-                    }else
+                {    
+                    $insurance = Insurance::where('id',$appointment->insurance_id)->first();
+                    if($insurance->users()->where('user_id', $request->user_id)->first())
                     {
-                        $insurance = Insurance::where('name','LIKE','Particular')->first();
-                        if($insurance->users()->where('user_id', $request->user_id)->first())
-                        {
-                            $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
-                        }else{
-                            $price = '';
-                        }
+                        $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                    }else{
+                        $price = '';
                     }
-                $events[] = [
-                'id'=> $appointment->id,
-                'room' => $appointment->room_id,
-                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
-                    ' - '.ucfirst($appointment->obs).
-                    ' '.$insurance->name.
-                    ' $'.$price,
-                'start' => $appointment->start,
-                'end' => $appointment->end,
-                'editable' => false,
-                'backgroundColor' => '#4040a1'
-                ];  
-                
+                    
+                }else
+                {
+                    $insurance = Insurance::where('name','LIKE','Particular')->first();
+                    if($insurance->users()->where('user_id', $request->user_id)->first())
+                    {
+                        $price = $insurance->users()->where('user_id', $request->user_id)->first()->pivot->patient_charge;
+                    }else{
+                        $price = '';
+                    }
+                }
+                if ($appointment->overturn == 1)
+                {
+                    $events[] = [
+                        'id'=> $appointment->id,
+                        'room' => $appointment->room_id,
+                        'paciente' => $appointment->paciente_id,
+                        'insurance' => $appointment->insurance_id,
+                        'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                            ' '.$insurance->name.
+                            ' $'.$price,
+                        'start' => $appointment->start,
+                        'end' => $appointment->end,
+                        'editable' => false,
+                        'backgroundColor' => '#d14c1f'
+                    ];  
+                }else{    
+                    $events[] = [
+                        'id'=> $appointment->id,
+                        'room' => $appointment->room_id,
+                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' - '.ucfirst($appointment->obs).
+                            ' '.$insurance->name.
+                            ' $'.$price,
+                        'start' => $appointment->start,
+                        'end' => $appointment->end,
+                        'editable' => false,
+                        'backgroundColor' => '#4040a1'
+                    ];  
+                }
             }
             foreach ($locks as $lock){
                 $events[] = [
@@ -211,13 +249,6 @@ class AppointmentController extends Controller
                         'backgroundColor' => '#ffcc5c'
                         
                     ];
-                    // $availableAgenda[] = [
-                    //     'id' => $agenda->room_id,
-                    //     'groupId' => 'room',
-                    //     'daysOfWeek' => [$agenda->day],
-                    //     'title' => $agenda->room->name,
-                        
-                    // ];
 
                     if($frequency > $agenda->frequency)
                     {
@@ -241,7 +272,10 @@ class AppointmentController extends Controller
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
             $insurances = $professional->insurances;
-            $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
+            $appointments = Appointment::where('institution_id',$institution->id)
+                ->where('user_id',$professional->id)
+                ->where('status','!=','cancelled')
+                ->get();
             
             $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
             $events = array();
@@ -268,24 +302,42 @@ class AppointmentController extends Controller
                         $price = '';
                     }
                 }
-                
-                $events[] = [
-                'id'=> $appointment->id,
-                'room' => $appointment->room_id,
-                'paciente' => $appointment->paciente_id,
-                'insurance' => $appointment->insurance_id,
-                'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
-                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
-                    ' '.$insurance->name.
-                    ' $'.$price,
-                'start' => $appointment->start,
-                'end' => $appointment->end,
-                'editable' => false,
-                'backgroundColor' => '#4040a1'
-                ];  
-                
+                if ($appointment->overturn == 1)
+                {
+                    $events[] = [
+                        'id'=> $appointment->id,
+                        'room' => $appointment->room_id,
+                        'paciente' => $appointment->paciente_id,
+                        'insurance' => $appointment->insurance_id,
+                        'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                            ' '.$insurance->name.
+                            ' $'.$price,
+                        'start' => $appointment->start,
+                        'end' => $appointment->end,
+                        'editable' => false,
+                        'backgroundColor' => '#d14c1f'
+                    ];  
+                }else{
+                    $events[] = [
+                    'id'=> $appointment->id,
+                    'room' => $appointment->room_id,
+                    'paciente' => $appointment->paciente_id,
+                    'insurance' => $appointment->insurance_id,
+                    'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                    'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                        ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                        ' '.$insurance->name.
+                        ' $'.$price,
+                    'start' => $appointment->start,
+                    'end' => $appointment->end,
+                    'editable' => false,
+                    'backgroundColor' => '#4040a1'
+                    ];  
+                }
             }
             foreach ($locks as $lock){
                 $events[] = [
@@ -348,26 +400,35 @@ class AppointmentController extends Controller
         if (!empty($request->patient_id))
         {
             
-            $creator = Auth::user();
-            $appointment = new Appointment;
+            // return $request;
+            $over_count = Appointment::where('start',$request->startDate)
+                ->where('user_id',$request->user_id)
+                ->where('institution_id',$request->institution_id)
+                ->count();
 
-            $appointment->institution_id = $request->institution_id;
-            $appointment->user_id = $request->user_id;
-            $appointment->paciente_id = $request->patient_id;
-            $appointment->room_id = $request->room_id;
-            $appointment->start = $request->startDate;
-            $appointment->end = $request->endDate;
-            $appointment->medicare = '';
-            $appointment->obs = $request->obs;
-            $appointment->status = 'active';
-            $appointment->overturn = 0;
-            $appointment->creator_id = $creator->id;
-            $appointment->insurance_id = $request->insurance_id;
-            $paciente = Paciente::where('codPaciente',$request->patient_id)->first();
-            $paciente->insurance_id = $request->insurance_id;
-            $paciente->save();
-            
-            
+            if ($over_count < 2)
+            {
+                $creator = Auth::user();
+                $appointment = new Appointment;
+
+                $appointment->institution_id = $request->institution_id;
+                $appointment->user_id = $request->user_id;
+                $appointment->paciente_id = $request->patient_id;
+                $appointment->room_id = $request->room_id;
+                $appointment->start = $request->startDate;
+                $appointment->end = $request->endDate;
+                $appointment->medicare = '';
+                $appointment->obs = $request->obs;
+                $appointment->status = 'active';
+                $appointment->overturn = $over_count;
+                $appointment->creator_id = $creator->id;
+                $appointment->insurance_id = $request->insurance_id;
+
+            }else
+            {
+                return back()->with('error', 'No es posible agendar aqui un sobre turno!');
+            }
+
             try 
             {
                 
