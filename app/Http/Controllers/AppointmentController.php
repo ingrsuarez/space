@@ -404,6 +404,7 @@ class AppointmentController extends Controller
             $over_count = Appointment::where('start',$request->startDate)
                 ->where('user_id',$request->user_id)
                 ->where('institution_id',$request->institution_id)
+                ->where('status','<>','cancelled')
                 ->count();
 
             if ($over_count < 2)
