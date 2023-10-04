@@ -27,7 +27,8 @@ class WaController extends Controller
         $phone_number = preg_replace('/[^0-9]/', '', $cellphone);
         $date = explode(" ", $appointment->start);
 
-        $message = "%20Hola!,%20queremos%20consultarle%20si%20confirma%20su%20asistencia%20el%20día%20".$date[0]."%20a%20las%20".$date[1]."%20con%20".ucwords($professional->lastName)."%20".ucwords($professional->name)."%20en%20".strtoupper($institution->name);
+        $message = "%20Hola!,%20le%20recordamos%20que%20su%20turno%20es%20el%20día%20".$date[0]."%20a%20las%20".$date[1]."%20con%20".ucwords($professional->lastName)."%20".ucwords($professional->name)."%20en%20"
+        .strtoupper($institution->name)."%20en%20caso%20de%20no%20poder%20asistir%20le%20pedimos%20nos%20avise. Gracias";
         $url = "https://wa.me/".$phone_number."?text=";
         
         return redirect()->away($url.$message)->with('_blank');
