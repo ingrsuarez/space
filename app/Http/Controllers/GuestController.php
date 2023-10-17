@@ -22,7 +22,7 @@ class GuestController extends Controller
                 $appointment->save();
                 $confirmation->delete();
                 // return $appointment;
-                return redirect()->route('home');
+                return redirect()->route('landing');
             
             } catch(\Illuminate\Database\QueryException $e)
             {
@@ -34,7 +34,7 @@ class GuestController extends Controller
 
         }else
         {
-            return 'falso rick';
+            return redirect()->route('landing');
         }
         
      
