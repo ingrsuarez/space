@@ -22,20 +22,20 @@ class GuestController extends Controller
                 $appointment->save();
                 $confirmation->delete();
                 // return $appointment;
-                return redirect()->away('https://www.space4clinic.com');
-                // return redirect()->route('landing');
+                // return redirect()->away('https://www.space4clinic.com');
+                return redirect('/');
             
             } catch(\Illuminate\Database\QueryException $e)
             {
                 $errorCode = $e->errorInfo[1];
                 
-                return redirect()->away('https://www.space4clinic.com');
+                return redirect('/');
                 
             }
 
         }else
         {
-            return redirect()->away('https://www.space4clinic.com');
+            return redirect('/');
         }
         
      
