@@ -50,7 +50,7 @@ class WaController extends Controller
         $fecha = $this->fechaEs($appointment->start);
         $phone_number = preg_replace('/[^0-9]/', '', $cellphone);
         $user = Auth::user();
-        $token = Hash::make($appointment->id.$patient->nombrePaciente.$fecha);
+        $token = urlencode(Hash::make($appointment->id.$patient->nombrePaciente.$fecha));
         if (Confirmation::where('appointment_id', '=', $appointment->id)->first()) 
         {
             return redirect()->route('appointment.show', [

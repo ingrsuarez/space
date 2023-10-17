@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('landing');
 
-Route::get('/confirm/{token?}', [App\Http\Controllers\GuestController::class, 'confirm'])->name('confirm.appointment');
+Route::get('/confirm/{token}', [App\Http\Controllers\GuestController::class, 'confirm'])->name('confirm.appointment');
 
 Auth::routes(['verify'=>true]);
 
