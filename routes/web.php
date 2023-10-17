@@ -19,8 +19,8 @@ use App\Http\Controllers\PacienteController;
 */
 
 Route::get('/', function () {
-    return view('welcome')->name('landing');
-});
+    return view('welcome');
+})->name('landing');
 
 Route::get('/confirm/{token}', [App\Http\Controllers\GuestController::class, 'confirm'])->name('confirm.appointment');
 
