@@ -67,7 +67,14 @@ class AppointmentController extends Controller
                         }
                     }
                     if ($appointment->overturn == 1)
-                    {
+                    {   
+                        if($appointment->status == 'active')
+                        {
+                            $color = '#d14c1f';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }
                         $events[] = [
                             'id'=> $appointment->id,
                             'room' => $appointment->room_id,
@@ -80,9 +87,16 @@ class AppointmentController extends Controller
                             'start' => $appointment->start,
                             'end' => $appointment->end,
                             'editable' => false,
-                            'backgroundColor' => '#d14c1f'
+                            'backgroundColor' => $color
                         ];  
                     }else{
+                        if($appointment->status == 'active')
+                        {
+                            $color = '#4040a1';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }
                         $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
@@ -94,7 +108,7 @@ class AppointmentController extends Controller
                         'start' => $appointment->start,
                         'end' => $appointment->end,
                         'editable' => false,
-                        'backgroundColor' => '#4040a1'
+                        'backgroundColor' => $color
                         ];  
                     }
                 }
@@ -186,6 +200,13 @@ class AppointmentController extends Controller
                 }
                 if ($appointment->overturn == 1)
                 {
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#d14c1f';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }
                     $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
@@ -200,9 +221,16 @@ class AppointmentController extends Controller
                         'start' => $appointment->start,
                         'end' => $appointment->end,
                         'editable' => false,
-                        'backgroundColor' => '#d14c1f'
+                        'backgroundColor' => $color
                     ];  
-                }else{    
+                }else{  
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#4040a1';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }  
                     $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
@@ -214,7 +242,7 @@ class AppointmentController extends Controller
                         'start' => $appointment->start,
                         'end' => $appointment->end,
                         'editable' => false,
-                        'backgroundColor' => '#4040a1'
+                        'backgroundColor' => $color
                     ];  
                 }
             }
@@ -304,6 +332,13 @@ class AppointmentController extends Controller
                 }
                 if ($appointment->overturn == 1)
                 {
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#d14c1f';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }  
                     $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
@@ -318,9 +353,16 @@ class AppointmentController extends Controller
                         'start' => $appointment->start,
                         'end' => $appointment->end,
                         'editable' => false,
-                        'backgroundColor' => '#d14c1f'
+                        'backgroundColor' => $color
                     ];  
                 }else{
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#4040a1';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }  
                     $events[] = [
                     'id'=> $appointment->id,
                     'room' => $appointment->room_id,
@@ -335,7 +377,7 @@ class AppointmentController extends Controller
                     'start' => $appointment->start,
                     'end' => $appointment->end,
                     'editable' => false,
-                    'backgroundColor' => '#4040a1'
+                    'backgroundColor' => $color
                     ];  
                 }
             }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
 use App\Models\Appointment;
 use App\Models\Paciente;
@@ -11,83 +13,84 @@ use App\Models\Institution;
 use App\Models\Insurance;
 use App\Models\User;
 use App\Models\Agenda;
+use App\Models\Confirmation;
+
 
 class WaController extends Controller
 {
-    
+    private function fechaEs($fecha) 
+    {
+        $hora = strftime("%H:%M",strtotime($fecha));
+        $fecha = substr($fecha, 0, 10);
+        $numeroDia = date('d', strtotime($fecha));
+        $dia = date('l', strtotime($fecha));
+        $mes = date('F', strtotime($fecha));
+        $anio = date('Y', strtotime($fecha));
+        $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+        $nombredia = str_replace($dias_EN, $dias_ES, $dia);
+        $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+        $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
+        
+        return $nombredia." ".$numeroDia." de ".$nombreMes." a las ".$hora;
+        
+    }
+
+
+
     public function send(Request $request)
     {
         $appointment = Appointment::where('id',$request->event_id)->first();
         $professional = User::where('id',$appointment->user_id)->first();
         $institution = Institution::where('id',$appointment->institution_id)->first();
         $patient = Paciente::where('codPaciente',$appointment->paciente_id)->first();
-
+        $patientName = explode(' ', ucfirst($patient->nombrePaciente));
         $cellphone = $patient->celularPaciente;
-
+        $fecha = $this->fechaEs($appointment->start);
         $phone_number = preg_replace('/[^0-9]/', '', $cellphone);
-        $date = explode(" ", $appointment->start);
+        $user = Auth::user();
+        $token = Hash::make($appointment->id.$patient->nombrePaciente.$fecha);
+        if (Confirmation::where('appointment_id', '=', $appointment->id)->first()) 
+        {
+            return redirect()->route('appointment.show', [
+                'institution_id' => $appointment->institution_id,
+                'user_id' => $appointment->user_id
+            ]);
 
-        $message = "%20Hola!,%20le%20recordamos%20que%20su%20turno%20es%20el%20día%20".$date[0]."%20a%20las%20".$date[1]."%20con%20".ucwords($professional->lastName)."%20".ucwords($professional->name)."%20en%20"
-        .strtoupper($institution->name)."%20en%20caso%20de%20no%20poder%20asistir%20le%20pedimos%20nos%20avise. Gracias";
-        $url = "https://wa.me/".$phone_number."?text=";
+        }else
+        {
+            $confirmation = new Confirmation;
+            $confirmation->token = $token;
+            $confirmation->appointment_id = $appointment->id;
+            $confirmation->user_id = $user->id;
+    
+            try 
+            {
+                
+                $confirmation->save();
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return back()->with('error', $e->getMessage());
+                
+            }
+
+        }
+       
+
+        $message = "*Recordatorio de turno* %f0%9f%97%93%0A%0AHola ".$patientName[0]."!,%20le%20recordamos%20que%20su%20turno%20es%20el%20".$fecha
+        ."%0Acon%20".ucwords($professional->lastName)."%20".ucwords($professional->name)."%20en%20"
+        .strtoupper($institution->name).".%0A"
+        ."%f0%9f%93%8d ".$institution->address
+        ."%0A%0A%e2%9c%85 *Click para confirmar asistencia:*%0A"
+        ."https://space4clinic.com/confirm/".$token;
+        $url = "https://api.whatsapp.com/send/?phone=".$phone_number."&text=";
         
         return redirect()->away($url.$message)->with('_blank');
         
-       
-        // try{
-        //     $token = 'EAAR2ODaEY5YBO9gnt6cubmzz3PZABNB8ZBlaEaEJKtWhVt3SWHfg3iFcrzFvYK0AJQQSzVSPVZApF5fiRcME7kZCZB0BmzZCkZC0tZALTiCDzP5rHdSx1pwugQaGBHoAVCDq3oPZAjB0xbZBweeQSsZAb4Mz4LtktEYCSZBfxgwVddusTqbYbcKKWeIU4IOK2s0qOVjHUpMPodK5DhrNduL0';
-        //     $phoneId = '114738798380353';
-        //     $version = 'v17.0';
-            
-        //     $headers = [
-        //         'Content-Type' => 'application/json',
-        //         'Authorization' => 'Bearer EAAR2ODaEY5YBOygUTTlNmu2GeJcZALdd5b1PWIa8OpO7pQUAkZBWuJfL3CKhTc5qQyO905GiwHPuG2jY7FPwwBCh9ohgogdvsZAtm6XdbWkuYHCmmb8ASeCk3U68CNBGo64fFPGh2ylS2L7LRueiDQZBlDDZBoKnLGpa97LeHXawtcd6sHUx1reIp8rj7LfZABdp4fgy5x95anseC8'
-        //       ];
-
-        //     $body = [
-        //         "messaging_product" => "whatsapp",
-        //         "to"=> "54299156319835",
-        //         "type"=> "template",
-        //         "template"=> [
-        //             "name" => "turno",
-        //             "language" => [
-        //                 "code" => "es"
-        //             ],
-        //             "components" => [
-        //                 [
-        //                     "type" => "body",
-        //                     "parameters"=> [
-        //                         [
-        //                             "type"=> "text",
-        //                             "text"=> "el ".$date[0]." a las ".$date[1]."hs con ".ucwords($professional->lastName)." ".ucwords($professional->name)
-        //                         ]
-        //                     ]
-        //                 ]
-        //             ]
-                       
-        //         ]
-                
-        //     ];
-
-           
-        //     $message = Http::withToken($token)->post('https://graph.facebook.com/'.$version.'/'.$phoneId.'/messages',$body)->throw()->json();
-            
-        //     return response()->json([
-        //         'success' => true,
-        //         'data' => $message,
-        //     ],200);
-            
-            
-
-        // }
-        // catch(Exception $e){
-        //     return response()->json([
-        //         'success' => false,
-        //         'error' => $e->getMessage(),
-        //     ],200);
-        // }
-     
-        // return $response;
     }
 
 }
