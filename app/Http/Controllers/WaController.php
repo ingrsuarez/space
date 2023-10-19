@@ -86,7 +86,7 @@ class WaController extends Controller
         .strtoupper($institution->name).".%0A"
         ."%f0%9f%93%8d ".$institution->address
         ."%0A%0A%e2%9c%85 *Click para confirmar asistencia:*%0A"
-        ."https://space4clinic.com/confirm/".$token;
+        ."https://space4clinic.com/confirm/".$token."%0A*Agende este número para poder acceder al link de confirmación!*";
         $url = "https://api.whatsapp.com/send/?phone=".$phone_number."&text=";
         
         return redirect()->away($url.$message)->with('_blank');
