@@ -34,7 +34,7 @@ class GuestController extends Controller
             {
                 $appointment->save();
                 $confirmation->delete();
-                return redirect('/');
+                return redirect('/')->with('message', 'Su turno fue confirmado!');
             
             } catch(\Illuminate\Database\QueryException $e)
             {

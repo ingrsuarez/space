@@ -67,7 +67,12 @@
             
             <div class="py-4 position-relative top-0 start-0">
                 
-
+                @if (session('message'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ session('message') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
