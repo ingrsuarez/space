@@ -23,7 +23,7 @@ Route::get('/', function () {
 })->name('landing');
 
 Route::get('/confirm/{token}', [App\Http\Controllers\GuestController::class, 'confirm'])->name('confirm.appointment');
-
+Route::get('/confirmed/{appointment}/{confirmation}', [App\Http\Controllers\GuestController::class, 'confirmed'])->name('confirmed.appointment');
 Auth::routes(['verify'=>true]);
 
 Route::middleware(['verified'])->group(function(){

@@ -89,7 +89,8 @@ class WaController extends Controller
         ."https://space4clinic.com/confirm/".$token."%0A*Agende este número para poder acceder al link de confirmación!*";
         $url = "https://api.whatsapp.com/send/?phone=".$phone_number."&text=";
         
-        return redirect()->away($url.$message)->with('_blank');
+        // return view('wa.confirmation',compact('url','message'));
+        return redirect()->away($url.$message);
         
     }
 

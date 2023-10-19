@@ -16,6 +16,19 @@ class GuestController extends Controller
         if (!empty($confirmation))
         {
             $appointment = Appointment::where('id',$confirmation->appointment_id)->first();
+            return view('wa.confirmation',compact('confirmation','appointment'));
+        }else{
+            return redirect('/');
+        }
+    }
+
+    public function confirmed(Appointment $appointment, Confirmation $confirmation)
+    {
+        
+        
+        if (!empty($confirmation))
+        {
+            $appointment = Appointment::where('id',$confirmation->appointment_id)->first();
             $appointment->status = 'confirmed';
             try 
             {
@@ -35,7 +48,5 @@ class GuestController extends Controller
         {
             return redirect('/');
         }
-        
-     
     }
 }
