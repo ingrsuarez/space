@@ -32,6 +32,7 @@
         <input type="hidden" id="obsNew" name="obs">
         <input type="hidden" id="institutionNew" name="institution_id" value="{{$institution->id}}">
       </form>
+
       {{-- EMPTY DATE CLICKED --}}
       <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
         @method('POST')
@@ -98,6 +99,7 @@
                   <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
                   <button type="submit" class="btn btn-primary ms-auto px-2 mb-2" id="newPatient" form="createAndAppoint">Nuevo Paciente</button>
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
+
                 </div>
                 @livewire('find-patients')
               </div>

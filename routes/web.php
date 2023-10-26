@@ -47,8 +47,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
     Route::post('paciente/createAndAppoint',[App\Http\Controllers\PacienteController::class,'createWithAppointment'])->name('createAndAppoint');
+    
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
-
+    Route::get('editPaciente/{paciente}',[App\Http\Controllers\PacienteController::class,'updateAppointment'])->name('paciente.updateAppointment');
+    
    Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
     //PROFESSION
     Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');

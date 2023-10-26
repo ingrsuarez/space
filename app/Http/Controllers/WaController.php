@@ -84,7 +84,7 @@ class WaController extends Controller
         $message = "*Recordatorio de turno* %f0%9f%97%93%0A%0AHola ".$patientName[0]."!,%20le%20recordamos%20que%20su%20turno%20es%20el%20".$fecha
         ."%0Acon%20".ucwords($professional->lastName)."%20".ucwords($professional->name)."%20en%20"
         .strtoupper($institution->name).".%0A"
-        ."%f0%9f%93%8d ".$institution->address
+        ."%f0%9f%93%8d ".$institution->location
         ."%0A%0A%e2%9c%85 *Click para confirmar asistencia:*%0A"
         ."https://space4clinic.com/confirm/".$token."%0A*Agende este número para poder acceder al link de confirmación!*";
         $url = "https://api.whatsapp.com/send/?phone=".$phone_number."&text=";

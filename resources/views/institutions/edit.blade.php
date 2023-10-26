@@ -50,7 +50,9 @@
 					                  	<span class="input-group-text">Provincia</span>
 					                  	<input type="text" class="form-control" id="state" name="state" value="{{$institution->state}}">	                  
 					                </div>
-					                <div class="input-group mb-3" style="max-width: 20rem;">
+									<div class="input-group mb-3">
+										<span class="input-group-text">Google Maps:</span>
+										<input type="text" class="form-control" id="location" name="location" value="{{$institution->location}}">	                  
 					                	<span class="input-group-text">Estado:</span>
 					                	<select class="form-select" name="status" id="status">
 					                		<option value="{{$institution->status}}">Estado..</option>
