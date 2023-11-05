@@ -603,6 +603,7 @@ class AppointmentController extends Controller
                 }
                 $frequency = '00:'.$frequency.':00';
                 $eventId = $request->event_id;
+
                 return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient'));  
 
             }

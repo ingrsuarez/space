@@ -38,7 +38,7 @@
             <nav class="navbar navbar-expand-sm d-flex flex-row">
 
                 <div class="navbar-brand">
-                    <img class="logo" src="{{url('/public/images/logo.png')}}" alt="Image"/>
+                    <img class="m-2 logo rounded float-start shadow placeholder-wave" src="{{url('/images/logo-512x512.png')}}" alt="Image"/>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -49,11 +49,11 @@
                         <a href="{{ url('/home') }}" class="navbar-brand position-relative end-0">Home</a>
                     @else
                         <div class="text-center m-2">
-                        <a href="{{ route('login') }}" class="btn btn-primary">Log in</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary shadow-sm">Log in</a>
                         </div>
                         @if (Route::has('register'))
                         <div class="text-center m-2">
-                            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary shadow-sm">Register</a>
                         </div>
                         @endif
                         
@@ -73,7 +73,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
-                <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+                {{-- <div class="mt-2 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2">
                         <div class="p-6">
                             <div class="flex items-center">
@@ -121,8 +121,83 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
+                {{-- CARUSEL 
+                    <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="{{url('/images/doctors.png')}}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{{url('/images/doctor_tech.jpg')}}" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{{url('/images/doctor_agenda.jpeg')}}" alt="...">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div> --}}
+                  <div class="jumbotron bg-light shadow-lg pb-2 mb-4">
+                    <div class="container bg-body-tertiary">
+                        <h1 class="display-4">Historia clínica Profesional!</h1>
+                        <p class="fs-5">Space4clinic esta diseñado para permitir la comunicación entre profesionales de la salud mediante una 
+                        historia clínica dinámica y agil. Tambien ofrece la posibilidad de crear agendas y administrar turnos para pacientes.
+                        Resumen de atención de pacientes. Administre sus convenios con obras sociales, precios y notas directamente desde 
+                        su perfil de usuario.    
+                        </p>
+                      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+                    </div>
+                  </div>
+            
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="{{url('/images/doctors.png')}}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Historia clínica</h5>
+                                    <p class="card-text">
+                                        Visualice la historia clínica de sus pacientes y comparta con otros profesionales aspectos relevantes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="{{url('/images/doctor_tech.jpg')}}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Acceso digital</h5>
+                                    <p class="card-text">
+                                        Space4clinic cuenta con acceso personal por usuario. Con su cuenta podra configurar su agenda,
+                                        instituciones donde atiende, sus convenios y precios, sin necesidad de notificar a los
+                                        recepcionisas de cada lugar donde atiende.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="{{url('/images/doctor_agenda.jpeg')}}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Agenda institucional</h5>
+                                    <p class="card-text">
+                                        Agenda de turnos, bloqueo de dias y horarios editables.
+                                        Confirmación de turnos por whats app, reagendar turnos, verificación de turnos 
+                                        por paciente. Agenda separada por institución.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
                     <div class="text-center text-sm text-gray-500 sm:text-left">
                         <div class="flex items-center">
@@ -130,7 +205,7 @@
                                 Shop
                             </a> --}}
                             <a href="" class="ml-1 underline">
-                                ADMESYS
+                                SPACE FOR CLINICS
                             </a>
                         </div>
                     </div>

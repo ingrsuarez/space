@@ -70,6 +70,7 @@ class PacienteController extends Controller
         
         return view('pacientes.nuevo_turno',compact('institution','professional','appointment','insurances'));
     }
+
     public function store(Request $request)
     {
         //
@@ -177,6 +178,12 @@ class PacienteController extends Controller
              return back()->with('error', $e->getMessage());
             }
         }
+    }
+
+    public function updateAppointment(Paciente $paciente, Request $request)
+    {
+        dd($request);
+
     }
 
     /**
