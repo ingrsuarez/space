@@ -224,14 +224,14 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Historia clínica</h5>
                                         <p class="card-text">
-                                            Visualice la historia clínica de sus pacientes y comparta con otros profesionales aspectos relevantes.
+                                            Visualice la historia clínica de sus pacientes y comparta con otros profesionales aspectos 
+                                            relevantes.
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                         </div>
