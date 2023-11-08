@@ -41,7 +41,7 @@
                         </div></td>  
                         {{-- <td><a href="{{route("appointment.store",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>  --}}
                         <td>{{$paciente->idPaciente}}</td>
-                        <td>{{strtoupper($paciente->name)}}</td>
+                        <td>{{strtoupper($paciente->nombrePaciente).' '.strtoupper($paciente->apellidoPaciente)}}</td>
                         <td>{{$paciente->celularPaciente}}</td>
                         <td>{{$paciente->CoberturaPaciente}}</td>
                         <td>{{$paciente->start}}</td>
