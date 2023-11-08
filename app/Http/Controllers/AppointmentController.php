@@ -292,6 +292,7 @@ class AppointmentController extends Controller
 
     public function show(Request $request)
     {
+        
         if(empty($request->institution_id))
         {
             return redirect()->route('appointment.index');

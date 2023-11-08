@@ -33,7 +33,7 @@ class Paciente extends Model
 
     public function appointments()
     {
-        return $this->hasMany('App\Models\Appointment');
+        return $this->hasMany('App\Models\Appointment','paciente_id','codPaciente');
     }
 
     public function insurance()

@@ -101,7 +101,7 @@
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
 
                 </div>
-                @livewire('find-patients')
+                @livewire('find-patients',['professional' => $professional])
               </div>
               <div class="modal-footer">
 

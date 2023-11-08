@@ -29,7 +29,7 @@
                     <th>Nombre</th>
                     <th>Teléfono</th>
                     <th>Cobertura</th>
-                    <th>Nro. Afiliado</th>
+                    <th>Último turno</th>
 
                 </thead>
                 <tbody>
@@ -41,10 +41,10 @@
                         </div></td>  
                         {{-- <td><a href="{{route("appointment.store",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>  --}}
                         <td>{{$paciente->idPaciente}}</td>
-                        <td>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</td>
+                        <td>{{strtoupper($paciente->name)}}</td>
                         <td>{{$paciente->celularPaciente}}</td>
                         <td>{{$paciente->CoberturaPaciente}}</td>
-                        <td>{{$paciente->numeroAfiliadoPaciente}}</td>
+                        <td>{{$paciente->start}}</td>
                     </tr>   
                     @endforeach
                     @endif
