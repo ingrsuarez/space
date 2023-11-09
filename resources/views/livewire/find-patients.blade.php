@@ -43,7 +43,7 @@
                         <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>
                         <td>{{strtoupper($paciente->nombrePaciente).' '.strtoupper($paciente->apellidoPaciente)}}</td>
                         <td>{{$paciente->celularPaciente}}</td>
-                        <td>{{$paciente->CoberturaPaciente}}</td>
+                        <td>{{strtoupper($paciente->CoberturaPaciente)}}</td>
                         <td>{{$paciente->start}}</td>
                     </tr>   
                     @endforeach

@@ -32,7 +32,10 @@ class AgendaController extends Controller
                     $q->where('id', 2);
                 }
             )->get();
-       
+        if($professionals)
+        {
+            return back()->with('error', 'No existen profesionales en esta institución!');
+        }
         return view('agendas.index',compact('professionals','user'));
     }
 
