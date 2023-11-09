@@ -61,9 +61,8 @@
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="">Buscar</a></li>
                             <li><a class="dropdown-item" href="{{route('institution.show')}}">Usuarios</a></li>
-                            
                             <li><hr class="dropdown-divider"></li>
-
+                            <li><a class="dropdown-item" href="{{route('institution.room')}}">Habitaciones</a></li>
                           </ul>
                         </li>
 

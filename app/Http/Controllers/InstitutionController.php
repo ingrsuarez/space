@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Institution;
 use App\Models\User;
+use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -216,6 +217,65 @@ class InstitutionController extends Controller
         return back()->with('message', 'Administrador eliminado correctamente!');
         
     }
+
+    public function room()
+    {
+        $user = User::find(Auth::user()->id);
+        // return $user->currentInstitution->id;
+        $institution = $user->currentInstitution;
+        $rooms = Room::where('institution_id',$institution->id)->get();
+        return view('rooms.index',compact('institution','rooms'));
+    }
+
+    public function roomStore(Request $request)
+    {
+        $room = new room;
+        $room->name = $request->name;
+        $room->description = strtolower($request->description);
+        $room->status = $request->status;
+        $room->institution_id = $request->institution_id;
+        
+        try 
+        {
+            $room->save();
+            return back()->with('message', 'Habitación guardada correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'room ya existente!');
+            }
+            else{
+             return back()->with('error', $e->getMessage());
+            }
+        }
+    }
+
+    public function roomDelete(Room $room)
+    {
+        try 
+        {
+            $room->delete();
+           
+            return back()->with('message', 'Habitación eliminada correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == '1062'){
+               return back()->with('error', 'Usuario ya existente!');
+            }elseif($errorCode == '1451'){
+               return back()->with('error', 'Este usuario tiene Historiales Clínicos asociados y no puede ser eliminado.');
+            }
+            else{
+             return back()->with('error', $errorCode);
+            }
+            // $e->getMessage()
+        } 
+        
+    }
+
     
     
 }

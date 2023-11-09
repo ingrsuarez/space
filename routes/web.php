@@ -92,7 +92,15 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
 
+    // ROOMS
 
+    Route::get('institution/rooms',[App\Http\Controllers\InstitutionController::class,'room'])
+        ->middleware('can:institution.room')->name('institution.room');
+    Route::post('institution/store/room',[App\Http\Controllers\InstitutionController::class,'roomStore'])
+        ->middleware('can:institution.room')->name('room.store');
+    Route::get('institution/remove/room/{room}',[App\Http\Controllers\InstitutionController::class,'roomDelete'])
+        ->middleware('can:institution.room')->name('room.delete');
+   
     // SEGURO MEDICO
 
     Route::get('insurance/create',[App\Http\Controllers\InsuranceController::class,'create'])
