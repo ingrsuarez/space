@@ -40,7 +40,7 @@
                           <input type="checkbox" name="patient_id" value="{{$paciente->codPaciente}}">
                         </div></td>  
                         {{-- <td><a href="{{route("appointment.store",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>  --}}
-                        <td>{{$paciente->idPaciente}}</td>
+                        <td><a href="{{route("ficha.index",$paciente->idPaciente)}}"> {{$paciente->idPaciente}}</a></td>
                         <td>{{strtoupper($paciente->nombrePaciente).' '.strtoupper($paciente->apellidoPaciente)}}</td>
                         <td>{{$paciente->celularPaciente}}</td>
                         <td>{{$paciente->CoberturaPaciente}}</td>
