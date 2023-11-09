@@ -31,7 +31,7 @@
                                     <form class="input-group mb-3" action="{{ route('insurance.patient_charge') }}" method="POST">
                                         @csrf
                                         <span class="input-group-text">$</span>
-						                <input type="number" min="0.50" step="1000" class="form-control" aria-label="charge" id="charge" 
+						                <input type="number" step="1000" class="form-control" aria-label="charge" id="charge" 
                                         name="patient_charge" value="{{floatval($myInsurance->pivot->patient_charge)}}">
                                         <input type="hidden" name="myInsurance" value="{{$myInsurance->id}}">
                                         <button class="btn btn-outline-success " type="submit">Guardar</button>
