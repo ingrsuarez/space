@@ -213,10 +213,75 @@
       </div>
     </div>
 
+    {{-- UPLOAD FILES --}}
+    <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+      <div class="accordion" id="accordionLaboratorio">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="Laboratorio">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Laboratorio-collapseOne" aria-expanded="true" aria-controls="Laboratorio-collapseOne">
+              <div class="">
+                  Laboratorios: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+              </div>
+            </button>
+          </h2>
+          <div id="Laboratorio-collapseOne" class="accordion-collapse collapse" aria-labelledby="Laboratorio-headingOne">
+            <div class="accordion-body">
+              <form action="{{route('store.file')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
+                <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                <div class="d-grid gap-2 col-4 ms-auto py-2">
+                  <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                </div>
+              </form>
+              @foreach ($files as $file)
+                <a class="btn btn-sm btn-secondary m-2" href="{{route('download.file',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
+                <br>
+              @endforeach
+            </div>
+          </div>
+      </div>
+    </div>
     @endcan
 
 {{--                     Professional view                 --}}
+
       @can('ficha')
+
+      {{-- Download FILES --}}
+      <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="accordion" id="accordionLaboratorio">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="Laboratorio">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Laboratorio-collapseOne" aria-expanded="true" aria-controls="Laboratorio-collapseOne">
+                <div class="">
+                    Laboratorios: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                </div>
+              </button>
+            </h2>
+            <div id="Laboratorio-collapseOne" class="accordion-collapse collapse" aria-labelledby="Laboratorio-headingOne">
+              <div class="accordion-body">
+                <form action="{{route('store.file')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                  <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
+                  <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                  <div class="d-grid gap-2 col-4 ms-auto py-2">
+                    <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                  </div>
+                </form>
+                @foreach ($files as $file)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.file',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
+                @endforeach
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
       <div class="col-sm px-5" style="max-width:50rem">
         <div class="card mb-3 shadow">
           <div class="card-body m-2">

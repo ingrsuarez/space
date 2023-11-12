@@ -215,6 +215,15 @@ Route::middleware(['verified'])->group(function(){
 
     Route::post('secure/permission/store',[App\Http\Controllers\SecureController::class,'storePermission'])->middleware('can:role.index')->name('permission.store');
 
+
+    //SERVICES
+    Route::post('laboratory/file/store',[App\Http\Controllers\FilesController::class,'store'])
+        ->middleware('can:store.file')->name('store.file');
+
+        Route::get('laboratory/file/download/{file}',[App\Http\Controllers\FilesController::class,'download'])
+        ->middleware('can:store.file')->name('download.file');
+
+        
 });
 
 

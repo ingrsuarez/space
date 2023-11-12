@@ -16,6 +16,7 @@ use Illuminate\Database\QueryException;
 use App\Models\Insurance;
 use App\Models\Wating_list;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\Storage;
 
 class FichaController extends Controller
 {
@@ -44,13 +45,29 @@ class FichaController extends Controller
         }
         
         $user->watingMe()->detach($paciente->codPaciente);
-        
-        
+        // Estudios de Laboratorios
+        $directory = "patients/".$idPaciente;
+        $files = [];
+            
+        foreach(Storage::disk('local')->files($directory) as $file){
+            $name = str_replace($directory.'/',"",$file);
+            $path = asset(Storage::disk('local')->url($file));
+            $link = Storage::path($file);
+            $files[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($file)
+            ];
+            
+        }
+        $files = array_reverse(array_slice($files,-10));
         //Historial clínico del paciente
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments','files'));
     }
 
     
