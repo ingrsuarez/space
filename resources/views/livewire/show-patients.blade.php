@@ -59,8 +59,17 @@
                                                             @foreach($professional->watingMe as $paciente)
                                                                 @if($paciente->pivot->institution_id == $institution->id)
                                                                 <tr>
-                                                                    <td>{{strtoupper($professional->name.' '.$professional->lastName)}}</td>
-                                                                    <td>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</td>
+                                                                    <td>
+                                                                        
+                                                                            {{strtoupper($professional->name.' '.$professional->lastName)}}
+                                                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{{route("ficha.index",$paciente->idPaciente)}}">
+                                                                            {{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}    
+                                                                        </a>
+                                                                    </td>
+                                                                    
                                                                     <td>{{($paciente->pivot->created_at)->format('H:i:s A')}}</td>
                                                                     <td><a class="btn btn-danger text-white" href="{{ route('wating.detach',['paciente'=>$paciente,'institution'=>$institution]) }}">Quitar</a></td>
                                                                 </tr>
