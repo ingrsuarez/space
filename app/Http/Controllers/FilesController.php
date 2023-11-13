@@ -45,7 +45,7 @@ class FilesController extends Controller
     {
        
  
-        $file_path = Storage::path('patients\\'.$request->idPaciente.'\\'.$file);
+        $file_path = Storage::path('patients/'.$request->idPaciente.'/'.$file);
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
