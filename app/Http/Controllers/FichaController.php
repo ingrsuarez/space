@@ -62,6 +62,7 @@ class FichaController extends Controller
             ];
             
         }
+        // Order the array to get the last files uploaded
         $files = array_reverse(array_slice($files,-10));
         //Historial clínico del paciente
         $codPaciente = $paciente->codPaciente;
