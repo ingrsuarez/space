@@ -229,9 +229,13 @@
               <form action="{{route('store.file')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
-                <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
-                <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
-                <div class="d-grid gap-2 col-4 ms-auto py-2">
+                <div class="input-group mb-3">
+                  <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
+                  <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                  <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
+                  <input type="date" class="form-control" id="file_date" name="file_date">
+                </div>
+                  <div class="d-grid gap-2 col-4 ms-auto py-2">
                   <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
                 </div>
               </form>

@@ -25,10 +25,10 @@ class FilesController extends Controller
         $request->validate([
             'laboratory' => 'max:2000|mimes:pdf',
         ]);
-        $date = now();      
+      
         $file = $request->file('laboratory');
         
-        $file->storeAs('','patients/'.$request->idPaciente.'/lab-'.$request->idPaciente.'-'. $date->toDateString().'.'.$file->extension(),'');
+        $file->storeAs('','patients/'.$request->idPaciente.'/lab-'.$request->idPaciente.'-'. $request->file_date.'.'.$file->extension(),'');
         
         $uploaded_file = new Upload_file;
         $uploaded_file->institution_id = $institution->id;
