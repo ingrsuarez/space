@@ -500,31 +500,37 @@ class AppointmentController extends Controller
 
     public function cancel(Request $request)
     {
-        
-        $appointment = Appointment::find($request->event_id);
-        $appointment->status = 'cancelled';
-        try 
+        if($request->groupId == "unAvailable")
+        // Cancel Lock
         {
-            $appointment->save();
+            $lock = Lock::where('id',$request->event_id)->first();
+            $lock->delete();
             return redirect()->route('appointment.show', [
-                'institution_id' => $appointment->institution_id,
-                'user_id' => $appointment->user_id
+                'institution_id' => $lock->institution_id,
+                'user_id' => $lock->user_id
             ]);
-        
-        } catch(\Illuminate\Database\QueryException $e)
-        {
-            $errorCode = $e->errorInfo[1];
+        }else{
+            $appointment = Appointment::find($request->event_id);
+            $appointment->status = 'cancelled';
+            try 
+            {
+                $appointment->save();
+                return redirect()->route('appointment.show', [
+                    'institution_id' => $appointment->institution_id,
+                    'user_id' => $appointment->user_id
+                ]);
             
-             return 'error';
-            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return 'error';
+                
+            }
+
         }
-
+        
     }
-
-    // public function reschedule(Request $request) 
-    // {
-    //     return $request;
-    // }
 
     public function reschedule(Request $request) 
     {
