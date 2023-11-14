@@ -3,11 +3,11 @@
 @section('content')
 
     <!--Modal JS Script -->
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
       window.onload = () => {
           $('#notesModal').modal('show');
       }
-    </script>
+    </script> --}}
 
     <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
