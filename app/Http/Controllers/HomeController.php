@@ -32,6 +32,14 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $institution = $user->currentInstitution;
+        if (empty($institution))
+        {
+            $institution_id = $user->institutions->first();
+            $user->institution_id = $institution_id->id;
+            $user->save();
+            $institution = $user->currentInstitution;
+        }
+        
         $today = Carbon::now();
         $monthAgo = Carbon::now()->subDays(30);
         
