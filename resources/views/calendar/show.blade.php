@@ -2,6 +2,85 @@
 
 @section('content')
 
+    <!--Modal JS Script -->
+    <script type="text/javascript">
+      window.onload = () => {
+          $('#notesModal').modal('show');
+      }
+    </script>
+
+    <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notesModalLabel">Indicaciones de {{strToUpper($professional->name)}}</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroup-sizing-default">NOTAS:</span>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="form-control" id="inputGroup-sizing-default"><strong>Nota del profesional.</strong></span>
+                    </div>
+                    {{-- <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Hora:</span>
+                        </div>
+                        <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="time" name="startTime" readonly>
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
+                        </div>
+                        <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEnd" name="endTime" readonly>
+                        
+                        <input type="hidden" id="startDate" name="startDate" readonly>
+                        <input type="hidden" id="endDate" name="endDate" readonly>
+                        <input type="hidden" id="room" name="room_id">
+                        <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
+                        </div>
+                        <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Cobertura:</span>
+                        </div>
+                        <select class="form-select" name="insurance_id" required>
+                        @foreach ($insurances as $insurance)
+                            <option value="{{$insurance->id}}">{{$insurance->name.'  $'.$insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge}}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                
+                    <div class="d-flex mb-3">
+                        <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
+                        
+                        
+                        <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
+                        <button type="submit" class="btn btn-primary ms-auto px-2 mb-2" id="newPatient" form="createAndAppoint">Nuevo Paciente</button>
+                        <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
+
+                    </div> --}}
+                
+                </div>
+                <div class="modal-footer">
+
+                
+                </div>
+            </div>
+        </div>
+    </div>
   <div class="card mx-4">
     <div class="card-header">
       Agenda: <strong>
@@ -157,7 +236,7 @@
                   <input type="hidden" id="endDateEvent" name="endDate" readonly>
                   <input type="hidden" id="roomEvent" name="room_id">
                   <input type="hidden" id="institutionEvent" name="institution_id" value="{{$institution->id}}">
-                  
+                  <input type="hidden" id="groupId" name="groupId">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -299,6 +378,7 @@
              
 
               eventClick: function(info) {
+                console.log(info.event.groupId);
                 if(info.event.title != '')
                 {
                   $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
@@ -323,7 +403,7 @@
                   $('#endDateLock').val(endDate);
                   $('#eventId').val(info.event.id);
                   $('#insuranceId').val(info.event.extendedProps.insurance);
-                  
+                  $('#groupId').val(info.event.groupId);
                 }
 
               },
