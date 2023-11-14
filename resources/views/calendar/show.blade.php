@@ -254,11 +254,12 @@
                   
                   @if (!$user->hasRole('profesional'))
                   <button type="submit" class="btn btn-primary mx-2 px-2 mb-2" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
-                  
-                  <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
                   @endif
+                  <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" id="newPatient" form="eventAction">Cancelar</button>
+                  @if (!$user->hasRole('profesional'))
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="eventReschedule">Reagendar</button>
                   <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
+                  @endif
                 </div>
                 
               </div>
@@ -378,10 +379,10 @@
              
 
               eventClick: function(info) {
-                console.log(info.event.groupId);
+                console.log(info.event);
                 if(info.event.title != '')
                 {
-                  $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
+                  
                   $('#eventModal').modal('toggle');
                   var today = new Date();
                   var dateText = moment(info.event.start).locale('es').format('dddd LLL');
@@ -404,6 +405,13 @@
                   $('#eventId').val(info.event.id);
                   $('#insuranceId').val(info.event.extendedProps.insurance);
                   $('#groupId').val(info.event.groupId);
+                  if(info.event.groupId == 'unAvailable')
+                  {
+                    $('#eventPaciente').text(info.event.title);
+                  }else{
+                    $('#eventPaciente').text(info.event.extendedProps.nombrePaciente);
+                  }
+                    
                 }
 
               },
