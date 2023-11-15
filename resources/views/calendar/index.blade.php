@@ -21,12 +21,44 @@
           <div id="WatingList-collapseOne" class="accordion-collapse collapse show" aria-labelledby="WatingList-headingOne">
             <div class="accordion-body">
               @if(isset($institution))
-                <form id="wating" action="{{route('appointment.show')}}" method="POST">
-                  @csrf
-                  {{-- @method('put') --}}
+
                   <div class="input-group mb-3">
-                    <input type="hidden" name="institution_id" value="{{$institution->id}}">
-                    <select class="form-select" name = 'user_id' autofocus>
+                    
+
+                    <table class="table">
+                      <thead class="table-light">
+                          <th>Profesional</th>
+                          <th>Especialidad</th>
+                          
+                          <th></th>
+                      </thead>
+                      <tbody>
+                        @foreach($institution->users as $professional)
+                          @if($professional->hasRole('profesional'))
+                          <form id="f{{$professional->id}}" action="{{route('appointment.show')}}" method="POST">
+                            @csrf
+                            {{-- @method('put') --}}
+                            <tr>
+                              <td>
+                                  <input type="hidden" name="institution_id" form="f{{$professional->id}}" value="{{$institution->id}}">
+                                  <input type="hidden" name = 'user_id' form="f{{$professional->id}}" value="{{$professional->id}}">
+                                  {{strtoupper($professional->name.' '.$professional->name)}}
+                              </td>
+                              <td>
+                                @foreach($professional->professions as $profession)
+                                    <strong>{{strtoupper($profession->name.' ')}}</strong>
+                                @endforeach
+                              </td>
+                              
+                              
+                              <td><button type="submit" form="f{{$professional->id}}" class="btn btn-sm btn-primary text-white shadow">Seleccionar</button></td>
+                            </tr>
+                          </form>
+                        @endif
+                      @endforeach  
+                    </tbody>
+                  </table> 
+                    {{-- <select class="form-select" name = 'user_id' autofocus>
                       @foreach($institution->users as $professional)
                         @if($professional->hasRole('profesional'))
                           <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
@@ -34,7 +66,7 @@
                       @endforeach   
                     </select>  
         
-                    <button type="submit" class="btn btn-sm btn-primary text-white">Seleccionar</button>
+                    <button type="submit" class="btn btn-sm btn-primary text-white">Seleccionar</button> --}}
                       
                   </div>
                                      
