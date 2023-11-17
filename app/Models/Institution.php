@@ -12,22 +12,22 @@ class Institution extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany('App\Models\User')->withTimestamps();
     }
 
     public function admins()
     {
-        return $this->belongsToMany('App\Models\User', 'institution_admin', 'institution_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'institution_admin', 'institution_id', 'user_id')->withTimestamps();
     }
 
     public function watingPatients()
     {
-        return $this->belongsToMany('App\Models\Paciente','wating_list','institution_id','paciente_id');
+        return $this->belongsToMany('App\Models\Paciente','wating_list','institution_id','paciente_id')->withTimestamps();
     }
 
     public function rooms()
     {
-        return $this->belongsToMany('App\Models\Room');
+        return $this->belongsToMany('App\Models\Room')->withTimestamps();
     }
 
 }

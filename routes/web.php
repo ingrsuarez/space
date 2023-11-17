@@ -51,7 +51,7 @@ Route::middleware(['verified'])->group(function(){
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
     Route::get('editPaciente/{paciente}',[App\Http\Controllers\PacienteController::class,'updateAppointment'])->name('paciente.updateAppointment');
     
-   Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
+    Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
     //PROFESSION
     Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');
     Route::get('profession/add/{profession}',[App\Http\Controllers\ProfessionController::class,'add'])->middleware('can:profession.add')->name('profession.add');
@@ -71,6 +71,24 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('registration/list',[App\Http\Controllers\RegistrationController::class,'list'])->middleware('can:registration.list')->name('registration.list');
     Route::post('registration/delete/{registration}',[App\Http\Controllers\RegistrationController::class,'delete'])->middleware('can:registration.delete')->name('registration.delete');
+
+    // NOTES
+
+    Route::get('notes/index',[App\Http\Controllers\NoteController::class,'create'])
+        ->middleware('can:notes.create')
+        ->name('notes.create');
+    Route::get('notes/show',[App\Http\Controllers\NoteController::class,'show'])
+        ->middleware('can:notes.show')
+        ->name('notes.show');
+    Route::post('note/store',[App\Http\Controllers\NoteController::class,'store'])
+        ->middleware('can:notes.create')
+        ->name('note.store');
+    Route::get('note/delete/{note}',[App\Http\Controllers\NoteController::class,'delete'])
+        ->middleware('can:note.delete')
+        ->name('note.delete');
+    Route::post('note/read',[App\Http\Controllers\NoteController::class,'read'])
+        ->middleware('can:notes.create')
+        ->name('note.read');
 
     //INSTITUTION
 

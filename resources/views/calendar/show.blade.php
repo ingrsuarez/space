@@ -2,85 +2,81 @@
 
 @section('content')
 
-    <!--Modal JS Script -->
-    {{-- <script type="text/javascript">
-      window.onload = () => {
-          $('#notesModal').modal('show');
-      }
-    </script> --}}
 
-    <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="notesModalLabel">Indicaciones de {{strToUpper($professional->name)}}</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">NOTAS:</span>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="form-control" id="inputGroup-sizing-default"><strong>Nota del profesional.</strong></span>
-                    </div>
-                    {{-- <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Hora:</span>
-                        </div>
-                        <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="time" name="startTime" readonly>
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Finaliza:</span>
-                        </div>
-                        <input type="time" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="timeEnd" name="endTime" readonly>
-                        
-                        <input type="hidden" id="startDate" name="startDate" readonly>
-                        <input type="hidden" id="endDate" name="endDate" readonly>
-                        <input type="hidden" id="room" name="room_id">
-                        <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Fecha:</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="date" readonly>
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
-                        </div>
-                        <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Cobertura:</span>
-                        </div>
-                        <select class="form-select" name="insurance_id" required>
-                        @foreach ($insurances as $insurance)
-                            <option value="{{$insurance->id}}">{{$insurance->name.'  $'.$insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge}}</option>
-                        @endforeach
-                        </select>
-                    </div>
-                
-                    <div class="d-flex mb-3">
-                        <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
-                        
-                        
-                        <button type="submit" class="btn btn-warning mx-2 px-2 mb-2" id="lockBtn" form="lock">Bloqueo</button>
-                        <button type="submit" class="btn btn-primary ms-auto px-2 mb-2" id="newPatient" form="createAndAppoint">Nuevo Paciente</button>
-                        <button type="submit" class="btn btn-info mx-2 mb-2" id="saveModalBtn">Agendar Turno</button>
+    @if(count($notes) >= 1)
+      <script type="text/javascript">
+        window.onload = () => {
+            $('#notesModal').modal('show');
+        }
+      </script>
 
-                    </div> --}}
-                
-                </div>
-                <div class="modal-footer">
+    @endif
 
-                
-                </div>
-            </div>
-        </div>
-    </div>
+    <form id="notes" action="{{ route('note.read') }}" method="POST">
+      @method('POST')
+      @csrf
+
+      <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="notesModalLabel">Indicaciones de {{strToUpper($professional->name)}}</h5>
+                      <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">NOTAS:{{request()->session()->get('notes'.$professional->id)}}</span>
+                          </div>
+                      </div>
+                      <input type="hidden" name="user_note" id="note" value="{{$professional->id}}">
+                      <div class="card mb-4  shadow">
+                        <div class="card-header text-white bg-primary">
+                            Notas:
+                        </div>
+                        <div class="card-body">
+
+                            <table class="table">
+                                <thead class="table-light">
+                                    <th class="d-none d-md-table-cell">Título</th>
+                                    <th class="w-25">Nota</th>
+                                      @if(!$user->hasRole('profesional'))
+                                          <th>Nombre</th>
+                                      @endif
+                                    <th class="d-none d-md-table-cell">Fecha</th>
+                                    
+                                </thead>
+                                <tbody>
+                                @foreach($notes as $note)   
+                                    <tr>
+                                        <td class="d-none d-md-table-cell">{{Str::ucfirst($note->title)}}</td> 
+                                        <td class="w-25">{{Str::ucfirst($note->note)}}</td>
+                                        @if(!$user->hasRole('profesional'))
+                                            <td>{{ucwords($note->lastName.' '.$note->name)}}</td>
+                                        @endif
+                                        <td class="d-none d-md-table-cell">{{date("d-m-Y", strtotime($note->created_at))}}</td>
+                                        
+                                    </tr>   
+                                @endforeach   
+                              </tbody>
+                            </table>
+                            <div>
+                              <button class="btn btn-outline-success " type="submit">Marcar como leidas</button>
+                              {{-- <a class="btn btn-info text-white" href="">Marcar como leida</a>     --}}
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+
+                  
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>
   <div class="card mx-4">
     <div class="card-header">
       Agenda: <strong>

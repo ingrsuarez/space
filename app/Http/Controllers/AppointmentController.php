@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Lock;
@@ -33,6 +35,7 @@ class AppointmentController extends Controller
     {
         if(empty($request->user_id))
         {
+
             $user = Auth::user();
             $institution = $user->currentInstitution;
             if($user->hasRole('profesional'))
@@ -40,6 +43,27 @@ class AppointmentController extends Controller
                 // $insurances = Insurance::all();
                 $professional = $user;
                 $insurances = $professional->insurances;
+                
+                if ($request->session()->has('notes')) {
+                    $stored_notes = request()->session()->get('notes');
+                }else{
+                    $stored_notes = [];
+                }
+
+                if (!in_array($professional->id, $stored_notes))
+                {
+                    $notes = DB::table('notes')
+                        ->join('institution_user','notes.user_id','institution_user.user_id')
+                        ->join('users','notes.user_id','users.id')
+                        ->where('institution_user.institution_id',$institution->id)
+                        ->select('notes.id as note_id','notes.title','notes.note','notes.created_at','notes.user_id','notes.creator_id',
+                        'users.name','users.lastName')
+                        ->where('notes.user_id',$professional->id)
+                        ->get();
+                }else{
+                    $notes = [];
+                }
+
                 $appointments = Appointment::where('institution_id',$institution->id)->where('user_id',$professional->id)->where('status','!=','cancelled')->get();
                 $locks = Lock::where('institution_id',$institution->id)->where('user_id',$professional->id)->get();
                 $events = array();
@@ -158,7 +182,7 @@ class AppointmentController extends Controller
                     }
                     $frequency = '00:'.$frequency.':00';
                     
-                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user'));
+                    return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user','notes'));
                 }
 
 
@@ -169,6 +193,25 @@ class AppointmentController extends Controller
         }else{
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
+            $insurances = $professional->insurances;
+            if ($request->session()->has('notes')) {
+                $stored_notes = request()->session()->get('notes');
+            }else{
+                $stored_notes = [];
+            }
+            if (!in_array($request->user_id, $stored_notes))
+            {
+                $notes = DB::table('notes')
+                    ->join('institution_user','notes.user_id','institution_user.user_id')
+                    ->join('users','notes.user_id','users.id')
+                    ->where('institution_user.institution_id',$institution->id)
+                    ->select('notes.id as note_id','notes.title','notes.note','notes.created_at','notes.user_id','notes.creator_id',
+                    'users.name','users.lastName')
+                    ->where('notes.user_id',$professional->id)
+                    ->get();
+            }else{
+                $notes = [];
+            }
             $appointments = Appointment::where('institution_id',$institution->id)
                 ->where('user_id',$professional->id)
                 ->where('status','!=','cancelled')
@@ -284,14 +327,16 @@ class AppointmentController extends Controller
                     }
                 }
                 $frequency = '00:'.$frequency.':00';
-                
-                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','user'));
+                $user = Auth::user();
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','user','insurances','notes'));
             }
         }
     }
 
     public function show(Request $request)
     {
+        // session(['notes'.$request->user_id => 'true']);
+        // return $request->session()->get('notes'.$request->user_id);
         
         if(empty($request->institution_id))
         {
@@ -300,6 +345,31 @@ class AppointmentController extends Controller
             
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->user_id);
+            if ($request->session()->has('notes')) {
+                $stored_notes = request()->session()->get('notes');
+            }else{
+                $stored_notes = [];
+            }
+            if (!in_array($request->user_id, $stored_notes))
+            {
+                $notes = DB::table('notes')
+                    ->join('institution_user','notes.user_id','institution_user.user_id')
+                    ->join('users','notes.user_id','users.id')
+                    ->where('institution_user.institution_id',$institution->id)
+                    ->select('notes.id as note_id','notes.title','notes.note','notes.created_at','notes.user_id','notes.creator_id',
+                    'users.name','users.lastName')
+                    ->where('notes.user_id',$professional->id)
+                    ->get();
+            }else{
+                $notes = [];
+            }
+
+            // SELECT *
+            // FROM notes
+            // INNER JOIN institution_user
+            // ON notes.user_id = institution_user.user_id
+            // WHERE institution_user.institution_id = 1
+            
             $insurances = $professional->insurances;
             $appointments = Appointment::where('institution_id',$institution->id)
                 ->where('user_id',$professional->id)
@@ -428,7 +498,7 @@ class AppointmentController extends Controller
                 }
                 $frequency = '00:'.$frequency.':00';
                 $user = Auth::user();
-                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user'));  
+                return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','insurances','user','notes'));  
 
             }
 

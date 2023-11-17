@@ -13,7 +13,7 @@ class Profession extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany('App\Models\User')->withTimestamps();;
     }
 
     public function hasUser($user_id , $profession_id)
