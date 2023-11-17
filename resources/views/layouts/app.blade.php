@@ -296,15 +296,15 @@
                                             <i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Nota</a>
                                     </span>
                                 </div>
-                                <div class="collapse" id="collapseNotas">
+                                {{-- <div class="collapse" id="collapseNotas">
                                     <span class="ms-2">
                                         <a class="dropdown-item ms-4" href="{{route('notes.show')}}">
                                             <i class="fa-solid fa-list-ul mx-2"></i>Mis notas</a>
                                     </span>
-                                </div>
+                                </div> --}}
                             @endcan
 
-                            @can('notes.show')
+                            {{-- @can('notes.show')
                                 <div class="collapse" id="collapseNotas">
                                     <span class="ms-2">
                                         <a class="dropdown-item ms-4" href="{{route('notes.show')}}">
@@ -312,7 +312,7 @@
                                     </span>
                                 </div>
 
-                            @endcan
+                            @endcan --}}
 
                             
                         </li>
