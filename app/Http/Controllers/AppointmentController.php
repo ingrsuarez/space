@@ -690,7 +690,6 @@ class AppointmentController extends Controller
     }
     public function toWaitingList(Request $request)
     {
-        
         $paciente = Paciente::find($request->patient_id);
         
         $wating = new Wating_list;

@@ -297,8 +297,8 @@
                       <div class="col-lg-8">
                         <p>
                           Si requiere una cotización a una demostración, contáctese con nosotros para poder conocer nuestro sistema. 
-                          Estamos abiertos a cualquier sugerencia que nos ayude a mejorar nuestro sistema.
-                          En caso de errores en el sistema nuestro equipo de soporte se pondrá en contacto con uds.
+                          Estamos abiertos a cualquier sugerencia que nos ayude a mejorar.
+                          En caso de sugerencias sobre el sistema nuestro equipo de soporte se pondrá en contacto con uds.
                         </p>
                       </div>
                     </div>
