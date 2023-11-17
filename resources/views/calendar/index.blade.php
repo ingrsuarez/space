@@ -42,7 +42,7 @@
                               <td>
                                   <input type="hidden" name="institution_id" form="f{{$professional->id}}" value="{{$institution->id}}">
                                   <input type="hidden" name = 'user_id' form="f{{$professional->id}}" value="{{$professional->id}}">
-                                  {{strtoupper($professional->name.' '.$professional->name)}}
+                                  {{strtoupper($professional->lastName.' '.$professional->name)}}
                               </td>
                               <td>
                                 @foreach($professional->professions as $profession)
