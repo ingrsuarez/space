@@ -77,7 +77,7 @@ class InstitutionController extends Controller
         $institution->city = strtolower($request->city);
         $institution->country = strtolower($request->country);
         $institution->state = strtolower($request->state);
-        $institution->location = strtolower($request->location);
+        $institution->location = $request->location;
         $institution->status = strtolower($request->status);
         try 
         {
