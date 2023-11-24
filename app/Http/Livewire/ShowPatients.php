@@ -74,15 +74,6 @@ class ShowPatients extends Component
 
         }else
         {
-            
-        
-            // $pacientes = DB::table('pacientes')
-            // ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
-            // ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
-            // ->join('insurances', 'insurances.id', '=', 'pacientes.insurance_id')
-            // ->where('historialClinico.codUsuarioHC','=',Auth::user()->id)
-            // ->orderBy('historialClinico.fechaHC','DESC')
-            // ->paginate(10);
             $pacientes = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','pacientes.celularPaciente','pacientes.numeroAfiliadoPaciente','insurances.name AS cobertura')
             ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
             ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
@@ -91,13 +82,6 @@ class ShowPatients extends Component
             ->orderBy('historialClinico.fechaHC','DESC')
             ->paginate(10);
             
-            // $watingMe = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','insurances.name AS insurance','wating_list.institution_id')
-            // ->join('wating_list', 'wating_list.paciente_id', '=', 'pacientes.codPaciente')
-            // ->leftJoin('insurances', 'insurances.id', '=', 'wating_list.insurance_id')
-            // ->where('wating_list.user_id','=',Auth::user()->id)
-            // ->orderBy('wating_list.created_at','ASC')
-            // ->get();
-
            
             return view('livewire.show-patients',compact('pacientes','watingMe'));
         

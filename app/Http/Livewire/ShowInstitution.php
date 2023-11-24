@@ -14,6 +14,7 @@ class ShowInstitution extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $name;
+    public $lastName;
     public $institution;
     public $userInstitutions;
     
@@ -29,6 +30,9 @@ class ShowInstitution extends Component
         if($this->name <> ''){
 
             $users = User::where('name','LIKE','%'.$this->name.'%')->paginate(10);
+            return view('livewire.show-institution',compact('users'));
+        }elseif($this->lastName <> ''){
+            $users = User::where('lastName','LIKE','%'.$this->lastName.'%')->paginate(10);
             return view('livewire.show-institution',compact('users'));
         }elseif(isset($this->institution)){
             $users = $this->institution->users()->paginate(10);
