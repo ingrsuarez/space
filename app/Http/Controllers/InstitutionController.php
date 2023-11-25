@@ -185,7 +185,8 @@ class InstitutionController extends Controller
 
     public function attachUser(Institution $institution,User $user)
     {
-
+        $user->institution_id = $institution->id;
+        $user->save();
         $user->institutions()->attach($institution->id);
         return back()->with('message', 'Usuario agregado correctamente!');
         

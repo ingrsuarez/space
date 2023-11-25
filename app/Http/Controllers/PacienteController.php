@@ -113,42 +113,14 @@ class PacienteController extends Controller
     public function show(Request $request)
     {
         return back();
-    //     //
 
-    //     if(isset($request->dni)){
-    //         $data['search'] = ['dni'=>$request->dni];
-    //         $data['pacientes'] = Paciente::where('idPaciente','LIKE',$request->dni.'%')->orderBy('apellidoPaciente')->paginate(10);
-
-    //     }elseif(isset($request->nombre)){
-    //         $data['search'] = ['nombre'=>$request->nombre];
-    //         $data['pacientes'] = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->orderBy('nombrePaciente')->paginate(10);
-
-    //     }elseif(isset($request->apellido)){
-    //         $data['search'] = ['apellido'=>$request->apellido];
-    //         $data['pacientes'] = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->orderBy('apellidoPaciente')->paginate(10);
-    //     }
-        
-    //     return view('pacientes.listado_pacientes',$data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update($id,Request $request)
     {
         //
@@ -183,18 +155,11 @@ class PacienteController extends Controller
     public function updateAppointment(Paciente $paciente, Request $request)
     {
         dd($request);
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function wating_attach(Paciente $paciente, $institution, Request $request)
     {
-        
         $user = User::find($request->user_id);
         
 
