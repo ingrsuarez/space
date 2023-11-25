@@ -604,11 +604,13 @@ class AppointmentController extends Controller
 
     public function reschedule(Request $request) 
     {
+        
         if(empty($request->institution_id))
         {
             return redirect()->route('appointment.index');
         }else{
             
+            $observaciones = Appointment::find($request->event_id)->obs;
             $institution = Institution::find($request->institution_id);
             $professional = User::find($request->professional_id);
             $patient = Paciente::find($request->patient_id);
@@ -681,7 +683,7 @@ class AppointmentController extends Controller
                 $frequency = '00:'.$frequency.':00';
                 $eventId = $request->event_id;
 
-                return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient'));  
+                return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient','observaciones'));  
 
             }
 

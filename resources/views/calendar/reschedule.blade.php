@@ -56,7 +56,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Observaciones:</span>
                       </div>
-                      <input type="text" class="form-control" value="Consulta" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
+                      <input type="text" class="form-control" value="{{$observaciones}}" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="obs" name="obs" required>
                     </div>
                     
                     <div class="d-flex mb-3">
