@@ -28,7 +28,7 @@ class FilesController extends Controller
       
         $file = $request->file('laboratory');
         
-        $file->storeAs('','patients/'.$request->idPaciente.'/lab-'.$request->idPaciente.'-'. $request->file_date.'.'.$file->extension(),'');
+        $file->storeAs('','patients/'.$request->idPaciente.'/lab/lab-'.$request->idPaciente.'-'. $request->file_date.'.'.$file->extension(),'');
         
         $uploaded_file = new Upload_file;
         $uploaded_file->institution_id = $institution->id;
@@ -45,7 +45,7 @@ class FilesController extends Controller
     {
        
  
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/'.$file);
+        $file_path = Storage::path('patients/'.$request->idPaciente.'/lab/'.$file);
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }

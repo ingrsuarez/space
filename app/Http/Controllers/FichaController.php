@@ -29,6 +29,7 @@ class FichaController extends Controller
         $paciente = Paciente::where('idPaciente',$idPaciente)->first();
         $appoinments = Appointment::where('paciente_id',$paciente->codPaciente)->orderBy('created_at', 'desc')->get();
         
+        
         //Edad del paciente
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
@@ -46,7 +47,7 @@ class FichaController extends Controller
         
         $user->watingMe()->detach($paciente->codPaciente);
         // Estudios de Laboratorios
-        $directory = "patients/".$idPaciente;
+        $directory = "patients/".$idPaciente."/lab";
         $files = [];
             
         foreach(Storage::disk('local')->files($directory) as $file){
