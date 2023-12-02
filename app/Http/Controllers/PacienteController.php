@@ -82,6 +82,8 @@ class PacienteController extends Controller
         $paciente->celularPaciente = $request->telefono;
         $paciente->emailPaciente = strtolower($request->email);
         $paciente->CoberturaPaciente = strtolower($request->cobertura);
+        $paciente->ocupacionPaciente = strtolower($request->ocupacion);
+        $paciente->sexoPaciente = strtolower($request->sexo);
         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
         $paciente->domicilioPaciente = strtolower($request->domicilio);
         $paciente->localidadPaciente = strtolower($request->localidad);
@@ -133,6 +135,8 @@ class PacienteController extends Controller
         $paciente->emailPaciente = strtolower($request->email);
         $paciente->insurance_id = strtolower($request->insurance_id);
         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
+        $paciente->ocupacionPaciente = strtolower($request->ocupacion);
+        $paciente->sexoPaciente = strtolower($request->sexo);
         $paciente->domicilioPaciente = strtolower($request->domicilio);
         $paciente->localidadPaciente = strtolower($request->localidad);
         try 

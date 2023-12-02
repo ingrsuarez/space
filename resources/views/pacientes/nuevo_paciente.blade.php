@@ -43,7 +43,16 @@
 							@endisset
 						</select>
 	                  	<span class="input-group-text">Número Afiliado</span>
-	                  	<input type="text" class="form-control" aria-label="Username" id="numeroAfiliado" name="numeroAfiliado" required>	                  
+	                  	<input type="text" class="form-control" aria-label="Username" id="numeroAfiliado" name="numeroAfiliado">	                  
+	                </div>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Ocupación:</span>
+						<input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion">
+						<span class="input-group-text">Sexo:</span>
+						<select class="form-select" name="sexo" id="sexo" required>
+							<option value="F">Femenino</option>
+							<option value="M">Masculino</option>
+						</select>
 	                </div>
 	                <div class="input-group mb-3">
 						<span class="input-group-text">Domicilio</span>

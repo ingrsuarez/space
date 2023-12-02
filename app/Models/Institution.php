@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class Institution extends Model
 {
@@ -28,6 +29,17 @@ class Institution extends Model
     public function rooms()
     {
         return $this->belongsToMany('App\Models\Room')->withTimestamps();
+    }
+
+    public function sheets()
+    {
+        return $this->belongsToMany('App\Models\Sheet','sheet_institution');
+    }
+
+    public function hasSheet($sheet_id)
+    {
+        $hasSheet = $this->sheets()->where('id', $sheet_id)->exists();
+        return $hasSheet;
     }
 
 }

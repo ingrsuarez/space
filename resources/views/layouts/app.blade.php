@@ -63,6 +63,9 @@
                             <li><a class="dropdown-item" href="{{route('institution.show')}}">Usuarios</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{route('institution.room')}}">Habitaciones</a></li>
+                            @can('institution.sheets')
+                                <li><a class="dropdown-item" href="{{route('institution.sheets')}}">Planillas</a></li>
+                            @endcan
                           </ul>
                         </li>
 
@@ -253,6 +256,32 @@
                         <li><hr class="divider"></li>
                         @endcan
                         
+                        @can('sheet.index')
+                        <li class="nav-item dropdown ">                           
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapsePlanillas" role="button" aria-expanded="false" aria-controls="collapsePlanillas">
+                                
+                                <span class="text-primary fw-bold mx-2">PLANILLAS</span>
+                            </a>
+                        
+                            <div class="collapse" id="collapsePlanillas">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('sheet.index')}}">
+                                        
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table mx-1" viewBox="0 0 16 16">
+                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
+                                        </svg>
+                                        Nueva Planilla
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="collapse" id="collapsePlanillas">
+                                <span class="ms-2">
+                                    <a class="dropdown-item ms-4" href="{{route('permission.create')}}"><i class="fa-solid fa-lock mx-2"></i>Nuevo Permiso</a>
+                                </span>
+                            </div>
+                        </li>
+                        <li><hr class="divider"></li>
+                        @endcan
                         
                         <li class="nav-item dropdown ">                           
                             <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseObraSocial" role="button" aria-expanded="false" aria-controls="collapseObraSocial">

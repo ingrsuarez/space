@@ -46,7 +46,8 @@ Route::middleware(['verified'])->group(function(){
     Route::resource('paciente', PacienteController::class)->names('paciente');
     Route::post('paciente',[App\Http\Controllers\PacienteController::class,'index'])->name('paciente.index');
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
-    Route::post('paciente/createAndAppoint',[App\Http\Controllers\PacienteController::class,'createWithAppointment'])->name('createAndAppoint');
+    Route::post('paciente/createAndAppoint',[App\Http\Controllers\PacienteController::class,'createWithAppointment'])
+    ->name('createAndAppoint');
     
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
     Route::get('editPaciente/{paciente}',[App\Http\Controllers\PacienteController::class,'updateAppointment'])->name('paciente.updateAppointment');
@@ -92,24 +93,52 @@ Route::middleware(['verified'])->group(function(){
 
     //INSTITUTION
 
-    Route::get('institution/index',[App\Http\Controllers\InstitutionController::class,'index'])->middleware('can:institution.index')->name('institution.index');
+    Route::get('institution/index',[App\Http\Controllers\InstitutionController::class,'index'])
+        ->middleware('can:institution.index')
+        ->name('institution.index');
 
-    Route::get('institution/create',[App\Http\Controllers\InstitutionController::class,'create'])->middleware('can:institution.create')->name('institution.create');
+    Route::get('institution/create',[App\Http\Controllers\InstitutionController::class,'create'])
+        ->middleware('can:institution.create')
+        ->name('institution.create');
 
-    Route::post('institution/store',[App\Http\Controllers\InstitutionController::class,'store'])->middleware('can:institution.store')->name('institution.store');
+    Route::post('institution/store',[App\Http\Controllers\InstitutionController::class,'store'])
+        ->middleware('can:institution.store')
+        ->name('institution.store');
 
-    Route::get('institution/edit/{institution}',[App\Http\Controllers\InstitutionController::class,'edit'])->middleware('can:institution.edit')->name('institution.edit');
+    Route::get('institution/edit/{institution}',[App\Http\Controllers\InstitutionController::class,'edit'])
+        ->middleware('can:institution.edit')
+        ->name('institution.edit');
 
-    Route::post('institution/update/{institution}',[App\Http\Controllers\InstitutionController::class,'update'])->middleware('can:institution.update')->name('institution.update');
+    Route::post('institution/update/{institution}',[App\Http\Controllers\InstitutionController::class,'update'])
+        ->middleware('can:institution.update')
+        ->name('institution.update');
 
-    Route::get('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])->middleware('can:institution.show')->name('institution.show');
+    Route::get('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])
+        ->middleware('can:institution.show')
+        ->name('institution.show');
 
-    Route::post('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])->middleware('can:institution.show')->name('institution.search');
+    Route::post('institution/show',[App\Http\Controllers\InstitutionController::class,'show'])
+        ->middleware('can:institution.show')
+        ->name('institution.search');
 
-    Route::get('institution/add/{institution}',[App\Http\Controllers\InstitutionController::class,'attach'])->middleware('can:institution.attach')->name('institution.attach');
+    Route::get('institution/add/{institution}',[App\Http\Controllers\InstitutionController::class,'attach'])
+        ->middleware('can:institution.attach')
+        ->name('institution.attach');
 
-    Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])->middleware('can:institution.detach')->name('institution.detach');
+    Route::get('institution/remove/{institution}',[App\Http\Controllers\InstitutionController::class,'detach'])
+        ->middleware('can:institution.detach')
+        ->name('institution.detach');
 
+    Route::get('institution/sheets',[App\Http\Controllers\InstitutionController::class,'sheets'])
+        ->middleware('can:institution.sheets')
+        ->name('institution.sheets');
+        
+    Route::get('institution/sheetsAttach/{institution}/{sheet}',[App\Http\Controllers\InstitutionController::class,'attachSheet'])
+        ->middleware('can:institution.sheets')
+        ->name('institutionSheet.attach');    
+    Route::get('institution/sheetsDetach/{institution}/{sheet}',[App\Http\Controllers\InstitutionController::class,'detachSheet'])
+        ->middleware('can:institution.sheets')
+        ->name('institutionSheet.detach');   
     // ROOMS
 
     Route::get('institution/rooms',[App\Http\Controllers\InstitutionController::class,'room'])
@@ -238,10 +267,35 @@ Route::middleware(['verified'])->group(function(){
     Route::post('laboratory/file/store',[App\Http\Controllers\FilesController::class,'store'])
         ->middleware('can:store.file')->name('store.file');
 
-        Route::get('laboratory/file/download/{file}',[App\Http\Controllers\FilesController::class,'download'])
+    Route::get('laboratory/file/download/{file}',[App\Http\Controllers\FilesController::class,'download'])
         ->middleware('can:store.file')->name('download.file');
 
+    //SHEETS
+    Route::get('sheet/index',[App\Http\Controllers\SheetController::class,'index'])
+        ->middleware('can:sheet.index')->name('sheet.index');
+
+    Route::post('sheet/store',[App\Http\Controllers\SheetController::class,'store'])
+        ->middleware('can:sheet.store')->name('sheet.store');
+
+    Route::get('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinical'])
+        ->middleware('can:clinical.create')->name('clinical.create');
         
+    Route::post('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinicalSave'])
+    ->middleware('can:clinical.create')->name('clinical.save');
+
+    Route::get('sheet/clinical/edit/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalEdit'])
+    ->middleware('can:clinical.create')->name('clinical.edit');
+
+    Route::post('sheet/clinical/update/{paciente}/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalUpdate'])
+    ->middleware('can:clinical.create')->name('clinical.update');
+    
+
+    Route::get('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutrition'])
+        ->middleware('can:nutrition.create')->name('nutrition.create');
+        
+    Route::post('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutritionSave'])
+    ->middleware('can:nutrition.create')->name('nutrition.save');
+
 });
 
 

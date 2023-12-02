@@ -68,6 +68,20 @@
                     
                   </div>
                   <div class="input-group mb-3">
+                    <span class="input-group-text">Ocupación:</span>
+                    <input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion" value="{{$paciente->ocupacionPaciente}}">
+                    <span class="input-group-text">Sexo:</span>
+                    <select class="form-select" name="sexo" id="sexo" required>
+                      @if($paciente->sexoPaciente == 'F')  
+                        <option value="F" selected>Femenino</option>
+                        <option value="M">Masculino</option>
+                        @else
+                        <option value="F">Femenino</option>
+                        <option value="M"selected>Masculino</option>
+                        @endif
+                    </select>
+                          </div>
+                  <div class="input-group mb-3">
                     <span class="input-group-text" id="edad">Domicilio</span>
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="domicilio" name="domicilio" value="{{$paciente->domicilioPaciente}}">
                     <span class="input-group-text" id="localidad">Localidad</span>
@@ -91,9 +105,9 @@
       </div>
     </div>
   </div>
-{{--                    Receptionist view                  --}}
-
-    @can('wating.attach')
+  {{--                    Receptionist view                  --}}
+    @cannot('ficha')
+   
     <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
       <div class="accordion" id="accordionWatingList">
         <div class="accordion-item">
@@ -107,35 +121,7 @@
           <div id="WatingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WatingList-headingOne">
             <div class="accordion-body">
               @if(isset($institution))
-                <form id="wating" action="{{route('wating.attach',['paciente'=>$paciente,'institution'=>$institution])}}" method="POST">
-                  @csrf
-                  {{-- @method('put') --}}
-                  <div class="input-group mb-3">
-                    <select class="form-select" name = 'user_id'>
-                        
-
-                          @foreach($institution->users as $user)
-                            @if($user->hasRole('profesional'))
-
-                            <option value="{{$user->id}}">{{strtoupper($user->lastName).' '.strtoupper($user->name)}}</option>
-                            @endif
-                          @endforeach
-
-                        
-                    </select>  
-        
-                    
-                      
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text">.00</span>
-                  </div>
-                  <div class="d-grid gap-2 col-4 ms-auto py-2">
-                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>                    
-                  </div>
-                </form>
+                @livewire('payment-panel',['institution' => $institution, 'paciente'=>$paciente]) 
               @endif
             </div>    
           </div>
@@ -143,6 +129,7 @@
         </div>
       </div>
     </div>
+    @endcan
 
     {{-- LAST PATIENT APPOINMENTS --}}
     <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
@@ -158,53 +145,32 @@
           <div id="Appoinments-collapseOne" class="accordion-collapse collapse" aria-labelledby="Appoinments-headingOne">
             <div class="accordion-body">
               @if(isset($institution))
-                <form id="wating" action="{{route('wating.attach',['paciente'=>$paciente,'institution'=>$institution])}}" method="POST">
-                  @csrf
-                  {{-- @method('put') --}}
-                  <div class="input-group mb-3">
-                    <table class="table">
-                      <thead class="table-light">
-                          <th>Profesional</th>
-                          <th>Fecha</th>
-                          <th>Cobertura</th>
-                          <th>Observaciones</th>
-                      </thead>
-                      <tbody>
+                <div class="input-group mb-3">
+                  <table class="table">
+                    <thead class="table-light">
+                        <th>Profesional</th>
+                        <th>Fecha</th>
+                        <th>Cobertura</th>
+                        <th>Observaciones</th>
+                    </thead>
+                    <tbody>
                       @if(!empty($appoinments))   
-                          @foreach($appoinments as $appointment) 
-
-                            <tr>
-                                <td>{{strtoupper($appointment->user->name.' '.$appointment->user->lastName)}}</td>
-                                <td>{{$appointment->start}}</td>
-                                <td>
-                                  @if (!empty($appointment->insurance_id))
-                                    {{$appointment->insurance->name}}
-                                  @endif  
-                                </td>
-                                <td>{{($appointment->obs)}}</td>
-                                
-                                  {{-- <a class="btn btn-danger text-white" href="{{ route('wating.detach',['paciente'=>$paciente,'institution'=>$institution]) }}">Quitar</a></td> --}}
-                            </tr>
-
-                                  
-
-                          @endforeach
+                        @foreach($appoinments as $appointment) 
+                          <tr>
+                              <td>{{strtoupper($appointment->user->name.' '.$appointment->user->lastName)}}</td>
+                              <td>{{$appointment->start}}</td>
+                              <td>
+                                @if (!empty($appointment->insurance_id))
+                                  {{$appointment->insurance->name}}
+                                @endif  
+                              </td>
+                              <td>{{($appointment->obs)}}</td>
+                          </tr>
+                        @endforeach
                       @endif   
-                      </tbody>
-                  </table>
-        
-                    
-                      
-                  </div>
-                  {{-- <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                    <span class="input-group-text">.00</span>
-                  </div>
-                  <div class="d-grid gap-2 col-4 ms-auto py-2">
-                    <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>                    
-                  </div> --}}
-                </form>
+                    </tbody>
+                  </table>    
+                </div>
               @endif
             </div>    
           </div>
@@ -212,8 +178,9 @@
         </div>
       </div>
     </div>
-
+    
     {{-- UPLOAD FILES --}}
+    @cannot('ficha')
     <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
       <div class="accordion" id="accordionLaboratorio">
         <div class="accordion-item">
@@ -233,7 +200,7 @@
                   <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
                   <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
                   <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
-                  <input type="date" class="form-control" id="file_date" name="file_date">
+                  <input type="date" class="form-control" id="file_date" name="file_date" required>
                 </div>
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                   <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
@@ -252,7 +219,32 @@
 {{--                     Professional view                 --}}
 
       @can('ficha')
-
+      <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="accordion" id="accordionSheets">
+          <div class="accordion-item">  
+            <h2 class="accordion-header" id="Sheets">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Sheets-collapseOne" aria-expanded="true" aria-controls="Laboratorio-collapseOne">
+                <div class="">
+                    Planillas: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                </div>
+              </button> 
+            </h2>
+            <div id="Sheets-collapseOne" class="accordion-collapse collapse" aria-labelledby="Sheets-headingOne">
+              <div class="accordion-body">
+                @isset($institution)
+                  @foreach ($institution->sheets as $sheet)
+                  @if(Route::has($sheet->route))
+                  <a class="btn btn-sm btn-warning m-2" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{$sheet->name}}</a>
+                  @endif
+                  @endforeach
+                @endisset
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {{-- Download FILES --}}
       <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
         <div class="accordion" id="accordionLaboratorio">
@@ -269,8 +261,12 @@
                 <form action="{{route('store.file')}}" method="POST" enctype="multipart/form-data">
                   @csrf
                   <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
-                  <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
-                  <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
+                    <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    <input type="file" class="form-control" id="file" name="laboratory" required accept="application/pdf">
+                    <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                  </div>
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
                   </div>

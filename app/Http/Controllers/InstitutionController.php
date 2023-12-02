@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Institution;
 use App\Models\User;
+use App\Models\Sheet;
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -61,8 +62,8 @@ class InstitutionController extends Controller
     {
 
         $users = $institution->users;
-        
-        return view('institutions.edit',compact('institution','users'));
+        $sheets = Sheet::all();
+        return view('institutions.edit',compact('institution','users','sheets'));
     }
 
     public function update(Request $request, Institution $institution)
@@ -277,6 +278,27 @@ class InstitutionController extends Controller
         
     }
 
-    
+    public function sheets()
+    {
+        $sheets = Sheet::all();
+        $user = Auth::user();
+        $institution = $user->currentInstitution;
+        return view('institutions.sheets',compact('sheets','institution'));
+
+    }
+
+    public function attachSheet(Institution $institution, Sheet $sheet)
+    {
+        $institution->sheets()->attach($sheet->id);
+        return back()->with('message', 'Planilla agregada correctamente!');
+        
+    }
+
+    public function detachSheet(Institution $institution, Sheet $sheet)
+    {
+        $institution->sheets()->detach($sheet->id);
+        return back()->with('message', 'Planilla agregada correctamente!');
+        
+    }
     
 }
