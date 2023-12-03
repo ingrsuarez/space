@@ -353,9 +353,11 @@
                         <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
                         <td width="10px">
                         {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
-                        <td width="10px"> 
+                        <td style="width:15%"> 
                                 <a class="btn btn-info text-white" 
                                 href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
+                                <a class="btn btn-warning text-white" 
+                                href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
                             </td>
                         </td>
                     </tr>

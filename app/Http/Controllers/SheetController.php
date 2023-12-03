@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Insurance;
 use App\Models\ClinicalSheet;
 use App\Models\Sheet;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SheetController extends Controller
 {
@@ -161,5 +162,15 @@ class SheetController extends Controller
         $clinicalSheet->save();
         return redirect()->action([SheetController::class, 'clinical'], ['paciente' => $request->codPaciente]);
 
+    }
+
+    public function clinicalPDF(ClinicalSheet $clinicalSheet)
+    {
+        
+
+        $paciente = Paciente::where('codPaciente',$clinicalSheet->paciente_id)->first();
+        // return view('clinical.pdf',compact('paciente','clinicalSheet'));
+        $pdf = Pdf::loadView('clinical.pdf',compact('paciente','clinicalSheet'));
+        return $pdf->stream(); 
     }
 }

@@ -289,6 +289,8 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/clinical/update/{paciente}/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalUpdate'])
     ->middleware('can:clinical.create')->name('clinical.update');
     
+    Route::get('sheet/clinical/pdf/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalPDF'])
+    ->middleware('can:clinical.create')->name('clinical.pdf'); 
 
     Route::get('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutrition'])
         ->middleware('can:nutrition.create')->name('nutrition.create');
