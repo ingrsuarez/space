@@ -127,7 +127,7 @@
                     <th>Hora:</th>
                     <th style="width:40%">Nombre</th>
                     <th>Observaciones</th>
-                    
+                    <th>Estado</th>
                 </thead>
                 <tbody>
                   
@@ -140,7 +140,13 @@
                             
 
                             <td><strong>{{ucfirst($appointment->obs)}}</strong></td>
-                            
+                            @if($appointment->status == 'cancelled')
+                                <td style="background-color: rgb(175, 94, 94)"><strong>Cancelado</strong></td>
+                            @elseif($appointment->status == 'confirmed')
+                                <td style="background-color: rgb(46, 165, 52)"><strong>Confirmado</strong></td>
+                            @else   
+                                <td><strong>Activo</strong></td>
+                            @endif
                         </tr>   
                     @endforeach
 
