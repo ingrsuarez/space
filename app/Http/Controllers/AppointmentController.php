@@ -15,6 +15,7 @@ use App\Models\Insurance;
 use App\Models\User;
 use App\Models\Agenda;
 use App\Models\Wating_list;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AppointmentController extends Controller
 {
@@ -331,6 +332,22 @@ class AppointmentController extends Controller
                 return view('calendar.show',compact('events','institution','professional','availableAgenda','frequency','user','insurances','notes'));
             }
         }
+    }
+
+    public function day(Request $request)
+    {
+        // return $request;
+        $date = date('d-m-Y',strtotime($request->day));
+        $user = User::where('id',$request->user_id)->first();
+        $appointments = Appointment::where('start','LIKE','%'.$request->day.'%')
+            ->with('paciente')
+            ->where('user_id',$request->user_id)
+            ->where('institution_id',$request->institution_id)
+            ->get();
+        // return $appointments;
+        // return view('clinical.pdf',compact('paciente','clinicalSheet'));
+        $pdf = Pdf::loadView('calendar.pdf',compact('appointments','date','user'));
+        return $pdf->stream(); 
     }
 
     public function show(Request $request)

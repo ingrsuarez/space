@@ -193,6 +193,10 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.index')
         ->name('appointment.index');
 
+    Route::post('calendar/day',[App\Http\Controllers\AppointmentController::class,'day'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.day');
+
     Route::get('calendar/show/{institution_id?}{user_id?}',[App\Http\Controllers\AppointmentController::class,'show'])
         ->middleware('can:appointment.index')
         ->name('appointment.show');

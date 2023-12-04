@@ -108,6 +108,54 @@
         <input type="hidden" id="institutionNew" name="institution_id" value="{{$institution->id}}">
       </form>
 
+      {{-- DAY CLICKED --}}
+      <form id="dayClick" action="{{ route('appointment.day') }}" method="POST">
+        @method('POST')
+        @csrf
+
+        
+        <div class="modal fade" id="dayModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="eventPaciente">Turnos del día</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Profesional:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="userEvent" value="{{ucfirst($professional->lastName).' '.ucfirst($professional->name)}}" readonly>
+                  <input type="hidden" name="user_id" value="{{$professional->id}}">
+                  <input type="hidden" name="institution_id" value="{{$institution->id}}">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Dia:</span>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="day" id="day" readonly>
+
+                </div>
+                
+                <div class="d-flex mb-3">
+                  <button type="button" class="btn btn-secondary px-2 mb-2" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-warning ms-auto px-2 mb-2" form="dayClick">Imprimir</button>
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </form>
       {{-- EMPTY DATE CLICKED --}}
       <form id="actualizar-ficha" action="{{ route('appointment.store') }}" method="POST">
         @method('POST')
@@ -355,6 +403,7 @@
               eventConstraint: "available",
               allDaySlot:false,
               displayEventTime: false,
+              navLinks: true,
 
               headerToolbar: {
                 left: 'prev,next',
@@ -372,10 +421,15 @@
 
               nowIndicator: true,
               events: appointments.concat(agenda),
-             
 
+
+              navLinkDayClick: function(date, jsEvent) {
+                var day = moment(date.toISOString()).format('YYYY-MM-DD'); ;
+                $('#day').val(day);
+                $('#dayModal').modal('toggle');
+              },
               eventClick: function(info) {
-                console.log(info.event);
+                // console.log(info.event);
                 if(info.event.title != '')
                 {
                   
