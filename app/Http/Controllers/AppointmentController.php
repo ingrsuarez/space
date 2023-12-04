@@ -343,6 +343,7 @@ class AppointmentController extends Controller
             ->with('paciente')
             ->where('user_id',$request->user_id)
             ->where('institution_id',$request->institution_id)
+            ->orderBy('start','asc')
             ->get();
         // return $appointments;
         // return view('clinical.pdf',compact('paciente','clinicalSheet'));
