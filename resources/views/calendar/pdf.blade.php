@@ -133,21 +133,22 @@
                   
 
                     @foreach($appointments as $appointment)
-                       
+                        @if($appointment->status != 'cancelled')
                         <tr style="height:200px">
                             <td>{{date('H:i',strtotime($appointment->start))}}</td>
                             <td style="widht: 40%">{{ucwords($appointment->paciente->nombrePaciente.' '.strtolower($appointment->paciente->apellidoPaciente))}}</td>
                             
 
                             <td><strong>{{ucfirst($appointment->obs)}}</strong></td>
-                            @if($appointment->status == 'cancelled')
-                                <td style="background-color: rgb(175, 94, 94)"><strong>Cancelado</strong></td>
-                            @elseif($appointment->status == 'confirmed')
+                            {{-- @if($appointment->status == 'cancelled') --}}
+                                {{-- <td style="background-color: rgb(175, 94, 94)"><strong>Cancelado</strong></td> --}}
+                            @if($appointment->status == 'confirmed')
                                 <td style="background-color: rgb(46, 165, 52)"><strong>Confirmado</strong></td>
                             @else   
                                 <td><strong>Activo</strong></td>
                             @endif
-                        </tr>   
+                        </tr>
+                        @endif   
                     @endforeach
 
                 </tbody>
