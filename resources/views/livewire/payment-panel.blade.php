@@ -4,7 +4,7 @@
         @csrf
         {{-- @method('put') --}}
         <div class="input-group mb-3">
-            <select class="form-select" name = 'user_id' wire:change="changeEvent($event.target.value)">
+            <select class="form-select" name = 'user_id'>{{--wire:change="changeEvent($event.target.value)"--}}
                 @foreach($institution->users as $user)
                     @if($user->hasRole('profesional'))
                         <option value="{{$user->id}}">{{strtoupper($user->lastName).' '.strtoupper($user->name)}}</option> 
