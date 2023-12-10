@@ -60,7 +60,7 @@ class InstitutionController extends Controller
 
     public function edit(Institution $institution)
     {
-
+        
         $users = $institution->users;
         $sheets = Sheet::all();
         return view('institutions.edit',compact('institution','users','sheets'));

@@ -109,11 +109,11 @@
                                 
                             <table class="table mt-3">
                                 <thead class="table-light">
-                                  <th>Nombre</th>
-                                  <th>Ruta</th>
-                                  <th>Tabla</th>
-                                  <th>Modelo</th>
-
+                                    <th>Nombre</th>
+                                    <th>Ruta</th>
+                                    <th>Tabla</th>
+                                    <th>Modelo</th>
+                                    <th></th>
                                 </thead>
                                 <tbody>
                                     @if(isset($users))
@@ -124,24 +124,12 @@
                                             <td>{{$sheet->table_name}}</td>
                                             <td>{{$sheet->model}}</td>
                                             <td width="10px">
-                                            @if($sheet->hasInstitutionUser($institution->id))   
-                                                @if($user->adminsInstitution($institution->id))    
-                                                    <a class="btn btn-warning text-white" href="{{ route('institution.detachAdmin',['institution'=>$institution,'user'=>$user]) }}">Quitar</a>
-                                                @else
-                                                    <a class="btn btn-info text-white" href="{{ route('institution.attachAdmin',['institution'=>$institution,'user'=>$user]) }}">
-                                                        Agregar</a>
-                                                
-                                                @endif
-                                            @endif
-                                            </td> 
-                                            <td width="10px">
-                                               
-                                            @if($user->hasInstitutionUser($institution->id))    
-                                                <a class="btn btn-danger text-white" href="{{ route('userInstitution.detach',['institution'=>$institution,'user'=>$user]) }}">Quitar</a>
+                                            @if($institution->hasSheet($sheet->id))   
+                                                <a class="btn btn-danger text-white" href="{{ route('institutionSheet.detach',['institution'=>$institution,'sheet'=>$sheet]) }}">
+                                                    Quitar</a>
                                             @else
-                                                <a class="btn btn-info text-white" href="{{ route('userInstitution.attach',['institution'=>$institution,'user'=>$user]) }}">
+                                                <a class="btn btn-info text-white" href="{{ route('institutionSheet.attach',['institution'=>$institution,'sheet'=>$sheet]) }}">
                                                     Agregar</a>
-                                            
                                             @endif
                                             </td>
 
