@@ -53,7 +53,7 @@
                         @endif
                       </select>
                       <span class="input-group-text">ACTIVIDAD FÍSICA:</span>
-                      <select class="form-select" name="fuma" id="fuma" required>
+                      <select class="form-select" name="actividad" id="actividad" required>
                         @if($nutritionSheet->actividad == 'intensa')
                             <option value="intensa" selected>Intensa </option>
                             <option value="moderada">Moderada </option>
@@ -114,7 +114,7 @@
                     </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">CANDIDATO A BARIÁTRICA:</span>
-                    <select class="form-select text-center" name="fuma" id="fuma" style="max-width: 10rem;" required>
+                    <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
                         @if($nutritionSheet->bariatrica == 'si')
                             <option value="si" selected>Si </option>
                             <option value="no">no </option>
