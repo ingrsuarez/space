@@ -110,7 +110,7 @@
 
 
 
-  <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+  <div class="col-sm px-5 mb-3">
     <div class="accordion" id="accordionSheet">
       <div class="accordion-item">
         <h2 class="accordion-header" id="Sheet-headingOne">

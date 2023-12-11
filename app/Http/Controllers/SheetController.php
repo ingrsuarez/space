@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Insurance;
 use App\Models\ClinicalSheet;
+use App\Models\NutritionSheet;
 use App\Models\Sheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -172,5 +173,51 @@ class SheetController extends Controller
         // return view('clinical.pdf',compact('paciente','clinicalSheet'));
         $pdf = Pdf::loadView('clinical.pdf',compact('paciente','clinicalSheet'));
         return $pdf->stream(); 
+    }
+
+    public function nutritionSave(Paciente $paciente, Request $request)
+    {
+        $nutrition_sheet = new NutritionSheet; 
+        $nutrition_sheet->user_id = Auth::user()->id;
+        $nutrition_sheet->institution_id = Auth::user()->institution_id;
+        $nutrition_sheet->paciente_id = $paciente->codPaciente;
+        $nutrition_sheet->edad = $request->edad;
+        $nutrition_sheet->fuma = $request->fuma;
+        $nutrition_sheet->tipo_actividad = $request->tipoActividad;
+        $nutrition_sheet->frecuencia_actividad = $request->frecuenciaActividad;
+        $nutrition_sheet->duracion_actividad = $request->duracionActividad;
+        $nutrition_sheet->peso = $request->peso;
+        $nutrition_sheet->altura = $request->altura;
+        $nutrition_sheet->peso_ideal = $request->pesoIdeal;
+        $nutrition_sheet->imc = $request->imc;
+        $nutrition_sheet->horas_suenio = $request->hora_sueño;
+        $nutrition_sheet->ocupacion = $request->ocupacion;
+        $nutrition_sheet->jornada = $request->jornada;
+        $nutrition_sheet->cuello = $request->cuello;
+        $nutrition_sheet->cintura = $request->cintura;
+        $nutrition_sheet->desayuno = $request->desayuno;
+        $nutrition_sheet->almuerzo = $request->almuerzo;
+        $nutrition_sheet->merienda = $request->merienda;
+        $nutrition_sheet->cena = $request->cena;
+        $nutrition_sheet->colaciones = $request->colaciones;
+        $nutrition_sheet->no_ingiere = $request->no_ingiere;
+        $nutrition_sheet->predilectos = $request->predilectos;
+        $nutrition_sheet->intolerancias_alergias = $request->intolerancias_alergias;
+        $nutrition_sheet->alcohol = $request->alcohol;
+        $nutrition_sheet->observaciones = $request->observaciones;
+        $nutrition_sheet->diagnostico_nutricional = $request->diagnostico_nutricional;
+        $nutrition_sheet->indicacion_nutricional = $request->indicacion_nutricional;
+        $nutrition_sheet->meta_uno = $request->meta_uno;
+        $nutrition_sheet->meta_dos = $request->meta_dos;
+        $nutrition_sheet->meta_tres = $request->meta_tres;
+        $nutrition_sheet->gr_hdc = $request->gr_hdc;
+        $nutrition_sheet->gr_prot = $request->gr_prot;
+        $nutrition_sheet->gr_grasas = $request->gr_grasas;
+        $nutrition_sheet->pauta_cualitativo = $request->pauta_cualitativo;
+        $nutrition_sheet->pauta_cuantitativo = $request->pauta_cuantitativo;
+        $nutrition_sheet->pauta_observaciones = $request->pauta_observaciones;
+
+        $nutrition_sheet->save();
+        return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
     }
 }
