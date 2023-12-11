@@ -328,48 +328,47 @@
         </div>
         <div class="card-body">
             
-            <table class="table table-striped">
-                <thead class="table-light">
-                    <th>Fecha</th>
-                    <th>Profesional</th>
-                    <th>Peso</th>
-                    <th>IMC</th>
-                    <th>Fibroscan</th>
-                    <th>EFCA</th>
-                    <th>CX BARIÁTRICA:</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                  
-                @foreach($clinical_sheets as $sheet)
-                  {{-- @if($paciente->codPaciente == $sheet->paciente_id)   --}}
-                    <tr>   
-                        <td>{{date('d-m-Y',strtotime($sheet->created_at))}}</td>
-                        <td>{{ucwords($sheet->user->name.' '.$sheet->user->lastName)}}</td>
-                        <td>{{$sheet->peso}}</td>
-                        <td>{{$sheet->imc}}</td>
-                        <td class="d-none d-lg-table-cell">{{$sheet->fibroscan}}</td>
-                        <td class="d-none d-lg-table-cell">{{$sheet->efca}}</td>
-                        <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
-                        <td width="10px">
-                        {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
-                        <td style="width:15%"> 
-                                <a class="btn btn-info text-white" 
-                                href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
-                                <a class="btn btn-warning text-white" 
-                                href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
-                            </td>
-                        </td>
-                    </tr>
-                  {{-- @endif    --}}
-                @endforeach
-            
+          <table class="table table-striped">
+            <thead class="table-light">
+                <th>Fecha</th>
+                <th>Profesional</th>
+                <th>Peso</th>
+                <th>IMC</th>
+                <th>Fibroscan</th>
+                <th>EFCA</th>
+                <th>CX BARIÁTRICA:</th>
+                <th></th>
+            </thead>
+            <tbody>  
+              @foreach($clinical_sheets as $sheet)
+                {{-- @if($paciente->codPaciente == $sheet->paciente_id)   --}}
+                <tr>   
+                  <td>{{date('d-m-Y',strtotime($sheet->created_at))}}</td>
+                  <td>{{ucwords($sheet->user->name.' '.$sheet->user->lastName)}}</td>
+                  <td>{{$sheet->peso}}</td>
+                  <td>{{$sheet->imc}}</td>
+                  <td class="d-none d-lg-table-cell">{{$sheet->fibroscan}}</td>
+                  <td class="d-none d-lg-table-cell">{{$sheet->efca}}</td>
+                  <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
+                  <td width="10px">
+                  {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
+                  <td style="width:15%"> 
+                          <a class="btn btn-info text-white" 
+                          href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
+                          <a class="btn btn-warning text-white" 
+                          href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
+                      </td>
+                  </td>
+                </tr>
+                {{-- @endif    --}}
+              @endforeach
+          
             </tbody>
-        </table>
+          </table>
         </div>
 
     </div>
-</div>	
+  </div>	
 
 
 

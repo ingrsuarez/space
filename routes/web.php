@@ -302,6 +302,15 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutritionSave'])
     ->middleware('can:nutrition.create')->name('nutrition.save');
 
+    Route::get('sheet/nutrition/edit/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionEdit'])
+    ->middleware('can:nutrition.create')->name('nutrition.edit');
+
+    Route::get('sheet/nutrition/pdf/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionPDF'])
+    ->middleware('can:nutrition.create')->name('nutrition.pdf'); 
+
+    Route::post('sheet/nutrition/update/{paciente}/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionUpdate'])
+    ->middleware('can:nutrition.create')->name('nutrition.update');
+
 });
 
 

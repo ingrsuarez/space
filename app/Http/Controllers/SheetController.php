@@ -42,7 +42,8 @@ class SheetController extends Controller
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
         $edad = $fecha_nacimiento->diffInYears($today);
-        return view('nutrition.new',compact('paciente','edad','insurances'));
+        $nutrition_sheets = NutritionSheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
+        return view('nutrition.new',compact('paciente','edad','insurances','nutrition_sheets'));
     }
 
 
@@ -183,6 +184,7 @@ class SheetController extends Controller
         $nutrition_sheet->paciente_id = $paciente->codPaciente;
         $nutrition_sheet->edad = $request->edad;
         $nutrition_sheet->fuma = $request->fuma;
+        $nutrition_sheet->actividad = $request->actividad;
         $nutrition_sheet->tipo_actividad = $request->tipoActividad;
         $nutrition_sheet->frecuencia_actividad = $request->frecuenciaActividad;
         $nutrition_sheet->duracion_actividad = $request->duracionActividad;
@@ -193,6 +195,7 @@ class SheetController extends Controller
         $nutrition_sheet->horas_suenio = $request->hora_sueño;
         $nutrition_sheet->ocupacion = $request->ocupacion;
         $nutrition_sheet->jornada = $request->jornada;
+        $nutrition_sheet->bariatrica = $request->bariatrica;
         $nutrition_sheet->cuello = $request->cuello;
         $nutrition_sheet->cintura = $request->cintura;
         $nutrition_sheet->desayuno = $request->desayuno;
@@ -218,6 +221,64 @@ class SheetController extends Controller
         $nutrition_sheet->pauta_observaciones = $request->pauta_observaciones;
 
         $nutrition_sheet->save();
+        return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
+    }
+
+    public function nutritionEdit(NutritionSheet $nutritionSheet)
+    {
+        $paciente = Paciente::find($nutritionSheet->paciente_id);
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+       
+        return view('nutrition.edit',compact('nutritionSheet','paciente','edad'));
+    }
+
+    public function nutritionUpdate(Paciente $paciente, NutritionSheet $nutritionSheet, Request $request)
+    {
+        
+        $nutritionSheet->user_id = Auth::user()->id;
+        $nutritionSheet->institution_id = Auth::user()->institution_id;
+        $nutritionSheet->paciente_id = $paciente->codPaciente;
+        $nutritionSheet->edad = $request->edad;
+        $nutritionSheet->fuma = $request->fuma;
+        $nutritionSheet->actividad = $request->actividad;
+        $nutritionSheet->tipo_actividad = $request->tipoActividad;
+        $nutritionSheet->frecuencia_actividad = $request->frecuenciaActividad;
+        $nutritionSheet->duracion_actividad = $request->duracionActividad;
+        $nutritionSheet->peso = $request->peso;
+        $nutritionSheet->altura = $request->altura;
+        $nutritionSheet->peso_ideal = $request->pesoIdeal;
+        $nutritionSheet->imc = $request->imc;
+        $nutritionSheet->horas_suenio = $request->hora_sueño;
+        $nutritionSheet->ocupacion = $request->ocupacion;
+        $nutritionSheet->jornada = $request->jornada;
+        $nutritionSheet->bariatrica = $request->bariatrica;
+        $nutritionSheet->cuello = $request->cuello;
+        $nutritionSheet->cintura = $request->cintura;
+        $nutritionSheet->desayuno = $request->desayuno;
+        $nutritionSheet->almuerzo = $request->almuerzo;
+        $nutritionSheet->merienda = $request->merienda;
+        $nutritionSheet->cena = $request->cena;
+        $nutritionSheet->colaciones = $request->colaciones;
+        $nutritionSheet->no_ingiere = $request->no_ingiere;
+        $nutritionSheet->predilectos = $request->predilectos;
+        $nutritionSheet->intolerancias_alergias = $request->intolerancias_alergias;
+        $nutritionSheet->alcohol = $request->alcohol;
+        $nutritionSheet->observaciones = $request->observaciones;
+        $nutritionSheet->diagnostico_nutricional = $request->diagnostico_nutricional;
+        $nutritionSheet->indicacion_nutricional = $request->indicacion_nutricional;
+        $nutritionSheet->meta_uno = $request->meta_uno;
+        $nutritionSheet->meta_dos = $request->meta_dos;
+        $nutritionSheet->meta_tres = $request->meta_tres;
+        $nutritionSheet->gr_hdc = $request->gr_hdc;
+        $nutritionSheet->gr_prot = $request->gr_prot;
+        $nutritionSheet->gr_grasas = $request->gr_grasas;
+        $nutritionSheet->pauta_cualitativo = $request->pauta_cualitativo;
+        $nutritionSheet->pauta_cuantitativo = $request->pauta_cuantitativo;
+        $nutritionSheet->pauta_observaciones = $request->pauta_observaciones;
+
+        $nutritionSheet->save();
         return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
     }
 }

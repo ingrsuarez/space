@@ -140,7 +140,7 @@
                         <option value="si">Si </option>
                       </select>
                       <span class="input-group-text">ACTIVIDAD FÍSICA:</span>
-                      <select class="form-select" name="fuma" id="fuma" required>
+                      <select class="form-select" name="actividad" id="actividad" required>
                         <option value="intensa">Intensa </option>
                         <option value="moderada">Moderada </option>
                         <option value="sedentaria">Sedentaria </option>
@@ -181,7 +181,7 @@
                     </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">CANDIDATO A BARIÁTRICA:</span>
-                    <select class="form-select text-center" name="fuma" id="fuma" style="max-width: 10rem;" required>
+                    <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
                       <option value="si">No </option>
                       <option value="no">Si </option>
                     </select>
@@ -304,7 +304,51 @@
     </div>
   </form>
 
+  <div class="col-sm px-5">
+    <div class="card mb-3 shadow">
+        <div class="card-header text-white bg-info">
+            Historial de Planillas
+            
+        </div>
+        <div class="card-body">
+            
+          <table class="table table-striped">
+            <thead class="table-light">
+                <th>Fecha</th>
+                <th>Profesional</th>
+                <th>Peso</th>
+                <th>IMC</th>
+                <th>CX BARIÁTRICA:</th>
+                <th></th>
+            </thead>
+            <tbody>  
+              @foreach($nutrition_sheets as $sheet)
+                {{-- @if($paciente->codPaciente == $sheet->paciente_id)   --}}
+                <tr>   
+                  <td>{{date('d-m-Y',strtotime($sheet->created_at))}}</td>
+                  <td>{{ucwords($sheet->user->name.' '.$sheet->user->lastName)}}</td>
+                  <td>{{$sheet->peso}}</td>
+                  <td>{{$sheet->imc}}</td>
+                  <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
+                  <td width="10px">
+                  {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
+                  <td style="width:15%"> 
+                          <a class="btn btn-info text-white" 
+                          href="{{route('nutrition.edit',$sheet->id)}}">Editar</a>
+                          <a class="btn btn-warning text-white" 
+                          href="{{route('nutrition.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
+                      </td>
+                  </td>
+                </tr>
+                {{-- @endif    --}}
+              @endforeach
+          
+            </tbody>
+          </table>
+        </div>
 
+    </div>
+  </div>	
 
 
 
