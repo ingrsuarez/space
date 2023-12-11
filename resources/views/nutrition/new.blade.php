@@ -330,14 +330,13 @@
                   <td>{{$sheet->peso}}</td>
                   <td>{{$sheet->imc}}</td>
                   <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
-                  <td width="10px">
-                  {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
-                  <td style="width:15%"> 
-                          <a class="btn btn-info text-white" 
-                          href="{{route('nutrition.edit',$sheet->id)}}">Editar</a>
-                          <a class="btn btn-warning text-white" 
-                          href="{{route('nutrition.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
-                      </td>
+                  <td style="width:15%">
+                    @if($sheet->user_id == Auth::user()->id) 
+                      <a class="btn btn-info text-white" 
+                      href="{{route('nutrition.edit',$sheet->id)}}">Editar</a>
+                    @endif
+                    <a class="btn btn-warning text-white" 
+                    href="{{route('nutrition.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
                   </td>
                 </tr>
                 {{-- @endif    --}}

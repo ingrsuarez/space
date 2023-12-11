@@ -234,7 +234,7 @@
                 @isset($institution)
                   @foreach ($institution->sheets as $sheet)
                   @if(Route::has($sheet->route))
-                  <a class="btn btn-sm btn-warning m-2" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{$sheet->name}}</a>
+                  <a class="btn btn-sm btn-warning m-2 shadow" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{$sheet->name}}</a>
                   @endif
                   @endforeach
                 @endisset
