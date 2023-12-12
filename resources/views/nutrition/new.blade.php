@@ -180,15 +180,23 @@
                       <input type="text" class="form-control" id="jornada" autocomplete="off" name="jornada">
                     </div>
                   <div class="input-group mb-3">
+                    <span class="input-group-text" >CIRC DE CUELLO (cm):</span>
+                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cuello">
+                    <span class="input-group-text" >CIRC DE CINTURA (cm):</span>
+                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cintura">
+                  </div>
+                  <div class="input-group mb-3">
                     <span class="input-group-text">CANDIDATO A BARIÁTRICA:</span>
                     <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
-                      <option value="si">No </option>
-                      <option value="no">Si </option>
+                      <option value="si">Si </option>
+                      <option value="no">No </option>
                     </select>
-                    <span class="input-group-text" >CIRCUNFERENCIA DE CUELLO:</span>
-                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cuello">
-                    <span class="input-group-text" >CIRCUNFERENCIA DE CINTURA:</span>
-                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cintura">
+                    <span class="input-group-text">CONTROL:</span>
+                    <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
+                      <option value="pre">Pre Operatorio </option>
+                      <option value="post">Post Operatorio </option>
+                    </select>
+
                   </div>
                 </div>
                 <div class="card-header text-white bg-primary bg-gradient">
@@ -248,7 +256,7 @@
                     
                   </div>
                   <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text">METAS</span>
+                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">METAS</span>
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">1:</span>
@@ -264,10 +272,10 @@
                   </div>
 
 
-                  <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text">VTC</span>
+                  <div class="input-group justify-content-center mb-1 text-center" >
+                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">VTC --></span>
                   </div>
-                  <div class="input-group mb-3">
+                  <div class="input-group mb-4">
                     <span class="input-group-text">GR HDC:</span>
                     <input type="text" class="form-control" id="gr_hdc" name="gr_hdc">
                     <span class="input-group-text">GR PROT:</span>
@@ -277,7 +285,7 @@
                   </div>
 
                   <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text">SISTEMA DE PAUTA ALIMENTARIA</span>
+                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SISTEMA DE PAUTA ALIMENTARIA</span>
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">CUALITATIVO:</span>
