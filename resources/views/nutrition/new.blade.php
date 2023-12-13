@@ -193,8 +193,8 @@
                     </select>
                     <span class="input-group-text">CONTROL:</span>
                     <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
-                      <option value="pre">Pre Operatorio </option>
-                      <option value="post">Post Operatorio </option>
+                      <option value="pre operatorio">Pre Operatorio </option>
+                      <option value="post operatorio">Post Operatorio </option>
                     </select>
 
                   </div>

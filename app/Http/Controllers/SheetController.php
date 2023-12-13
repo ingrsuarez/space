@@ -183,6 +183,7 @@ class SheetController extends Controller
         $nutrition_sheet->institution_id = Auth::user()->institution_id;
         $nutrition_sheet->paciente_id = $paciente->codPaciente;
         $nutrition_sheet->edad = $request->edad;
+        $nutrition_sheet->control = $request->control;
         $nutrition_sheet->fuma = $request->fuma;
         $nutrition_sheet->actividad = $request->actividad;
         $nutrition_sheet->tipo_actividad = $request->tipoActividad;
@@ -241,6 +242,7 @@ class SheetController extends Controller
         $nutritionSheet->institution_id = Auth::user()->institution_id;
         $nutritionSheet->paciente_id = $paciente->codPaciente;
         $nutritionSheet->edad = $request->edad;
+        $nutritionSheet->control = $request->control;
         $nutritionSheet->fuma = $request->fuma;
         $nutritionSheet->actividad = $request->actividad;
         $nutritionSheet->tipo_actividad = $request->tipoActividad;
@@ -280,5 +282,13 @@ class SheetController extends Controller
 
         $nutritionSheet->save();
         return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
+    }
+
+    public function nutritionPDF(NutritionSheet $nutritionSheet)
+    {
+        $paciente = Paciente::where('codPaciente',$nutritionSheet->paciente_id)->first();
+        // return view('clinical.pdf',compact('paciente','clinicalSheet'));
+        $pdf = Pdf::loadView('nutrition.pdf',compact('paciente','nutritionSheet'));
+        return $pdf->stream(); 
     }
 }
