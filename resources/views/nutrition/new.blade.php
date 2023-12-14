@@ -36,10 +36,10 @@
                   @method('put')
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="dni">DNI</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="dni" name="dni" value="{{$paciente->idPaciente}}" readonly>
+                    <input type="text" class="form-control" id="dni" name="dni" value="{{$paciente->idPaciente}}" readonly>
                     <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
-                    <span class="input-group-text" id="edad">Edad</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" value="{{$edad}}" readonly>
+                    <span class="input-group-text">Edad</span>
+                    <input type="text" class="form-control" id="edad" value="{{$edad}}" readonly>
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text">Nombre</span>
@@ -49,13 +49,13 @@
                   </div>
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="telefono">Celular</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono" value="{{$paciente->celularPaciente}}">
+                    <input type="text" class="form-control" id="telefono" name="telefono" value="{{$paciente->celularPaciente}}">
                     <span class="input-group-text" id="email">Correo</span>
                     <input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email" value="{{$paciente->emailPaciente}}">
                     
                   </div>
                   <div class="input-group mb-3">
-                    <span class="input-group-text" id="edad">Cobertura médica</span>
+                    <span class="input-group-text">Cobertura médica</span>
                     <select class="form-select" name="insurance_id" id="insurance_id" required>
                       @isset($paciente->insurance_id)
                         <option value="{{$paciente->insurance_id}}">{{$paciente->insurance->name}}
@@ -65,8 +65,8 @@
                         @endforeach	
                       
                     </select>
-                    <span class="input-group-text" id="edad">Número Afiliado</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="numeroAfiliado" value="{{$paciente->numeroAfiliadoPaciente}}">
+                    <span class="input-group-text">Número Afiliado</span>
+                    <input type="text" class="form-control" id="numeroAfiliado" name="numeroAfiliado" value="{{$paciente->numeroAfiliadoPaciente}}">
                     
                   </div>
                   <div class="input-group mb-3">
@@ -84,8 +84,8 @@
                     </select>
                           </div>
                   <div class="input-group mb-3">
-                    <span class="input-group-text" id="edad">Domicilio</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="domicilio" name="domicilio" value="{{$paciente->domicilioPaciente}}">
+                    <span class="input-group-text">Domicilio</span>
+                    <input type="text" class="form-control" id="domicilio" name="domicilio" value="{{$paciente->domicilioPaciente}}">
                     <span class="input-group-text" id="localidad">Localidad</span>
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="localidad" id="localidad" name="localidad" value="{{$paciente->localidadPaciente}}">
                     
@@ -132,7 +132,7 @@
 
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="dni">EDAD:</span>
-                      <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="edad" value="{{$edad}}" readonly>
+                      <input type="text" class="form-control" id="edad" name="edad" value="{{$edad}}" readonly>
                       <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
                       <span class="input-group-text">FUMA:</span>
                       <select class="form-select" name="fuma" id="fuma" autofocus required>
@@ -148,7 +148,7 @@
                     </div>
                     <div class="input-group mb-3">
                       <span class="input-group-text">TIPO DE ACTIVIDAD FÍSICA:</span>
-                      <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="tipoActividad" name="tipoActividad" autocomplete="off">
+                      <input type="text" class="form-control" id="tipoActividad" name="tipoActividad" autocomplete="off">
 
                     </div>
                     <div class="input-group mb-3">
@@ -159,13 +159,13 @@
                     </div>
                     <div class="input-group mb-3">
                       <span class="input-group-text">PESO:</span>
-                      <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="peso" name="peso" autocomplete="off" onkeyup="fimc()">
+                      <input type="text" class="form-control" id="peso" name="peso" autocomplete="off" onkeyup="fimc();pi()">
                       <span class="input-group-text">Kg</span>
                       <span class="input-group-text" >ALTURA:</span>
-                      <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="altura" name="altura" autocomplete="off" onkeyup="pi();fimc()">
+                      <input type="text" class="form-control" id="altura" name="altura" autocomplete="off" onkeyup="pi();fimc()">
                       <span class="input-group-text">mts</span> 
                       <span class="input-group-text" >PESO IDEAL:</span>
-                      <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="pesoIdeal" autocomplete="off" name="pesoIdeal">
+                      <input type="text" class="form-control" id="pesoIdeal" autocomplete="off" name="pesoIdeal">
                       <span class="input-group-text">Kg</span>
                       <span class="input-group-text">I.M.C.</span>
                       <input type="text" class="form-control" id="imc" name="imc" style="max-width: 10rem;" readonly>
@@ -299,7 +299,29 @@
                     <span class="input-group-text">OBSERVACIONES:</span>
                     <input type="text" class="form-control" id="pauta_observaciones" name="pauta_observaciones">
                   </div>
-                
+                  <div class="input-group justify-content-center mb-1">
+                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SEGUIMIENTO</span>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">PESO INICIAL:</span>
+                    <input type="text" class="form-control" id="peso_inicial" name="peso_inicial">
+                    <span class="input-group-text">PESO IDEAL AJUSTADO:</span>
+                    <input type="text" class="form-control" id="peso_ajustado" name="peso_ajustado" >
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">IMC INICIAL:</span>
+                    <input type="text" class="form-control" id="imc_inicial" name="imc_inicial" onkeyup="pi()">
+                    <span class="input-group-text">% IMC PERDIDO:</span>
+                    <input type="text" class="form-control" id="imc_perdido" name="imc_perdido" >
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">% EXCESO DE PESO PERDIDO:</span>
+                    <input type="text" class="form-control" id="peso_perdido" name="peso_perdido" >
+                    <span class="input-group-text">% EXCESO DE IMC PERDIDO:</span>
+                    <input type="text" class="form-control" id="exceso_imc_perdido" name="exceso_imc_perdido" >
+                    <span class="input-group-text">% MASA GRASA:</span>
+                    <input type="text" class="form-control" id="masa_grasa" name="masa_grasa" >
+                  </div>
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar Ficha</button>
                   </div>
@@ -363,13 +385,25 @@
   <script defer>
 
     function fimc(){
+    var sexo = document.getElementById("sexo").value;
     var peso = document.getElementById("peso").value;
     var altura = document.getElementById("altura").value;
     var escala = document.getElementById("escalaimc");
-    imc = peso / (altura*altura);    
+    var edad = document.getElementById("edad").value;
+    var imc = peso / (altura*altura); 
+    var masaGrasa = 0;
+    if (sexo == 'M')
+    {
+      masaGrasa= (1.2 * imc) + (0.23 * edad) - 16.2;
+    }
+    else
+    {
+      masaGrasa= (1.2 * imc) + (0.23 * edad) - 5.4;
+    }
+    document.getElementById("masa_grasa").value= imc.toFixed(2);
     if (imc != Infinity)
     {
-        document.getElementById("imc").value= imc.toFixed(2);
+        document.getElementById("imc").value= masaGrasa.toFixed(2);
         if(imc < 25){
           escala.removeAttribute('class');
           escala.setAttribute('class', 'input-group-text text-white bg-success');
@@ -419,7 +453,12 @@
     function pi(){
       var sexo = document.getElementById("sexo").value;
       var altura = document.getElementById("altura").value;
-          
+      var pesoActual = document.getElementById("peso").value;  
+      var imcInicial = document.getElementById("imc_inicial").value;
+      // var imc = document.getElementById("imc").value; 
+      var imc = pesoActual / (altura*altura);  
+      var pesoInicial = document.getElementById("peso_inicial").value; 
+      
       if (sexo == 'M')
       {
         ideal = (altura*100)-100-(((altura*100)-150)/4);
@@ -429,7 +468,28 @@
         ideal = (altura*100)-100-(((altura*100)-150)/2.5);
         document.getElementById("pesoIdeal").value = ideal.toFixed(2);
       }
-        
+
+      var pesoAjustado = ((pesoActual - ideal) * 0.25) + ideal;
+      document.getElementById("peso_ajustado").value = pesoAjustado.toFixed(2);
+      console.log("imc "+ imc)
+      console.log("inicial: "+imcInicial)  
+      var porcentageIMCperdido = ((imcInicial-imc) / imcInicial) * 100;
+      if (porcentageIMCperdido >= 0)
+      {
+        document.getElementById("imc_perdido").value = porcentageIMCperdido.toFixed(2);
+      }
+      var excesoPesoPerdido = ((pesoInicial-pesoActual)/(pesoInicial-ideal)) * 100;
+      if (excesoPesoPerdido != Infinity)
+      {
+        document.getElementById("peso_perdido").value = excesoPesoPerdido.toFixed(2);
+      }
+       
+      
+      var excesoIMCPerdido = ((imcInicial-imc)/(imcInicial-25)) * 100;
+      if (excesoIMCPerdido != Infinity)
+      {
+        document.getElementById("exceso_imc_perdido").value = excesoIMCPerdido.toFixed(2);
+      }
     }
 
 

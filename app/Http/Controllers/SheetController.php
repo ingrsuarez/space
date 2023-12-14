@@ -178,6 +178,7 @@ class SheetController extends Controller
 
     public function nutritionSave(Paciente $paciente, Request $request)
     {
+
         $nutrition_sheet = new NutritionSheet; 
         $nutrition_sheet->user_id = Auth::user()->id;
         $nutrition_sheet->institution_id = Auth::user()->institution_id;
@@ -220,6 +221,14 @@ class SheetController extends Controller
         $nutrition_sheet->pauta_cualitativo = $request->pauta_cualitativo;
         $nutrition_sheet->pauta_cuantitativo = $request->pauta_cuantitativo;
         $nutrition_sheet->pauta_observaciones = $request->pauta_observaciones;
+        $nutrition_sheet->peso_inicial = $request->peso_inicial;
+        $nutrition_sheet->peso_ajustado = $request->peso_ajustado;
+        $nutrition_sheet->imc_inicial = $request->imc_inicial;
+        $nutrition_sheet->imc_perdido = $request->imc_perdido;
+        $nutrition_sheet->peso_perdido = $request->peso_perdido;
+        $nutrition_sheet->exceso_imc_perdido = $request->exceso_imc_perdido;
+        $nutrition_sheet->masa_grasa = $request->masa_grasa;
+
 
         $nutrition_sheet->save();
         return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
@@ -279,6 +288,13 @@ class SheetController extends Controller
         $nutritionSheet->pauta_cualitativo = $request->pauta_cualitativo;
         $nutritionSheet->pauta_cuantitativo = $request->pauta_cuantitativo;
         $nutritionSheet->pauta_observaciones = $request->pauta_observaciones;
+        $nutritionSheet->peso_inicial = $request->peso_inicial;
+        $nutritionSheet->peso_ajustado = $request->peso_ajustado;
+        $nutritionSheet->imc_inicial = $request->imc_inicial;
+        $nutritionSheet->imc_perdido = $request->imc_perdido;
+        $nutritionSheet->peso_perdido = $request->peso_perdido;
+        $nutritionSheet->exceso_imc_perdido = $request->exceso_imc_perdido;
+        $nutritionSheet->masa_grasa = $request->masa_grasa;
 
         $nutritionSheet->save();
         return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);

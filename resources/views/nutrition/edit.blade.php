@@ -237,7 +237,29 @@
                     <input type="text" class="form-control" id="pauta_observaciones" 
                     name="pauta_observaciones" value="{{$nutritionSheet->pauta_observaciones}}">
                   </div>
-                
+                  <div class="input-group justify-content-center mb-1">
+                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SEGUIMIENTO</span>
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">PESO INICIAL:</span>
+                    <input type="text" class="form-control" id="peso_inicial" name="peso_inicial" value="{{$nutritionSheet->peso_inicial}}">
+                    <span class="input-group-text">PESO IDEAL AJUSTADO:</span>
+                    <input type="text" class="form-control" id="peso_ajustado" name="peso_ajustado" value="{{$nutritionSheet->peso_ajustado}}">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">IMC INICIAL:</span>
+                    <input type="text" class="form-control" id="imc_inicial" name="imc_inicial" value="{{$nutritionSheet->imc_inicial}}" onkeyup="pi()">
+                    <span class="input-group-text">% IMC PERDIDO:</span>
+                    <input type="text" class="form-control" id="imc_perdido" name="imc_perdido" value="{{$nutritionSheet->imc_perdido}}">
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text">% EXCESO DE PESO PERDIDO:</span>
+                    <input type="text" class="form-control" id="peso_perdido" name="peso_perdido" value="{{$nutritionSheet->peso_perdido}}">
+                    <span class="input-group-text">% EXCESO DE IMC PERDIDO:</span>
+                    <input type="text" class="form-control" id="exceso_imc_perdido" name="exceso_imc_perdido" value="{{$nutritionSheet->exceso_imc_perdido}}">
+                    <span class="input-group-text">% MASA GRASA:</span>
+                    <input type="text" class="form-control" id="masa_grasa" name="masa_grasa" value="{{$nutritionSheet->masa_grasa}}">
+                  </div>
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Guardar Ficha</button>
                   </div>

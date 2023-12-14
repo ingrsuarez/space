@@ -293,6 +293,28 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="card-header">
+                    SEGUIMIENTO
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">PESO INICIAL: <strong>{{ucfirst($nutritionSheet->peso_inicial)}}</strong></td>
+                            <td colspan="3">PESO IDEAL AJUSTADO: <strong>{{ucfirst($nutritionSheet->peso_ajustado)}}</strong></td>
+                            <td colspan="3">IMC INICIAL: <strong>{{ucfirst($nutritionSheet->imc_inicial)}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">% IMC PERDIDO: <strong>{{ucfirst($nutritionSheet->imc_perdido)}}</strong></td>
+                            <td colspan="3">% EXCESO DE PESO PERDIDO: <strong>{{ucfirst($nutritionSheet->peso_perdido)}}</strong></td>
+                            <td colspan="3">% EXCESO DE IMC PERDIDO: <strong>{{ucfirst($nutritionSheet->exceso_imc_perdido)}}</strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">% MASA GRASA: <strong>{{ucfirst($nutritionSheet->masa_grasa)}}</strong></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>  
 
