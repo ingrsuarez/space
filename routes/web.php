@@ -274,6 +274,12 @@ Route::middleware(['verified'])->group(function(){
     Route::get('laboratory/file/download/{file}',[App\Http\Controllers\FilesController::class,'download'])
         ->middleware('can:store.file')->name('download.file');
 
+    Route::post('fibroscan/file/store',[App\Http\Controllers\FilesController::class,'storeFibroscan'])
+        ->middleware('can:store.file')->name('store.fibroscan');
+
+    Route::get('fibroscan/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadFibroscan'])
+        ->middleware('can:store.file')->name('download.fibroscan');
+
     //SHEETS
     Route::get('sheet/index',[App\Http\Controllers\SheetController::class,'index'])
         ->middleware('can:sheet.index')->name('sheet.index');
