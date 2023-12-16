@@ -148,6 +148,26 @@
                                 </span>
                             </div>
                         </li>
+                        <li class="nav-item dropdown mt-4">
+                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseAccounts" role="button" aria-expanded="false" aria-controls="collapseAccounts">
+                                
+                                <span class="text-primary fw-bold mx-2">CAJAS</span>
+                            </a>
+                            @can('accounts.show')
+                                <div class="collapse" id="collapseAccounts">
+                                    <span class="ms-2">
+                                        <a class="dropdown-item ms-4" href="{{route('accounts.show')}}">
+                                            <i class="fa-solid fa-file-circle-plus mx-2"></i>Saldos de caja</a>
+                                    </span>
+                                </div>
+                                {{-- <div class="collapse" id="collapseAccounts">
+                                    <span class="ms-2">
+                                        <a class="dropdown-item ms-4" href="{{route('notes.show')}}">
+                                            <i class="fa-solid fa-list-ul mx-2"></i>Mis notas</a>
+                                    </span>
+                                </div> --}}
+                            @endcan
+                        </li>
                         <li><hr class="divider"></li>
                         @can('profession')
                         <li class="nav-item dropdown ">                           
@@ -346,38 +366,7 @@
                             
                         </li>
                         <li><hr class="divider"></li>
-                        <li class="nav-item dropdown ">                           
-                            <a class="dropdown-item dropdown-toggle text-dark" data-bs-toggle="collapse" href="#collapseAccounts" role="button" aria-expanded="false" aria-controls="collapseAccounts">
-                                
-                                <span class="text-primary fw-bold mx-2">CAJAS</span>
-                            </a>
-                            @can('notes.show')
-                                <div class="collapse" id="collapseAccounts">
-                                    <span class="ms-2">
-                                        <a class="dropdown-item ms-4" href="{{route('notes.create')}}">
-                                            <i class="fa-solid fa-file-circle-plus mx-2"></i>Nueva Nota</a>
-                                    </span>
-                                </div>
-                                <div class="collapse" id="collapseAccounts">
-                                    <span class="ms-2">
-                                        <a class="dropdown-item ms-4" href="{{route('notes.show')}}">
-                                            <i class="fa-solid fa-list-ul mx-2"></i>Mis notas</a>
-                                    </span>
-                                </div>
-                            @endcan
-
-                            @can('notes.list')
-                                <div class="collapse" id="collapseAccounts">
-                                    <span class="ms-2">
-                                        <a class="dropdown-item ms-4" href="{{route('notes.show')}}">
-                                            <i class="fa-solid fa-list-ul mx-2"></i>Notas por profesional</a>
-                                    </span>
-                                </div>
-
-                            @endcan
-
-                            
-                        </li>
+                        
                     </ul>
                 </nav>    
             </div>  

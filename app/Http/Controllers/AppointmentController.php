@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Agenda;
 use App\Models\Wating_list;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Cash;
 
 class AppointmentController extends Controller
 {
@@ -710,6 +711,17 @@ class AppointmentController extends Controller
     }
     public function toWaitingList(Request $request)
     {
+        if($request->method == 'cash')
+        {
+            $cash = new Cash;
+            $cash->user_id = Auth::user()->id;
+            $cash->owner_id = $request->professional_id;
+            $cash->institution_id = $request->institution_id;
+            $cash->paciente_id = $request->patient_id;
+            $cash->description = $request->description;
+            $cash->debit = $request->amount;
+            $cash->save();
+        }
         $paciente = Paciente::find($request->patient_id);
         
         $wating = new Wating_list;

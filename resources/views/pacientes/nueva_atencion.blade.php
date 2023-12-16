@@ -113,10 +113,10 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="WatingList">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#WatingList-collapseOne" aria-expanded="true" aria-controls="WatingList-collapseOne">
-            <div class="">
-                Agregar a lista de espera: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
-            </div>
-          </button>
+              <div class="">
+                  Agregar a lista de espera: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+              </div>
+            </button>
           </h2>
           <div id="WatingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WatingList-headingOne">
             <div class="accordion-body">

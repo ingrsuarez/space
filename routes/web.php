@@ -317,6 +317,16 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/nutrition/update/{paciente}/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionUpdate'])
     ->middleware('can:nutrition.create')->name('nutrition.update');
 
+
+
+    //ACCOUNTS
+    
+    Route::get('accounts/cash',[App\Http\Controllers\AccountsController::class,'show'])
+    ->middleware('can:accounts.show')->name('accounts.show'); 
+    
+    Route::post('accounts/balance/{date?}',[App\Http\Controllers\AccountsController::class,'balance'])
+    ->middleware('can:accounts.show')->name('accounts.balance'); 
+
 });
 
 

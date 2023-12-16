@@ -164,6 +164,18 @@ class PacienteController extends Controller
 
     public function wating_attach(Paciente $paciente, $institution, Request $request)
     {
+
+        if($request->payment == 'cash')
+        {
+            $cash = new Cash;
+            $cash->user_id = Auth::user()->id;
+            $cash->owner_id = $request->user_id;
+            $cash->institution_id = $institution->id;
+            $cash->paciente_id = $paciente->id;
+            $cash->description = 'Cobro';
+            $cash->debit = $request->amount;
+            $cash->save();
+        }
         $user = User::find($request->user_id);
         
 
