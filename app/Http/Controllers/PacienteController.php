@@ -6,6 +6,7 @@ use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Wating_list;
 use App\Models\Institution;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\Appointment;
 use App\Models\Insurance;
+use App\Models\Cash;
 
 class PacienteController extends Controller
 {
@@ -164,14 +166,16 @@ class PacienteController extends Controller
 
     public function wating_attach(Paciente $paciente, $institution, Request $request)
     {
-
+       
+        $user = Auth::user();
+        $institution = $user->currentInstitution;
         if($request->payment == 'cash')
         {
             $cash = new Cash;
-            $cash->user_id = Auth::user()->id;
+            $cash->user_id = $user->id;
             $cash->owner_id = $request->user_id;
             $cash->institution_id = $institution->id;
-            $cash->paciente_id = $paciente->id;
+            $cash->paciente_id = $paciente->codPaciente;
             $cash->description = 'Cobro';
             $cash->debit = $request->amount;
             $cash->save();
@@ -181,7 +185,7 @@ class PacienteController extends Controller
 
         $wating = new Wating_list;
         $wating->user_id = $request->user_id;
-        $wating->institution_id = $institution;
+        $wating->institution_id = $institution->id;
         $wating->paciente_id = $paciente->codPaciente;
         if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
         {
