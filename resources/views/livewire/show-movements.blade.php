@@ -43,9 +43,9 @@
                 <table class="table">
                     <thead class="table-light">
                       <th style="min-width: 8rem;">Fecha</th>
-                      <th>Descripción</th>
-                      <th>Usuario</th>
-                      <th>Paciente</th>
+                      <th class="d-none d-lg-table-cell">Descripción</th>
+                      <th class="d-none d-lg-table-cell">Usuario</th>
+                      <th class="d-none d-lg-table-cell">Paciente</th>
                       <th>Ingreso</th>
                       <th>Salida</th>
                       <th>Saldo</th>
@@ -61,13 +61,13 @@
                             <tr>
                             @endif
                                 <td>{{date('d-m-Y', strtotime($move->created_at))}}</td>
-                                <td>{{ucfirst($move->description)}}</td>
-                                <td>
+                                <td class="d-none d-lg-table-cell">{{ucfirst($move->description)}}</td>
+                                <td class="d-none d-lg-table-cell">
                                     @isset($move->users)
                                         {{ucwords($move->users->name.' '.$move->users->lastName)}}
                                     @endisset
                                 </td>
-                                <td>
+                                <td class="d-none d-lg-table-cell">
                                     @isset($move->pacientes)
                                     {{ucwords($move->pacientes->nombrePaciente.' '.$move->pacientes->apellidoPaciente)}}
                                     @endisset
