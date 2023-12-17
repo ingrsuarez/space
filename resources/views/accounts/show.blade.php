@@ -25,7 +25,7 @@
                     <table class="table">
                       <thead class="table-light">
                           <th>Profesional</th>
-                          <th>Especialidad</th>
+                          <th class="d-none d-lg-table-cell">Especialidad</th>
                           
                           <th></th>
                       </thead>
@@ -41,7 +41,7 @@
                                   <input type="hidden" name = 'user_id' form="f{{$professional->id}}" value="{{$professional->id}}">
                                   {{strtoupper($professional->lastName.' '.$professional->name)}}
                               </td>
-                              <td>
+                              <td class="d-none d-lg-table-cell">
                                 @foreach($professional->professions as $profession)
                                     <strong>{{strtoupper($profession->name.' ')}}</strong>
                                 @endforeach
