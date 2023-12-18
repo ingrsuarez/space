@@ -169,7 +169,7 @@ class PacienteController extends Controller
        
         $user = Auth::user();
         $institution = $user->currentInstitution;
-        if($request->payment == 'cash')
+        if($request->payment == 'cash'  && $request->amount != null)
         {
             $cash = new Cash;
             $cash->user_id = $user->id;
