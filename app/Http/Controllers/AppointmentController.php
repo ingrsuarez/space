@@ -710,8 +710,10 @@ class AppointmentController extends Controller
         }  
     }
     public function toWaitingList(Request $request)
-    {
-        if($request->method == 'cash')
+    {   
+
+        
+        if($request->method == 'cash' && $request->amount != null)
         {
             $cash = new Cash;
             $cash->user_id = Auth::user()->id;
