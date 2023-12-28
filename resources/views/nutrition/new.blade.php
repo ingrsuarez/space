@@ -108,222 +108,223 @@
     </div>
   </div>
 
-
-  <form id="actualizar-ficha" action="{{ route('nutrition.save',$paciente->codPaciente) }}" method="POST">
-    @csrf
-    @method('post')
-    <div class="col-sm px-5 mb-3">
-      <div class="accordion" id="accordionSheet">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="Sheet-headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#Sheet-collapseOne" aria-expanded="true" aria-controls="Sheet-collapseOne">
-              <div class="">
-                  Planilla nutricional: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
-              </div>
-            </button>
-          </h2>
-          <div id="Sheet-collapseOne" class="accordion-collapse collapse show" aria-labelledby="Sheet-headingOne">
-            <div class="accordion-body">
-              <div class="card mb-3 shadow" >
-                <div class="card-header text-white bg-primary bg-gradient">
-                  VALORACIÓN NUTRICIONAL
+  @can('ficha')
+    <form id="actualizar-ficha" action="{{ route('nutrition.save',$paciente->codPaciente) }}" method="POST">
+      @csrf
+      @method('post')
+      <div class="col-sm px-5 mb-3">
+        <div class="accordion" id="accordionSheet">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="Sheet-headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#Sheet-collapseOne" aria-expanded="true" aria-controls="Sheet-collapseOne">
+                <div class="">
+                    Planilla nutricional: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
                 </div>
-                <div class="card-body">
+              </button>
+            </h2>
+            <div id="Sheet-collapseOne" class="accordion-collapse collapse show" aria-labelledby="Sheet-headingOne">
+              <div class="accordion-body">
+                <div class="card mb-3 shadow" >
+                  <div class="card-header text-white bg-primary bg-gradient">
+                    VALORACIÓN NUTRICIONAL
+                  </div>
+                  <div class="card-body">
 
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" id="dni">EDAD:</span>
+                        <input type="text" class="form-control" id="edad" name="edad" value="{{$edad}}" readonly>
+                        <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
+                        <span class="input-group-text">FUMA:</span>
+                        <select class="form-select" name="fuma" id="fuma" autofocus required>
+                          <option value="no">No </option>
+                          <option value="si">Si </option>
+                        </select>
+                        <span class="input-group-text">ACTIVIDAD FÍSICA:</span>
+                        <select class="form-select" name="actividad" id="actividad" required>
+                          <option value="intensa">Intensa </option>
+                          <option value="moderada">Moderada </option>
+                          <option value="sedentaria">Sedentaria </option>
+                        </select>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">TIPO DE ACTIVIDAD FÍSICA:</span>
+                        <input type="text" class="form-control" id="tipoActividad" name="tipoActividad" autocomplete="off">
+
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">FRECUENCIA:</span>
+                        <input type="text" class="form-control" id="frecuenciaActividad" name="frecuenciaActividad" autocomplete="off">
+                        <span class="input-group-text">DURACIÓN:</span>
+                        <input type="text" class="form-control" id="duracionActividad" name="duracionActividad" autocomplete="off">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">PESO:</span>
+                        <input type="text" class="form-control" id="peso" name="peso" autocomplete="off" onkeyup="fimc();pi()">
+                        <span class="input-group-text">Kg</span>
+                        <span class="input-group-text" >ALTURA:</span>
+                        <input type="text" class="form-control" id="altura" name="altura" autocomplete="off" onkeyup="pi();fimc()">
+                        <span class="input-group-text">mts</span> 
+                        <span class="input-group-text" >PESO IDEAL:</span>
+                        <input type="text" class="form-control" id="pesoIdeal" autocomplete="off" name="pesoIdeal">
+                        <span class="input-group-text">Kg</span>
+                        <span class="input-group-text">I.M.C.</span>
+                        <input type="text" class="form-control" id="imc" name="imc" style="max-width: 10rem;" readonly>
+                        <span class="input-group-text text-white" id="escalaimc">Normal</span>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text" >HORAS DE SUEÑO:</span>
+                        <input type="text" class="form-control" id="horas_sueño" autocomplete="off" name="hora_sueño">
+                        <span class="input-group-text" >OCUPACIÓN:</span>
+                        <input type="text" class="form-control" id="ocupacion" name="ocupacion">
+                        <span class="input-group-text" >JORNADA LABORAL:</span>
+                        <input type="text" class="form-control" id="jornada" autocomplete="off" name="jornada">
+                      </div>
                     <div class="input-group mb-3">
-                      <span class="input-group-text" id="dni">EDAD:</span>
-                      <input type="text" class="form-control" id="edad" name="edad" value="{{$edad}}" readonly>
-                      <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
-                      <span class="input-group-text">FUMA:</span>
-                      <select class="form-select" name="fuma" id="fuma" autofocus required>
-                        <option value="no">No </option>
+                      <span class="input-group-text" >CIRC DE CUELLO (cm):</span>
+                      <input type="text" class="form-control" id="jornada" autocomplete="off" name="cuello">
+                      <span class="input-group-text" >CIRC DE CINTURA (cm):</span>
+                      <input type="text" class="form-control" id="jornada" autocomplete="off" name="cintura">
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">CANDIDATO A BARIÁTRICA:</span>
+                      <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
                         <option value="si">Si </option>
+                        <option value="no">No </option>
                       </select>
-                      <span class="input-group-text">ACTIVIDAD FÍSICA:</span>
-                      <select class="form-select" name="actividad" id="actividad" required>
-                        <option value="intensa">Intensa </option>
-                        <option value="moderada">Moderada </option>
-                        <option value="sedentaria">Sedentaria </option>
+                      <span class="input-group-text">CONTROL:</span>
+                      <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
+                        <option value="pre operatorio">Pre Operatorio </option>
+                        <option value="post operatorio">Post Operatorio </option>
                       </select>
+
+                    </div>
+                  </div>
+                  <div class="card-header text-white bg-primary bg-gradient">
+                    ANAMNESIS ALIMENTARIA
+                  </div>
+                  <div class="card-body">
+                    <div class="input-group justify-content-center mb-1">
+                      <span class="bg-info text-white input-group-text">COMIDAS QUE REALIZA CADA 24HS</span>
                     </div>
                     <div class="input-group mb-3">
-                      <span class="input-group-text">TIPO DE ACTIVIDAD FÍSICA:</span>
-                      <input type="text" class="form-control" id="tipoActividad" name="tipoActividad" autocomplete="off">
-
+                      <span class="input-group-text">DESAYUNO Hr:</span>
+                      <input type="text" class="form-control" id="desayuno" name="desayuno">
+                      <span class="input-group-text">ALMUERZO Hr:</span>
+                      <input type="text" class="form-control" id="almuerzo" name="almuerzo">
+                      <span class="input-group-text">MERIENDA Hr:</span>
+                      <input type="text" class="form-control" id="merienda" name="merienda">
+                      <span class="input-group-text">CENA Hr:</span>
+                      <input type="text" class="form-control" id="cena" name="cena">
+                      <span class="input-group-text">COLACIONES Hr:</span>
+                      <input type="text" class="form-control" id="colaciones" name="colaciones">
                     </div>
                     <div class="input-group mb-3">
-                      <span class="input-group-text">FRECUENCIA:</span>
-                      <input type="text" class="form-control" id="frecuenciaActividad" name="frecuenciaActividad" autocomplete="off">
-                      <span class="input-group-text">DURACIÓN:</span>
-                      <input type="text" class="form-control" id="duracionActividad" name="duracionActividad" autocomplete="off">
+                      <span class="input-group-text">ALIMENTOS QUE NO INGIERE</span>
+                      <input type="text" class="form-control" id="no_ingiere" name="no_ingiere">
+                      <span class="input-group-text">ALIMENTOS PREDILECTOS</span>
+                      <input type="text" class="form-control" id="predilectos" name="predilectos">
                     </div>
                     <div class="input-group mb-3">
-                      <span class="input-group-text">PESO:</span>
-                      <input type="text" class="form-control" id="peso" name="peso" autocomplete="off" onkeyup="fimc();pi()">
-                      <span class="input-group-text">Kg</span>
-                      <span class="input-group-text" >ALTURA:</span>
-                      <input type="text" class="form-control" id="altura" name="altura" autocomplete="off" onkeyup="pi();fimc()">
-                      <span class="input-group-text">mts</span> 
-                      <span class="input-group-text" >PESO IDEAL:</span>
-                      <input type="text" class="form-control" id="pesoIdeal" autocomplete="off" name="pesoIdeal">
-                      <span class="input-group-text">Kg</span>
-                      <span class="input-group-text">I.M.C.</span>
-                      <input type="text" class="form-control" id="imc" name="imc" style="max-width: 10rem;" readonly>
-                      <span class="input-group-text text-white" id="escalaimc">Normal</span>
+                      <span class="input-group-text">INTOLERACIAS Y/O ALERGIAS</span>
+                      <input type="text" class="form-control" id="intolerancias_alergias" name="intolerancias_alergias">
+                      <span class="input-group-text">CONSUME ALCOHOL</span>
+                      <input type="text" class="form-control" id="alcohol" name="alcohol">
+                    </div> 
+                    <div class="input-group mb-3">
+                      
+                      <span class="input-group-text">OBSERVACIONES</span>
+                      <input type="text" class="form-control" id="observaciones" name="observaciones">
+                    </div> 
+                  </div>
+                  <div class="card-header text-white bg-primary bg-gradient">
+                    DIAGNOSTICO NUTRICIONAL (PROBLEMA/ ETILOGÍA/ SINTOMA)
+                  </div>
+                  <div class="card-body">
+                    <div class="input-group mb-3">
+
+                      <input type="text" class="form-control" id="diagnostico_nutricional" name="diagnostico_nutricional">
+                      
+                    </div>
+                  </div>
+                  <div class="card-header text-white bg-primary bg-gradient">
+                    INTERVENCION NUTRICIONAL
+                  </div>
+                  <div class="card-body">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">INDICACION NUTRICIONAL</span>
+                      <input type="text" class="form-control" id="indicacion_nutricional" name="indicacion_nutricional">
+                      
+                    </div>
+                    <div class="input-group justify-content-center mb-1">
+                      <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">METAS</span>
                     </div>
                     <div class="input-group mb-3">
-                      <span class="input-group-text" >HORAS DE SUEÑO:</span>
-                      <input type="text" class="form-control" id="horas_sueño" autocomplete="off" name="hora_sueño">
-                      <span class="input-group-text" >OCUPACIÓN:</span>
-                      <input type="text" class="form-control" id="ocupacion" name="ocupacion">
-                      <span class="input-group-text" >JORNADA LABORAL:</span>
-                      <input type="text" class="form-control" id="jornada" autocomplete="off" name="jornada">
+                      <span class="input-group-text">1:</span>
+                      <input type="text" class="form-control" id="meta_uno" name="meta_uno">
                     </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text" >CIRC DE CUELLO (cm):</span>
-                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cuello">
-                    <span class="input-group-text" >CIRC DE CINTURA (cm):</span>
-                    <input type="text" class="form-control" id="jornada" autocomplete="off" name="cintura">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">CANDIDATO A BARIÁTRICA:</span>
-                    <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
-                      <option value="si">Si </option>
-                      <option value="no">No </option>
-                    </select>
-                    <span class="input-group-text">CONTROL:</span>
-                    <select class="form-select text-center" name="bariatrica" id="bariatrica" style="max-width: 10rem;" required>
-                      <option value="pre operatorio">Pre Operatorio </option>
-                      <option value="post operatorio">Post Operatorio </option>
-                    </select>
-
-                  </div>
-                </div>
-                <div class="card-header text-white bg-primary bg-gradient">
-                  ANAMNESIS ALIMENTARIA
-                </div>
-                <div class="card-body">
-                  <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text">COMIDAS QUE REALIZA CADA 24HS</span>
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">DESAYUNO Hr:</span>
-                    <input type="text" class="form-control" id="desayuno" name="desayuno">
-                    <span class="input-group-text">ALMUERZO Hr:</span>
-                    <input type="text" class="form-control" id="almuerzo" name="almuerzo">
-                    <span class="input-group-text">MERIENDA Hr:</span>
-                    <input type="text" class="form-control" id="merienda" name="merienda">
-                    <span class="input-group-text">CENA Hr:</span>
-                    <input type="text" class="form-control" id="cena" name="cena">
-                    <span class="input-group-text">COLACIONES Hr:</span>
-                    <input type="text" class="form-control" id="colaciones" name="colaciones">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">ALIMENTOS QUE NO INGIERE</span>
-                    <input type="text" class="form-control" id="no_ingiere" name="no_ingiere">
-                    <span class="input-group-text">ALIMENTOS PREDILECTOS</span>
-                    <input type="text" class="form-control" id="predilectos" name="predilectos">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">INTOLERACIAS Y/O ALERGIAS</span>
-                    <input type="text" class="form-control" id="intolerancias_alergias" name="intolerancias_alergias">
-                    <span class="input-group-text">CONSUME ALCOHOL</span>
-                    <input type="text" class="form-control" id="alcohol" name="alcohol">
-                  </div> 
-                  <div class="input-group mb-3">
-                    
-                    <span class="input-group-text">OBSERVACIONES</span>
-                    <input type="text" class="form-control" id="observaciones" name="observaciones">
-                  </div> 
-                </div>
-                <div class="card-header text-white bg-primary bg-gradient">
-                  DIAGNOSTICO NUTRICIONAL (PROBLEMA/ ETILOGÍA/ SINTOMA)
-                </div>
-                <div class="card-body">
-                  <div class="input-group mb-3">
-
-                    <input type="text" class="form-control" id="diagnostico_nutricional" name="diagnostico_nutricional">
-                    
-                  </div>
-                </div>
-                <div class="card-header text-white bg-primary bg-gradient">
-                  INTERVENCION NUTRICIONAL
-                </div>
-                <div class="card-body">
-                  <div class="input-group mb-3">
-                    <span class="input-group-text" id="telefono">INDICACION NUTRICIONAL</span>
-                    <input type="text" class="form-control" id="indicacion_nutricional" name="indicacion_nutricional">
-                    
-                  </div>
-                  <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">METAS</span>
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">1:</span>
-                    <input type="text" class="form-control" id="meta_uno" name="meta_uno">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">2:</span>
-                    <input type="text" class="form-control" id="meta_dos" name="meta_dos">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">3:</span>
-                    <input type="text" class="form-control" id="meta_tres" name="meta_tres">
-                  </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">2:</span>
+                      <input type="text" class="form-control" id="meta_dos" name="meta_dos">
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">3:</span>
+                      <input type="text" class="form-control" id="meta_tres" name="meta_tres">
+                    </div>
 
 
-                  <div class="input-group justify-content-center mb-1 text-center" >
-                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">VTC --></span>
-                  </div>
-                  <div class="input-group mb-4">
-                    <span class="input-group-text">GR HDC:</span>
-                    <input type="text" class="form-control" id="gr_hdc" name="gr_hdc">
-                    <span class="input-group-text">GR PROT:</span>
-                    <input type="text" class="form-control" id="gr_prot" name="gr_prot">
-                    <span class="input-group-text">GR GRASAS:</span>
-                    <input type="text" class="form-control" id="gr_grasas" name="gr_grasas">
-                  </div>
+                    <div class="input-group justify-content-center mb-1 text-center" >
+                      <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">VTC --></span>
+                    </div>
+                    <div class="input-group mb-4">
+                      <span class="input-group-text">GR HDC:</span>
+                      <input type="text" class="form-control" id="gr_hdc" name="gr_hdc">
+                      <span class="input-group-text">GR PROT:</span>
+                      <input type="text" class="form-control" id="gr_prot" name="gr_prot">
+                      <span class="input-group-text">GR GRASAS:</span>
+                      <input type="text" class="form-control" id="gr_grasas" name="gr_grasas">
+                    </div>
 
-                  <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SISTEMA DE PAUTA ALIMENTARIA</span>
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">CUALITATIVO:</span>
-                    <input type="text" class="form-control" id="pauta_cualitativo" name="pauta_cualitativo">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">CUANTITATIVO:</span>
-                    <input type="text" class="form-control" id="pauta_cuantitativo" name="pauta_cuantitativo">
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">OBSERVACIONES:</span>
-                    <input type="text" class="form-control" id="pauta_observaciones" name="pauta_observaciones">
-                  </div>
-                  <div class="input-group justify-content-center mb-1">
-                    <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SEGUIMIENTO</span>
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">PESO INICIAL:</span>
-                    <input type="text" class="form-control" id="peso_inicial" name="peso_inicial">
-                    <span class="input-group-text">PESO IDEAL AJUSTADO:</span>
-                    <input type="text" class="form-control" id="peso_ajustado" name="peso_ajustado" >
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">IMC INICIAL:</span>
-                    <input type="text" class="form-control" id="imc_inicial" name="imc_inicial" onkeyup="pi()">
-                    <span class="input-group-text">% IMC PERDIDO:</span>
-                    <input type="text" class="form-control" id="imc_perdido" name="imc_perdido" >
-                  </div>
-                  <div class="input-group mb-3">
-                    <span class="input-group-text">% EXCESO DE PESO PERDIDO:</span>
-                    <input type="text" class="form-control" id="peso_perdido" name="peso_perdido" >
-                    <span class="input-group-text">% EXCESO DE IMC PERDIDO:</span>
-                    <input type="text" class="form-control" id="exceso_imc_perdido" name="exceso_imc_perdido" >
-                    <span class="input-group-text">% MASA GRASA:</span>
-                    <input type="text" class="form-control" id="masa_grasa" name="masa_grasa" >
-                  </div>
-                  <div class="d-grid gap-2 col-4 ms-auto py-2">
-                    <button type="submit" class="btn btn-sm btn-primary text-white">Guardar Ficha</button>
+                    <div class="input-group justify-content-center mb-1">
+                      <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SISTEMA DE PAUTA ALIMENTARIA</span>
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">CUALITATIVO:</span>
+                      <input type="text" class="form-control" id="pauta_cualitativo" name="pauta_cualitativo">
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">CUANTITATIVO:</span>
+                      <input type="text" class="form-control" id="pauta_cuantitativo" name="pauta_cuantitativo">
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">OBSERVACIONES:</span>
+                      <input type="text" class="form-control" id="pauta_observaciones" name="pauta_observaciones">
+                    </div>
+                    <div class="input-group justify-content-center mb-1">
+                      <span class="bg-info text-white input-group-text justify-content-center" style="width: 30rem;">SEGUIMIENTO</span>
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">PESO INICIAL:</span>
+                      <input type="text" class="form-control" id="peso_inicial" name="peso_inicial">
+                      <span class="input-group-text">PESO IDEAL AJUSTADO:</span>
+                      <input type="text" class="form-control" id="peso_ajustado" name="peso_ajustado" >
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">IMC INICIAL:</span>
+                      <input type="text" class="form-control" id="imc_inicial" name="imc_inicial" onkeyup="pi()">
+                      <span class="input-group-text">% IMC PERDIDO:</span>
+                      <input type="text" class="form-control" id="imc_perdido" name="imc_perdido" >
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">% EXCESO DE PESO PERDIDO:</span>
+                      <input type="text" class="form-control" id="peso_perdido" name="peso_perdido" >
+                      <span class="input-group-text">% EXCESO DE IMC PERDIDO:</span>
+                      <input type="text" class="form-control" id="exceso_imc_perdido" name="exceso_imc_perdido" >
+                      <span class="input-group-text">% MASA GRASA:</span>
+                      <input type="text" class="form-control" id="masa_grasa" name="masa_grasa" >
+                    </div>
+                    <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">Guardar Planilla</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -331,9 +332,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </form>
-
+    </form>
+  @endcan
   <div class="col-sm px-5">
     <div class="card mb-3 shadow">
         <div class="card-header text-white bg-info">

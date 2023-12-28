@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Insurance;
 use App\Models\ClinicalSheet;
 use App\Models\NutritionSheet;
+use App\Models\PsychologicalSheet;
 use App\Models\Sheet;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -306,5 +307,104 @@ class SheetController extends Controller
         // return view('clinical.pdf',compact('paciente','clinicalSheet'));
         $pdf = Pdf::loadView('nutrition.pdf',compact('paciente','nutritionSheet'));
         return $pdf->stream(); 
+    }
+
+
+    public function psychological(Paciente $paciente)
+    {
+        $insurances = Insurance::all();
+        //Edad del paciente
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+        $psychological_sheets = psychologicalSheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
+        return view('psychological.new',compact('paciente','edad','insurances','psychological_sheets'));
+    }
+
+    public function psychologicalSave(Paciente $paciente, Request $request)
+    {
+        $psychological_sheet = new PsychologicalSheet; 
+
+        $psychological_sheet->user_id = Auth::user()->id;
+        $psychological_sheet->institution_id = Auth::user()->institution_id;
+        $psychological_sheet->paciente_id = $paciente->codPaciente;
+        $psychological_sheet->edad = $request->edad;
+        $psychological_sheet->peso = $request->peso;
+        $psychological_sheet->peso_maximo = $request->peso_maximo;
+        $psychological_sheet->intencion_cirugia = $request->intencion_cirugia;
+        $psychological_sheet->antecedentes = $request->antecedentes;
+        $psychological_sheet->tto_psicologico = $request->tto_psicologico;
+        $psychological_sheet->tto_psiquiatrico = $request->tto_psiquiatrico;
+        $psychological_sheet->conducta_alimentaria = $request->conducta_alimentaria;
+        $psychological_sheet->atracon = $request->atracon;
+        $psychological_sheet->comedor_nocturno = $request->comedor_nocturno;
+        $psychological_sheet->actividad_física = $request->actividad_física;
+        $psychological_sheet->trabajo = $request->trabajo;
+        $psychological_sheet->familia = $request->familia;
+        $psychological_sheet->perdidas = $request->perdidas;
+        $psychological_sheet->tto_anteriores = $request->tto_anteriores;
+        $psychological_sheet->limitaciones = $request->limitaciones;
+        $psychological_sheet->evolucion = $request->evolucion;
+
+        $psychological_sheet->save();
+        return redirect()->back();
+
+    }
+
+    public function psychologicalEdit(PsychologicalSheet $psychologicalSheet)
+    {
+        $user = Auth::user();
+        if( $psychologicalSheet->user_id == $user->id)
+        {
+            $paciente = Paciente::find($psychologicalSheet->paciente_id);
+            $today = Carbon::now();
+            $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+            $edad = $fecha_nacimiento->diffInYears($today);
+            
+            return view('psychological.edit',compact('psychologicalSheet','paciente','edad'));
+        }else
+        {
+            return redirect()->back();
+        }
+        
+    }
+
+    public function psychologicalPDF(PsychologicalSheet $psychologicalSheet)
+    {
+        $paciente = Paciente::where('codPaciente',$psychologicalSheet->paciente_id)->first();
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+        $pdf = Pdf::loadView('psychological.pdf',compact('paciente','psychologicalSheet','edad'));
+        return $pdf->stream(); 
+    }
+
+    public function psychologicalUpdate(Paciente $paciente, PsychologicalSheet $psychologicalSheet, Request $request)
+    {
+
+        $psychologicalSheet->user_id = Auth::user()->id;
+        $psychologicalSheet->institution_id = Auth::user()->institution_id;
+        $psychologicalSheet->paciente_id = $paciente->codPaciente;
+        $psychologicalSheet->edad = $request->edad;
+        $psychologicalSheet->peso = $request->peso;
+        $psychologicalSheet->peso_maximo = $request->peso_maximo;
+        $psychologicalSheet->intencion_cirugia = $request->intencion_cirugia;
+        $psychologicalSheet->antecedentes = $request->antecedentes;
+        $psychologicalSheet->tto_psicologico = $request->tto_psicologico;
+        $psychologicalSheet->tto_psiquiatrico = $request->tto_psiquiatrico;
+        $psychologicalSheet->conducta_alimentaria = $request->conducta_alimentaria;
+        $psychologicalSheet->atracon = $request->atracon;
+        $psychologicalSheet->comedor_nocturno = $request->comedor_nocturno;
+        $psychologicalSheet->actividad_fisica = $request->actividad_fisica;
+        $psychologicalSheet->trabajo = $request->trabajo;
+        $psychologicalSheet->familia = $request->familia;
+        $psychologicalSheet->perdidas = $request->perdidas;
+        $psychologicalSheet->tto_anteriores = $request->tto_anteriores;
+        $psychologicalSheet->limitaciones = $request->limitaciones;
+        $psychologicalSheet->evolucion = $request->evolucion;
+
+        $psychologicalSheet->save();
+        return redirect()->action([SheetController::class, 'psychological'], ['paciente' => $paciente->codPaciente]);
+
     }
 }

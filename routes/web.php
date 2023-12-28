@@ -317,7 +317,20 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/nutrition/update/{paciente}/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionUpdate'])
     ->middleware('can:nutrition.create')->name('nutrition.update');
 
+    Route::get('sheet/psychological/{paciente}',[App\Http\Controllers\SheetController::class,'psychological'])
+        ->middleware('can:psychological.create')->name('psychological.create');
 
+    Route::post('sheet/psychological/{paciente}',[App\Http\Controllers\SheetController::class,'psychologicalSave'])
+    ->middleware('can:psychological.create')->name('psychological.save');
+
+    Route::get('sheet/psychological/edit/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalEdit'])
+    ->middleware('can:psychological.create')->name('psychological.edit');
+
+    Route::get('sheet/psychological/pdf/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalPDF'])
+    ->middleware('can:psychological.create')->name('psychological.pdf'); 
+
+    Route::post('sheet/psychological/update/{paciente}/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalUpdate'])
+    ->middleware('can:psychological.create')->name('psychological.update');
 
     //ACCOUNTS
     

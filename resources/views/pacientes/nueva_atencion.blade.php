@@ -254,7 +254,7 @@
 
 {{--                     Professional view                 --}}
 
-      @can('ficha')
+    @can('sheet.index')
       <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
         <div class="accordion" id="accordionSheets">
           <div class="accordion-item">  
@@ -270,7 +270,7 @@
                 @isset($institution)
                   @foreach ($institution->sheets as $sheet)
                   @if(Route::has($sheet->route))
-                  <a class="btn btn-sm btn-warning m-2 shadow" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{$sheet->name}}</a>
+                  <a class="btn btn-sm btn-warning m-2 shadow" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{ucfirst($sheet->name)}}</a>
                   @endif
                   @endforeach
                 @endisset
@@ -281,6 +281,8 @@
           </div>
         </div>
       </div>
+    @endcan  
+    @can('ficha')
       {{-- Download FILES --}}
       <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
         <div class="accordion" id="accordionLaboratorio">
