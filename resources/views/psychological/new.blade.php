@@ -222,7 +222,9 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="telefono">EVOLUCIÓN:</span>
-                        <input type="text" class="form-control" id="evolucion" name="evolucion">
+
+                        <textarea class="form-control" id="nueva-atencion" rows="3" name="evolucion" required></textarea>
+
                     
                     </div>
 

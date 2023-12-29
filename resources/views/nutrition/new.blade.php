@@ -74,7 +74,7 @@
                     <input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion" value="{{$paciente->ocupacionPaciente}}">
                     <span class="input-group-text">Sexo:</span>
                     <select class="form-select" name="sexo" id="sexo" required>
-                      @if($paciente->sexoPaciente == 'f')  
+                      @if(($paciente->sexoPaciente == 'F') or ($paciente->sexoPaciente == 'f'))  
                         <option value="F" selected>Femenino</option>
                         <option value="M">Masculino</option>
                         @else
@@ -241,8 +241,8 @@
                   </div>
                   <div class="card-body">
                     <div class="input-group mb-3">
-
-                      <input type="text" class="form-control" id="diagnostico_nutricional" name="diagnostico_nutricional">
+                      <textarea class="form-control" id="nueva-atencion" rows="3" name="diagnostico_nutricional" required></textarea>
+                     
                       
                     </div>
                   </div>

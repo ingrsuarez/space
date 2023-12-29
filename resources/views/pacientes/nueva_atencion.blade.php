@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  
+
   @if (session('error'))
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <strong>{{ session('error') }}</strong>
@@ -72,7 +72,7 @@
                     <input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion" value="{{$paciente->ocupacionPaciente}}">
                     <span class="input-group-text">Sexo:</span>
                     <select class="form-select" name="sexo" id="sexo" required>
-                      @if($paciente->sexoPaciente == 'F')  
+                      @if(($paciente->sexoPaciente == 'F') or ($paciente->sexoPaciente == 'f') )  
                         <option value="F" selected>Femenino</option>
                         <option value="M">Masculino</option>
                         @else
@@ -418,5 +418,5 @@
           </div>
         </div>
       </div>
-    @endcan    
+    @endcan  
 @endsection
