@@ -334,9 +334,9 @@
                 <th>Profesional</th>
                 <th>Peso</th>
                 <th>IMC</th>
-                <th>Fibroscan</th>
-                <th>EFCA</th>
-                <th>CX BARIÁTRICA:</th>
+                <th class="d-none d-lg-table-cell">Fibroscan</th>
+                <th class="d-none d-lg-table-cell">EFCA</th>
+                <th class="d-none d-lg-table-cell">CX BARIÁTRICA:</th>
                 <th></th>
             </thead>
             <tbody>  
@@ -350,14 +350,12 @@
                   <td class="d-none d-lg-table-cell">{{$sheet->fibroscan}}</td>
                   <td class="d-none d-lg-table-cell">{{$sheet->efca}}</td>
                   <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
-                  <td width="10px">
-                  {{-- <a class="btn btn-primary text-white" href="{{ route('sheet.index',$sheet) }}">Editar</a> --}}
                   <td style="width:15%"> 
-                          <a class="btn btn-info text-white" 
-                          href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
-                          <a class="btn btn-warning text-white" 
-                          href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
-                      </td>
+                    <a class="btn btn-info text-white" 
+                    href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
+                    <a class="btn btn-warning text-white" 
+                    href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
+                      
                   </td>
                 </tr>
                 {{-- @endif    --}}
