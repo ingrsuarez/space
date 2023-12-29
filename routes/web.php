@@ -30,6 +30,7 @@ Route::middleware(['verified'])->group(function(){
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
+    Route::get('/panel', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
     //HISTORIAL
 
     Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index'])->name('ficha.index');

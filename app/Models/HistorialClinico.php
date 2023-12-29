@@ -21,4 +21,9 @@ class historialClinico extends Model
     {
         return $this->belongsTo('App\Models\Paciente','codPacienteHC','codPaciente');
     }
+
+    public function institutions()
+    {
+        return $this->belongsTo('App\Models\Institution','codInstitucionHC');
+    }
 }

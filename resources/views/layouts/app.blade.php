@@ -124,7 +124,7 @@
                     
                     <ul class="navbar-nav">
                         <li>
-                            <a class="nav-link text-dark" href="{{route('home')}}">
+                            <a class="nav-link text-dark" href="{{route('dashboard')}}">
                                 <span class="mx-2"><i class="fa-solid fa-gauge"></i></span>
                                 <span class="text-primary fw-bold">PANEL</span></a>
                         </li>
