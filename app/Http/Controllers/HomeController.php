@@ -170,7 +170,7 @@ class HomeController extends Controller
             'group_by_period' => 'month',
             'chart_type' => 'bar',
             'chart_color' => '171, 223, 58',
-            'where_raw' => 'user_id = '.$user->id,
+            'where_raw' => 'user_id = '.$user->id.' AND institution_id ='.$institution->id,
             'filter_field' => 'start',
             'filter_days' => 365, // show only last 30 days
         ];
@@ -185,13 +185,27 @@ class HomeController extends Controller
             'group_by_period' => 'day',
             'aggregate_function' => 'sum',
             'aggregate_field' => 'debit',
-            'where_raw' => 'owner_id = '.$user->id,
+            'where_raw' => 'owner_id = '.$user->id.' AND institution_id ='.$institution->id,
             'chart_type' => 'bar',
             'chart_color' => '47, 194, 241',
             'filter_field' => 'created_at',
             'filter_days' => 365, // show only last 30 days
         ];
         
+        $consultas_usuario = [
+            'chart_title' => 'Consultas',
+            'chart_type' => 'bar',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\HistorialClinico',
+            'group_by_field' => 'fechaHC', 
+            'group_by_period' => 'month',
+            'where_raw' => 'codUsuarioHC = '.$user->id,
+            'chart_color' => '0,129,255',
+            'filter_field' => 'fechaHC',
+            'filter_days' => 365, // show only transactions for last 30 days
+            // 'filter_period' => 'week', // show only transactions for this week
+        ];
+
         $appointments_institution = new LaravelChart($turnos_institucion);
         
         $chart1 = new LaravelChart($chart_consultas);
@@ -202,8 +216,9 @@ class HomeController extends Controller
 
         $user_cash = new LaravelChart($cash_chart);
         
+        $user_attention = new LaravelChart($consultas_usuario);
         
-        return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution'));
+        return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution','user_attention'));
     }
     
 }

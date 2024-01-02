@@ -55,7 +55,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-primary bg-gradient text-white">Atención de pacientes en los últimos 3 meses</div>
+
+                    <div class="card-header bg-primary bg-gradient text-white">Total de consultas realizadas</div>
+
+                    <div class="card-body mb-2">
+
+                        <h1>{{ $user_attention->options['chart_title'] }}</h1>
+                        {!! $user_attention->renderHtml() !!}
+                    </div> 
+                    <div class="card-header bg-primary bg-gradient text-white">Turnos por mes</div>
 
                     <div class="card-body mb-2">
 
@@ -70,6 +78,9 @@
                         <h1>{{ $user_cash->options['chart_title'] }}</h1>
                         {!! $user_cash->renderHtml() !!}
                     </div> 
+
+                    
+                    
                 </div>
             </div>
         </div>
@@ -80,15 +91,18 @@
 @endsection
 
 @section('scripts')
-{!! $appointments_institution->renderChartJsLibrary() !!}
-{!! $appointments_institution->renderJs() !!}
-{!! $chart1->renderChartJsLibrary() !!}
-{!! $chart1->renderJs() !!}
-{!! $chart2->renderChartJsLibrary() !!}
-{!! $chart2->renderJs() !!}
+    @can('system.charts')
+    {!! $appointments_institution->renderChartJsLibrary() !!}
+    {!! $appointments_institution->renderJs() !!}
+    {!! $chart1->renderChartJsLibrary() !!}
+    {!! $chart1->renderJs() !!}
+    {!! $chart2->renderChartJsLibrary() !!}
+    {!! $chart2->renderJs() !!}
+    @endcan
 {!! $chart_professional->renderChartJsLibrary() !!}
 {!! $chart_professional->renderJs() !!}
 {!! $user_cash->renderChartJsLibrary() !!}
 {!! $user_cash->renderJs() !!}
-
+{!! $user_attention->renderChartJsLibrary() !!}
+{!! $user_attention->renderJs() !!}
 @endsection
