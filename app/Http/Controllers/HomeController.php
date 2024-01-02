@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\HistorialClinico;
 use App\Models\Paciente;
 use App\Models\User;
+use App\Models\Cash;
 use App\Models\Wating_list;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -85,69 +86,124 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $institution = $user->currentInstitution;
-        $chart_options = [
-            'chart_title' => 'Transactions by user',
-            'chart_type' => 'bar',
-            'report_type' => 'group_by_relationship',
-            'model' => 'App\Models\HistorialClinico',
-            'relationship_name' => 'institutions', // represents function user() on Transaction model
-            'group_by_field' => 'name', // users.name
+        // $consultas = HistorialClinico::select('codUsuarioHC',DB::raw('COUNT(*) as total'))
+        //     ->where('codInstitucionHC',$institution->id)
+        //     ->where('fechaHC','>','2022-12-31')
+        //     ->groupBy('codUsuarioHC')
+        //     ->get();
+        // return $consultas;
+        // $chart_options = [
+        //     'chart_title' => 'Consultas por usuarios',
+        //     'chart_type' => 'bar',
+        //     'report_type' => 'group_by_string',
+        //     'model' => 'App\Models\HistorialClinico',
+        //     'group_by_field' => 'codInstitucionHC', // users.name
         
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
             
-            'filter_field' => 'fechaHC',
-            'filter_days' => 360, // show only transactions for last 30 days
+            // 'filter_field' => 'fechaHC',
+            // 'filter_days' => 360, // show only transactions for last 30 days
             // 'filter_period' => 'week', // show only transactions for this week
-        ];
-
-        $chart_options1 = [
+        // ];
+        $names = User::select('id','name','lastName')->get();
+        $labels = array();
+        foreach($names as $name)
+        {
+            $labels[$name->id]  = ucwords($name->lastName.' '.$name->name);
+        }
+        
+        // dd($labels);
+        $chart_consultas = [
             'chart_title' => 'Consultas por usuarios',
             'chart_type' => 'bar',
             'report_type' => 'group_by_relationship',
             'model' => 'App\Models\HistorialClinico',
             'relationship_name' => 'users', // represents function user() on Transaction model
-            'group_by_field' => 'name', // users.name
+            'group_by_field' => 'id', // users.name
             'where_raw' => 'codInstitucionHC = '.$institution->id,
             'chart_color' => '0,129,255',
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
-            
+            'labels' => $labels,
             'filter_field' => 'fechaHC',
-            'filter_days' => 360, // show only transactions for last 30 days
+            'filter_days' => 90, // show only transactions for last 30 days
             // 'filter_period' => 'week', // show only transactions for this week
         ];
-
-        $chart_options2 = [
+        
+        $chart_turnos = [
             'chart_title' => 'Turnos por usuario',
             'chart_type' => 'bar',
             'report_type' => 'group_by_relationship',
             'model' => 'App\Models\Appointment',
             'relationship_name' => 'user', // represents function user() on Transaction model
-            'group_by_field' => 'name', // users.name
+            'group_by_field' => 'id', // users.name
             'where_raw' => 'institution_id = '.$institution->id,
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
+            'labels' => $labels,
             'chart_color' => '0,129,088',
             'filter_field' => 'created_at',
-            'filter_days' => 120, // show only transactions for last 30 days
+            'filter_days' => 90, // show only transactions for last 30 days
+            
             // 'filter_period' => 'week', // show only transactions for this week
         ];
-        
-        // $chart_options = [
-            // 'chart_title' => 'Users by months',
-            // 'report_type' => 'group_by_date',
-            // 'model' => 'App\Models\HistorialClinico',
-            // 'group_by_field' => 'codUsuarioHC',
-            // 'group_by_period' => 'month',
-            // 'chart_type' => 'bar',
-            // 'filter_field' => 'created_at',
-            // 'filter_days' => 1200, // show only last 30 days
-        // ];
 
-        $chart1 = new LaravelChart($chart_options1);
-        $chart2 = new LaravelChart($chart_options2);
-        return view('dashboard.index', compact('chart1','chart2'));
+        $turnos_institucion = [
+            'chart_title' => 'Turnos por institución',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\Appointment',
+            'relationship_name' => 'institution', // represents function institution() on Transaction model
+            'group_by_field' => 'name', // users.name
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'chart_color' => '17, 223, 58',
+            'filter_field' => 'start',
+            'filter_days' => 365, // show only last 30 days
+        ];
+        
+        $turnos_usuario = [
+            'chart_title' => 'Mis turnos',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Appointment',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'chart_color' => '171, 223, 58',
+            'where_raw' => 'user_id = '.$user->id,
+            'filter_field' => 'start',
+            'filter_days' => 365, // show only last 30 days
+        ];
+
+
+         
+        $cash_chart = [
+            'chart_title' => 'Cobros por día',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Cash',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'day',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'debit',
+            'where_raw' => 'owner_id = '.$user->id,
+            'chart_type' => 'bar',
+            'chart_color' => '47, 194, 241',
+            'filter_field' => 'created_at',
+            'filter_days' => 365, // show only last 30 days
+        ];
+        
+        $appointments_institution = new LaravelChart($turnos_institucion);
+        
+        $chart1 = new LaravelChart($chart_consultas);
+        
+        $chart2 = new LaravelChart($chart_turnos);
+
+        $chart_professional = new LaravelChart($turnos_usuario);
+
+        $user_cash = new LaravelChart($cash_chart);
+        
+        
+        return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution'));
     }
     
 }
