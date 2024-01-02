@@ -12,6 +12,7 @@ use App\Models\ClinicalSheet;
 use App\Models\NutritionSheet;
 use App\Models\PsychologicalSheet;
 use App\Models\Sheet;
+use App\Models\HistorialClinico;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class SheetController extends Controller
@@ -106,6 +107,31 @@ class SheetController extends Controller
         $clinical_sheet->problemas = $request->problemas;
 
         $clinical_sheet->save();
+
+
+        $paciente = Paciente::find($request->codPaciente);
+        $user = Auth::user();
+        
+        $especialidades = Auth::user()->professions;
+
+        $strEspecialidades = "";
+        foreach ($especialidades as $especialidad)
+        {
+            $strEspecialidades .= $especialidad->name." - "; 
+            
+        }
+
+        $historial = new HistorialClinico;
+        $historial->codPacienteHC = $request->codPaciente;
+        $historial->codUsuarioHC = $user->id;
+        $historial->fechaHC = Carbon::now()->toDateTimeString();
+        $historial->codInstitucionHC = $user->institution_id;
+        $historial->entrada = 'Carga de planilla clínica';
+        $historial->esPublico = '0';
+        $historial->insurance_id = null;
+        $historial->especialidad = $strEspecialidades;
+        $historial->save();
+
         return redirect()->back();
 
     }
@@ -232,6 +258,30 @@ class SheetController extends Controller
 
 
         $nutrition_sheet->save();
+
+        $paciente = Paciente::find($paciente->codPaciente);
+        $user = Auth::user();
+        
+        $especialidades = Auth::user()->professions;
+
+        $strEspecialidades = "";
+        foreach ($especialidades as $especialidad)
+        {
+            $strEspecialidades .= $especialidad->name." - "; 
+            
+        }
+        
+        $historial = new HistorialClinico;
+        $historial->codPacienteHC = $paciente->codPaciente;
+        $historial->codUsuarioHC = $user->id;
+        $historial->fechaHC = Carbon::now()->toDateTimeString();
+        $historial->codInstitucionHC = $user->institution_id;
+        $historial->entrada = 'Carga de planilla nutricional';
+        $historial->esPublico = '0';
+        $historial->insurance_id = null;
+        $historial->especialidad = $strEspecialidades;
+        $historial->save();
+
         return redirect()->action([SheetController::class, 'nutrition'], ['paciente' => $paciente->codPaciente]);
     }
 
@@ -347,6 +397,30 @@ class SheetController extends Controller
         $psychological_sheet->evolucion = $request->evolucion;
 
         $psychological_sheet->save();
+
+        $paciente = Paciente::find($paciente->codPaciente);
+        $user = Auth::user();
+        
+        $especialidades = Auth::user()->professions;
+
+        $strEspecialidades = "";
+        foreach ($especialidades as $especialidad)
+        {
+            $strEspecialidades .= $especialidad->name." - "; 
+            
+        }
+        
+        $historial = new HistorialClinico;
+        $historial->codPacienteHC = $paciente->codPaciente;
+        $historial->codUsuarioHC = $user->id;
+        $historial->fechaHC = Carbon::now()->toDateTimeString();
+        $historial->codInstitucionHC = $user->institution_id;
+        $historial->entrada = 'Carga de planilla psicológica';
+        $historial->esPublico = '0';
+        $historial->insurance_id = null;
+        $historial->especialidad = $strEspecialidades;
+        $historial->save();
+
         return redirect()->back();
 
     }
@@ -404,6 +478,8 @@ class SheetController extends Controller
         $psychologicalSheet->evolucion = $request->evolucion;
 
         $psychologicalSheet->save();
+
+
         return redirect()->action([SheetController::class, 'psychological'], ['paciente' => $paciente->codPaciente]);
 
     }
