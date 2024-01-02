@@ -94,6 +94,8 @@
     @can('system.charts')
     {!! $appointments_institution->renderChartJsLibrary() !!}
     {!! $appointments_institution->renderJs() !!}
+    @endcan
+    @can('institution.charts')
     {!! $chart1->renderChartJsLibrary() !!}
     {!! $chart1->renderJs() !!}
     {!! $chart2->renderChartJsLibrary() !!}

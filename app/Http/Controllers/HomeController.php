@@ -138,7 +138,7 @@ class HomeController extends Controller
             'model' => 'App\Models\Appointment',
             'relationship_name' => 'user', // represents function user() on Transaction model
             'group_by_field' => 'id', // users.name
-            'where_raw' => 'institution_id = '.$institution->id,
+            'where_raw' => 'institution_id = '.$institution->id.' AND status != "cancelled"',
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
             'labels' => $labels,
@@ -156,6 +156,7 @@ class HomeController extends Controller
             'relationship_name' => 'institution', // represents function institution() on Transaction model
             'group_by_field' => 'name', // users.name
             'group_by_period' => 'month',
+            'where_raw' => 'status != "cancelled"',
             'chart_type' => 'bar',
             'chart_color' => '17, 223, 58',
             'filter_field' => 'start',
@@ -170,7 +171,7 @@ class HomeController extends Controller
             'group_by_period' => 'month',
             'chart_type' => 'bar',
             'chart_color' => '171, 223, 58',
-            'where_raw' => 'user_id = '.$user->id.' AND institution_id ='.$institution->id,
+            'where_raw' => 'user_id = '.$user->id.' AND institution_id ='.$institution->id.' AND status != "cancelled"',
             'filter_field' => 'start',
             'filter_days' => 365, // show only last 30 days
         ];
@@ -217,7 +218,7 @@ class HomeController extends Controller
         $user_cash = new LaravelChart($cash_chart);
         
         $user_attention = new LaravelChart($consultas_usuario);
-        
+
         return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution','user_attention'));
     }
     
