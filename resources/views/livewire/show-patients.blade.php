@@ -6,7 +6,7 @@
         </div>
     @endif
     <div class="row my-2">
-        {{-- @csrf --}}
+        @csrf
         @can('profession')
         <div class="col-md-4">
         @else
