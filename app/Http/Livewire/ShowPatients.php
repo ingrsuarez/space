@@ -95,6 +95,9 @@ class ShowPatients extends Component
 
         $user = Auth::user();
         $user->institution_id = $value;
+        $user->save();
+        return redirect()->route('home')->with('message', 'Institución actualizada correctamente!');
+        
         try 
         {
             
