@@ -6,7 +6,7 @@
         </div>
     @endif
     <div class="row my-2">
-
+        {{-- @csrf --}}
         @can('profession')
         <div class="col-md-4">
         @else
@@ -145,7 +145,7 @@
         
         <div class="col-sm" style="max-width: 28rem;">
             <div class="d-flex">
-                @csrf
+                {{-- @csrf --}}
                 <input wire:model="dni" class="form-control me-2 shadow-sm" name="dni" type="search" placeholder="DNI" aria-label="Search" >
                 <input wire:model="name" class="form-control me-2 shadow-sm" name="nombre" type="text" placeholder="Nombre">
                 <input wire:model="lastName" class="form-control me-2 shadow-sm" name="apellido" type="search" placeholder="Apellido" aria-label="Search" >
