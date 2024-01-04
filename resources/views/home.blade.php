@@ -13,6 +13,16 @@
 
     </div>
 @endsection
+@section('scripts')
+    <script>
+        window.livewire.onError(statusCode => {
+        return false
+    })
+
+    </script>
+    
+
+@endsection
 
 
 
