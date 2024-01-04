@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
      {{-- <meta http-equiv="refresh" content="30"> --}}
     <!-- CSRF Token -->
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
     <title>{{ config('app.name', 'ADMESYS') }}</title>
 
