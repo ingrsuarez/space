@@ -15,9 +15,9 @@
 @endsection
 @section('scripts')
     <script>
-        window.livewire.onError(statusCode => {
-        return false
-    })
+    //     window.livewire.onError(statusCode => {
+    //     return false
+    // })
 
     </script>
     
