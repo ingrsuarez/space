@@ -28,6 +28,10 @@ Auth::routes(['verify'=>true]);
 
 Route::middleware(['verified'])->group(function(){
 
+    //LIVEWIRE
+    
+    Route::post('/livewire/message/show-patients', [App\Http\Livewire\ShowPatients::class, 'render']);
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
     Route::get('/panel', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
@@ -344,3 +348,17 @@ Route::middleware(['verified'])->group(function(){
 });
 
 
+Route::prefix('pacientes')->name('pacientes.')->group(function(){
+    Route::middleware(['guest:pacientes'])->group(function (){
+        Route::view('login','pacientes.login')->name('login');
+        Route::post('authenticate',[App\Http\Controllers\PacienteController::class,'authenticate'])
+        ->name('authenticate');
+        
+    });
+    Route::middleware(['auth:pacientes'])->group(function (){
+        Route::get('inicio',[App\Http\Controllers\PacienteController::class,'home'])
+        ->name('index');
+        Route::post('logout', [App\Http\Controllers\PacienteController::class, 'logoutPaciente'])
+        ->name('logout');
+    });
+});

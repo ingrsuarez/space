@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Carbon\Carbon;
 use App\Models\HistorialClinico;
 use App\Models\Paciente;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Wating_list;
