@@ -425,7 +425,7 @@
               initialDate: today,
               selectable: true,
               slotMinTime: start,
-              slotMaxTime: '20:00',
+              slotMaxTime: '22:00',
               scrollTime: '09:00',
               slotDuration: frequency,
               slotLabelInterval: frequency,

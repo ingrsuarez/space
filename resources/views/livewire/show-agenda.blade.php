@@ -107,7 +107,7 @@
                                 <option value="06:00:00" selected>06:00 hs</option>
                                 @php
                                 $start = [];
-                                for ($h=6; $h < 19; $h++) {
+                                for ($h=6; $h < 22; $h++) {
                                     if($h <= 9){
                                         for ($m=0; $m < 6; $m++) { 
                                             $start['0'.$h.':'.$m.'0:00'] = '0'.$h.':'.$m.'0';
