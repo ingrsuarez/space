@@ -156,7 +156,7 @@ return [
     
     */
 
-    'domain' => env('SESSION_DOMAIN','space4clinic.com'),
+    'domain' => env('SESSION_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
