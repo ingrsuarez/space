@@ -48,16 +48,20 @@ $offcanvas-horizontal-width: 270px;
 //Fullcalendar
 
 .fc .fc-button-primary { 
-	color: #FFFFF; 
-	background-color: #04aa6d !important; 
-	border-color: #FFFFFF !important; 
-	border-radius: 10%;
+	color: #FFF; 
+	background-color:#04aa6d !important; 
+	border-color:#FFF !important; 
+	border-radius:10%;
 }
 
 .fc-event{
     cursor: pointer;
+	
 }
 
+.fc-timegrid-event{
+	width:90%;
+}
 
 
 // .fc-event:hover {

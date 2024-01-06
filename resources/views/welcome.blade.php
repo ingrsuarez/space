@@ -49,11 +49,11 @@
                         <a href="{{ url('/home') }}" class="navbar-brand position-relative end-0">Home</a>
                     @else
                         <div class="text-center m-2">
-                        <a href="{{ route('login') }}" class="btn btn-primary shadow-sm">Iniciar seción</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary shadow-sm text-white">Iniciar seción</a>
                         </div>
                         @if (Route::has('register'))
                         <div class="text-center m-2">
-                            <a href="{{ route('register') }}" class="btn btn-primary shadow-sm">Registrase</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary shadow-sm text-white">Registrase</a>
                         </div>
                         @endif
                         
@@ -153,7 +153,7 @@
                         Resumen de atención de pacientes. Administre sus convenios con obras sociales, precios y notas directamente desde 
                         su perfil de usuario.    
                         </p>
-                      <p><a class="btn btn-primary btn-lg" href="mailto:contacto@space4clinic.com?subject=contacto desde la web" role="button">Solicite una demostración &raquo;</a></p>
+                      <p><a class="btn btn-primary btn-lg text-white" href="mailto:contacto@space4clinic.com?subject=contacto desde la web" role="button">Solicite una demostración &raquo;</a></p>
                     </div>
                   </div>
             
