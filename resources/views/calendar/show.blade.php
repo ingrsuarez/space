@@ -375,7 +375,7 @@
       </form>
     </div>
   </div>
-
+  
   <script>
     
     $.ajaxSetup({
@@ -419,38 +419,38 @@
               
               plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin, momentPlugin, bootstrap5Plugin],
               
-              locale: 'es',
+              
               editable: true,
               initialView: 'timeGridWeek',
               initialDate: today,
               selectable: true,
               slotMinTime: start,
               slotMaxTime: '22:00',
-              scrollTime: '09:00',
+              scrollTime: '08:00',
               slotDuration: frequency,
               slotLabelInterval: frequency,
               firstDay: 1,
               height: 1350,
-              weekends: false,
+              weekends: true,
               selectOverlap: false,
               selectConstraint: 'available',
               eventConstraint: "available",
               allDaySlot:false,
               displayEventTime: false,
               navLinks: true,
-
+              hiddenDays: [ 0 ],
               headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
                 right: 'timeGridWeek,timeGridDay,dayGridMonth' 
               },
-
+              locale: 'es',
               businessHours: {
                 // days of week. an array of zero-based day of week integers (0=Sunday)
-                daysOfWeek: [ 1, 2, 3, 4, 5 ], // Monday - Thursday
+                daysOfWeek: [ 1, 2, 3, 4, 5, 6 ], // Monday - Thursday
 
                 startTime: '07:00', // a start time (10am in this example)
-                endTime: '19:00', // an end time (6pm in this example)
+                endTime: '22:00', // an end time (6pm in this example)
               },
 
               nowIndicator: true,
