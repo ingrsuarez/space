@@ -9,7 +9,7 @@
         </div>
     @endif
     <div class="container">
-        @livewire('show-patients',['wating_institution' => $wating_institution])   
+        @livewire('show-patients',['wating_institution' => $wating_institution, 'user' => $user])   
 
     </div>
 @endsection

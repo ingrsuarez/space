@@ -29,17 +29,17 @@ class ShowPatients extends Component
 
     public function mount()
     {
-        $user = Auth::user();    
+        // $this->user = Auth::user();    
         $today = Carbon::now();
         $monthAgo = Carbon::now()->subDays(30);
-        $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',$user->id)
+        $this->ultimosPacientes = HistorialClinico::where('codUsuarioHc',$this->user->id)
         ->whereBetween('fechaHC',[$monthAgo->format('Y-m-d').' 00:00:00',$today->format('Y-m-d').' 23:59:59'])
         ->count();
         // $institution = $user->currentInstitution;
         // $this->wating_institution = Wating_list::where('institution_id',$institution->id)->count();
-        $this->userInstitutions = Auth::user()->institutions; 
-        $this->institution = Auth::user()->currentInstitution;
-        $this->user = Auth::user();
+        $this->userInstitutions = $this->user->institutions; 
+        $this->institution = $this->user->currentInstitution;
+        
         if(!empty($this->institution))
             {
                 $this->professionals = $this->institution->users;
@@ -54,10 +54,11 @@ class ShowPatients extends Component
 
     public function render()
     {
+        // $this->user = Auth::user();
         $watingMe = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','insurances.name AS insurance','wating_list.institution_id')
             ->join('wating_list', 'wating_list.paciente_id', '=', 'pacientes.codPaciente')
             ->leftJoin('insurances', 'insurances.id', '=', 'wating_list.insurance_id')
-            ->where('wating_list.user_id','=',Auth::user()->id)
+            ->where('wating_list.user_id','=',$this->user->id)
             ->orderBy('wating_list.created_at','ASC')
             ->get();
 
@@ -79,7 +80,7 @@ class ShowPatients extends Component
             ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
             ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
             ->leftJoin('insurances', 'insurances.id', '=', 'pacientes.insurance_id')
-            ->where('historialClinico.codUsuarioHC','=',Auth::user()->id)
+            ->where('historialClinico.codUsuarioHC','=',$this->user->id)
             ->orderBy('historialClinico.fechaHC','DESC')
             ->paginate(10);
             
@@ -94,7 +95,7 @@ class ShowPatients extends Component
     public function changeEvent($value)
     {
 
-        $user = Auth::user();
+        $user = $this->user;
         $user->institution_id = $value;
         $user->save();
         return redirect()->route('home')->with('message', 'Institución actualizada correctamente!');
