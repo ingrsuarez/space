@@ -76,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function institutions()
     {
-        return $this->belongsToMany('App\Models\Institution');
+        return $this->belongsToMany('App\Models\Institution')->withTimestamps();
     }
 
     public function hasInstitution($institution_id)
