@@ -25,17 +25,21 @@ class FichaController extends Controller
 
     public function index($idPaciente)
     {
+        $user = Auth::user();
         $insurances = Insurance::all();
+        $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente',$idPaciente)->first();
-        $appoinments = Appointment::where('paciente_id',$paciente->codPaciente)->orderBy('created_at', 'desc')->get();
+        $appoinments = Appointment::where('paciente_id',$paciente->codPaciente)
+            ->where('institution_id',$institution->id)
+            ->orderBy('created_at', 'desc')->get();
         
         
         //Edad del paciente
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
         $edad = $fecha_nacimiento->diffInYears($today);
-        $user = Auth::user();
-        $institution = $user->currentInstitution;
+        
+        
         $wating = Wating_list::where('paciente_id',$paciente->codPaciente)->first();
         if (!empty($wating))
         {
