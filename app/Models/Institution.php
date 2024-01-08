@@ -44,7 +44,7 @@ class Institution extends Model
 
     public function services()
     {
-        return $this->belongsToMany('App\Models\service','service_institution')->withTimestamps();
+        return $this->belongsToMany('App\Models\Service','service_institution')->withTimestamps();
     }
 
     public function hasService($service_id)
