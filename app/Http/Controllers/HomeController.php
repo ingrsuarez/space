@@ -130,6 +130,24 @@ class HomeController extends Controller
             'filter_days' => 90, // show only transactions for last 30 days
             // 'filter_period' => 'week', // show only transactions for this week
         ];
+
+        $turnos_cobertura = [
+            'chart_title' => 'Turnos por obra social',
+            'chart_type' => 'bar',
+            'report_type' => 'group_by_relationship',
+            'model' => 'App\Models\Appointment',
+            'relationship_name' => 'insurance', // represents function user() on Transaction model
+            'group_by_field' => 'name', // users.name
+            'where_raw' => 'institution_id = '.$institution->id.' AND status != "cancelled"',
+            // 'aggregate_function' => 'sum',
+            // 'aggregate_field' => 'amount',
+            // 'labels' => $labels,
+            'chart_color' => '0,129,088',
+            'filter_field' => 'created_at',
+            'filter_days' => 90, // show only transactions for last 30 days
+            
+            // 'filter_period' => 'week', // show only transactions for this week
+        ];
         
         $chart_turnos = [
             'chart_title' => 'Turnos por usuario',
@@ -219,7 +237,9 @@ class HomeController extends Controller
         
         $user_attention = new LaravelChart($consultas_usuario);
 
-        return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution','user_attention'));
+        $chart_insurance = new LaravelChart($turnos_cobertura);
+
+        return view('dashboard.index', compact('chart1','chart2','chart_professional','user_cash','appointments_institution','user_attention','chart_insurance'));
     }
     
 }

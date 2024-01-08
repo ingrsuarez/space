@@ -35,7 +35,7 @@
                 </div>
                 <div class="card mt-2">
                     <div class="card-header bg-primary bg-gradient text-white">Turnos otorgados últimos 3 meses</div>
-                    <div class="card-body">
+                    <div class="card-body  mb-2">
 
                         <h1>{{ $chart2->options['chart_title'] }}</h1>
                         {!! $chart2->renderHtml() !!}
@@ -44,10 +44,24 @@
 
                 
             </div>
+
+            <div class="card">
+                <div class="card-header bg-primary bg-gradient text-white">Turnos por obra social</div>
+
+                    <div class="card-body mb-2">
+
+                        <h1>{{ $chart_insurance->options['chart_title'] }}</h1>
+                        {!! $chart_insurance->renderHtml() !!}
+                    </div>
+
+            
+                </div>
+
+
+                
+            </div>
         </div>
     </div>
-    
-
     @endcan
 
     @can('professional.charts')
@@ -100,6 +114,8 @@
     {!! $chart1->renderJs() !!}
     {!! $chart2->renderChartJsLibrary() !!}
     {!! $chart2->renderJs() !!}
+    {!! $chart_insurance->renderChartJsLibrary() !!}
+    {!! $chart_insurance->renderJs() !!}
     @endcan
 {!! $chart_professional->renderChartJsLibrary() !!}
 {!! $chart_professional->renderJs() !!}
