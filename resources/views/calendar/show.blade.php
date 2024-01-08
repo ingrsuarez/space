@@ -372,6 +372,7 @@
         <input type="hidden" id="professionalEvent" name="professional_id" value="{{$professional->id}}">
         <input type="hidden" id="patientEvent" name="patient_id" value="">
         <input type="hidden" id="eventId" name="event_id" value="">
+        <input type="hidden" id="insuranceId2" name="insurance_id" value="">
       </form>
     </div>
   </div>
@@ -489,6 +490,7 @@
                   $('#endDateLock').val(endDate);
                   $('#eventId').val(info.event.id);
                   $('#insuranceId').val(info.event.extendedProps.insurance);
+                  $('#insuranceId2').val(info.event.extendedProps.insurance);
                   $('#groupId').val(info.event.groupId);
                   if(info.event.groupId == 'unAvailable')
                   {

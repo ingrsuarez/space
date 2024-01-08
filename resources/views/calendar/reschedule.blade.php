@@ -46,7 +46,8 @@
                       <input type="hidden" id="room" name="room_id">
                       <input type="hidden" id="institution" name="institution_id" value="{{$institution->id}}">
                       <input type="hidden" id="institution" name="patient_id" value="{{$patient->codPaciente}}">
-                      <input type="hidden" id="institution" name="event_id" value="{{$eventId}}">
+                      <input type="hidden" id="event_id" name="event_id" value="{{$eventId}}">
+                      <input type="hidden" id="insuranceId" name="insurance_id" value="{{$insuranceId}}">
                     </div>
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">

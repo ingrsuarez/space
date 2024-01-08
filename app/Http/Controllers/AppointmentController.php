@@ -531,8 +531,6 @@ class AppointmentController extends Controller
     {
         if (!empty($request->patient_id))
         {
-            
-            // return $request;
             $over_count = Appointment::where('start',$request->startDate)
                 ->where('user_id',$request->user_id)
                 ->where('institution_id',$request->institution_id)
@@ -550,7 +548,7 @@ class AppointmentController extends Controller
                 $appointment->room_id = $request->room_id;
                 $appointment->start = $request->startDate;
                 $appointment->end = $request->endDate;
-                $appointment->medicare = '';
+                $appointment->medicare = $request->insurance_id;
                 $appointment->obs = $request->obs;
                 $appointment->status = 'active';
                 $appointment->overturn = $over_count;
@@ -701,8 +699,8 @@ class AppointmentController extends Controller
                 }
                 $frequency = '00:'.$frequency.':00';
                 $eventId = $request->event_id;
-
-                return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient','observaciones'));  
+                $insuranceId = $request->insurance_id;
+                return view('calendar.reschedule',compact('eventId','events','institution','professional','availableAgenda','frequency','patient','observaciones','insuranceId'));  
 
             }
 
@@ -772,9 +770,10 @@ class AppointmentController extends Controller
             $appointment->room_id = $request->room_id;
             $appointment->start = $request->startDate;
             $appointment->end = $request->endDate;
-            $appointment->medicare = 'issn';
+            $appointment->medicare = '';
             $appointment->obs = $request->obs;
             $appointment->creator_id = $creator->id;
+            $appointment->insurance_id = $request->insurance_id;
             $appointment->status = 'active';
             $appointment->overturn = 0;
 
