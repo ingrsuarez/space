@@ -121,7 +121,7 @@ class HomeController extends Controller
             'model' => 'App\Models\HistorialClinico',
             'relationship_name' => 'users', // represents function user() on Transaction model
             'group_by_field' => 'id', // users.name
-            'where_raw' => 'codInstitucionHC = '.$institution->id,
+            'where_raw' => 'codInstitucionHC = '.$institution->id.' AND codPacienteHC != 1',
             'chart_color' => '0,129,255',
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
@@ -138,7 +138,7 @@ class HomeController extends Controller
             'model' => 'App\Models\Appointment',
             'relationship_name' => 'insurance', // represents function user() on Transaction model
             'group_by_field' => 'name', // insurance.name
-            'where_raw' => 'institution_id = '.$institution->id.' AND status != "cancelled" AND insurance_id != ""',
+            'where_raw' => 'institution_id = '.$institution->id.' AND status != "cancelled" AND insurance_id != "" AND paciente_id != 1',
             // 'aggregate_function' => 'sum',
             // 'aggregate_field' => 'amount',
             // 'labels' => $labels,
