@@ -70,6 +70,7 @@ class FichaController extends Controller
         // Order the array to get the last files uploaded
         $files = array_reverse(array_slice($files,-10));
 
+        // Estudios de Fibroscan
         $directoryFibroscans = "patients/".$idPaciente."/fibroscan";
         $fibroscans = [];
             
@@ -89,10 +90,32 @@ class FichaController extends Controller
         // Order the array to get the last files uploaded
         $fibroscans = array_reverse(array_slice($fibroscans,-10));
         //Historial clínico del paciente
+
+        // Estudios de ecografia
+        $directoryecografias = "patients/".$idPaciente."/ecografia";
+        $ecografias = [];
+            
+        foreach(Storage::disk('local')->files($directoryecografias) as $ecografia){
+            $name = str_replace($directoryecografias.'/',"",$ecografia);
+            $path = asset(Storage::disk('local')->url($ecografia));
+            $link = Storage::path($ecografia);
+            $ecografias[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($ecografia)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $ecografias = array_reverse(array_slice($ecografias,-10));
+        //Historial clínico del paciente
+
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments','files','fibroscans'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments','files','fibroscans','ecografias'));
     }
 
     

@@ -253,7 +253,42 @@
           </div>
         </div>
       @endif
-
+      @if($institution->hasServicePath('ecografia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionEcografia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="ecografia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Ecografia-collapseOne" aria-expanded="true" aria-controls="Ecografia-collapseOne">
+                  <div class="">
+                      Ecografías: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Ecografia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Ecografia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.ecografia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="ecografia" name="ecografia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  @foreach ($ecografias as $ecografia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.ecografia',['file'=>$ecografia['name'], 'idPaciente'=>$ecografia['idPaciente']])}}" target="_blank">{{ $ecografia['name'] }}</a>
+                    <br>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
     @endcan
 
 {{--                     Professional view                 --}}
@@ -263,7 +298,7 @@
         <div class="accordion" id="accordionSheets">
           <div class="accordion-item">  
             <h2 class="accordion-header" id="Sheets">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Sheets-collapseOne" aria-expanded="true" aria-controls="Fibroscan-collapseOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Sheets-collapseOne" aria-expanded="true" aria-controls="sheets-collapseOne">
                 <div class="">
                     Planillas: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
                 </div>
