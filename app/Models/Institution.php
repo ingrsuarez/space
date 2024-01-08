@@ -42,4 +42,21 @@ class Institution extends Model
         return $hasSheet;
     }
 
+    public function services()
+    {
+        return $this->belongsToMany('App\Models\service','service_institution')->withTimestamps();
+    }
+
+    public function hasService($service_id)
+    {
+        $hasService = $this->services()->where('id', $service_id)->exists();
+        return $hasService;
+    }
+
+    public function hasServicePath($service_path)
+    {
+        $hasService = $this->services()->where('path', $service_path)->exists();
+        return $hasService;
+    }
+
 }

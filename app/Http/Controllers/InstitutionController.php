@@ -7,6 +7,7 @@ use App\Models\Institution;
 use App\Models\User;
 use App\Models\Sheet;
 use App\Models\Room;
+use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -63,7 +64,8 @@ class InstitutionController extends Controller
         
         $users = $institution->users;
         $sheets = Sheet::all();
-        return view('institutions.edit',compact('institution','users','sheets'));
+        $services = Service::all();
+        return view('institutions.edit',compact('institution','users','sheets','services'));
     }
 
     public function update(Request $request, Institution $institution)
@@ -297,6 +299,20 @@ class InstitutionController extends Controller
     public function detachSheet(Institution $institution, Sheet $sheet)
     {
         $institution->sheets()->detach($sheet->id);
+        return back()->with('message', 'Planilla agregada correctamente!');
+        
+    }
+
+    public function attachService(Institution $institution, Service $service)
+    {
+        $institution->services()->attach($service->id);
+        return back()->with('message', 'Planilla agregada correctamente!');
+        
+    }
+
+    public function detachService(Institution $institution, Service $service)
+    {
+        $institution->services()->detach($service->id);
         return back()->with('message', 'Planilla agregada correctamente!');
         
     }

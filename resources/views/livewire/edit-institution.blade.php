@@ -84,6 +84,68 @@
         </div>
     </div>
     
+    <div class="accordion" id="panelServices">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelServices">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelServices-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                
+                    Servicios: 
+                
+              </button>
+            </h2>
+            <div id="panelServices-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelServices">
+                <div class="accordion-body">
+                    <div class="card mb-3">
+
+                        <div class="card-body  shadow">
+                            <form id="nuevo-trabajo" action="{{ route('institution.show') }}" method="POST" class="d-flex">
+                                @csrf
+                                <input class="form-control me-2 shadow-sm" name="service_name" type="search" placeholder="Nombre" wire:model="service_name" >
+                                
+                                <button class="btn btn-outline-success shadow-sm" type="submit">Buscar</button>
+                            </form>
+
+              
+                                
+                            <table class="table mt-3">
+                                <thead class="table-light">
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Area</th>
+                                    <th>Ruta</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    @if(isset($services))
+                                        @foreach($services as $service)
+                                        <tr> 
+                                            <td>{{strtoupper($service->name)}}</td>
+                                            <td>{{ucfirst($service->description)}}</td>
+                                            <td>{{ucfirst($service->area)}}</td>
+                                            <td>{{ucfirst($service->Carpeta)}}</td>
+                                            <td width="10px">
+                                            @if($institution->hasservice($service->id))   
+                                                <a class="btn btn-danger text-white" href="{{ route('institutionService.detach',['institution'=>$institution,'service'=>$service]) }}">
+                                                    Quitar</a>
+                                            @else
+                                                <a class="btn btn-info text-white" href="{{ route('institutionService.attach',['institution'=>$institution,'service'=>$service]) }}">
+                                                    Agregar</a>
+                                            @endif
+                                            </td>
+
+                                        </tr>   
+                                        @endforeach
+                                    @endif
+                              
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div> 
+
     <div class="accordion" id="panelPlanillas">
         <div class="accordion-item">
             <h2 class="accordion-header" id="panelPlanillas">

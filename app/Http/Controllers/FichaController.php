@@ -101,8 +101,6 @@ class FichaController extends Controller
         
         $paciente = Paciente::find($request->codPaciente);
         $user = Auth::user();
-        
-
 
         if ($request->esPublico){
             $esPublico = 1;

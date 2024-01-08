@@ -79,7 +79,7 @@
 
     
  	<div class="col-sm px-5">
-    	@livewire('edit-institution', ['institution' => $institution, 'sheets' => $sheets])
+    	@livewire('edit-institution', ['institution' => $institution, 'sheets' => $sheets, 'services' => $services])
 	</div>
 	
 

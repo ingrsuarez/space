@@ -30,7 +30,8 @@ Route::middleware(['verified'])->group(function(){
 
     //LIVEWIRE
     
-    Route::post('/livewire/message/show-patients', [App\Http\Livewire\ShowPatients::class, 'render']);
+    Route::post('/livewire/message/show-patients', [App\Http\Livewire\ShowPatients::class, 'mount']);
+    
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
@@ -143,7 +144,14 @@ Route::middleware(['verified'])->group(function(){
         ->name('institutionSheet.attach');    
     Route::get('institution/sheetsDetach/{institution}/{sheet}',[App\Http\Controllers\InstitutionController::class,'detachSheet'])
         ->middleware('can:institution.sheets')
-        ->name('institutionSheet.detach');   
+        ->name('institutionSheet.detach'); 
+        
+    Route::get('institution/servicesAttach/{institution}/{service}',[App\Http\Controllers\InstitutionController::class,'attachService'])
+        ->middleware('can:institution.services')
+        ->name('institutionService.attach');    
+    Route::get('institution/servicesDetach/{institution}/{service}',[App\Http\Controllers\InstitutionController::class,'detachService'])
+        ->middleware('can:institution.services')
+        ->name('institutionService.detach'); 
     // ROOMS
 
     Route::get('institution/rooms',[App\Http\Controllers\InstitutionController::class,'room'])
@@ -273,6 +281,12 @@ Route::middleware(['verified'])->group(function(){
 
 
     //SERVICES
+    Route::get('services/new',[App\Http\Controllers\ServicesController::class,'new'])
+        ->middleware('can:services.new')->name('services.new');
+
+    Route::post('services/store',[App\Http\Controllers\ServicesController::class,'store'])
+        ->middleware('can:services.new')->name('services.store');
+
     Route::post('laboratory/file/store',[App\Http\Controllers\FilesController::class,'store'])
         ->middleware('can:store.file')->name('store.file');
 

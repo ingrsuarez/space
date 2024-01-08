@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\Sheet;
+use App\Models\Service;
 use App\Models\Institution;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class EditInstitution extends Component
     public $userInstitutions;
     public $sheet_name;
     public $sheets;
+    public $services;
     
     public function mount(Institution $institution)
     {
