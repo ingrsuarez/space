@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Institution;
-use App\Models\Services;
+use App\Models\Service;
 
 class ServicesController extends Controller
 {
@@ -17,7 +17,7 @@ class ServicesController extends Controller
 
     public function store(Request $request)
     {
-        $service = new Services;
+        $service = new Service;
         $service->name = $request->name;
         $service->description = $request->description;
         $service->area = $request->area;
