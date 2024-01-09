@@ -25,11 +25,11 @@ class PacienteController extends Controller
      */
 
 
-    public function __construct()
-    {
-        Auth::setDefaultDriver('pacientes');
-        config(['auth.defaults.passwords' => 'pacientes']); 
-    }
+    // public function __construct()
+    // {
+    //     Auth::setDefaultDriver('pacientes');
+    //     config(['auth.defaults.passwords' => 'pacientes']); 
+    // }
 
 
 
