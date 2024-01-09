@@ -4,17 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 
-class Paciente extends Model
+class Paciente extends Authenticatable
 {
     protected  $primaryKey = 'codPaciente';
+    use HasFactory, Notifiable;
+    protected $guard = 'pacientes';
 
     protected $fillable = [
         'nombrePaciente',
     ];
-    use HasFactory;
 
+    public function getAuthPassword()
+    {
+        return Hash::make($this->idPaciente);
+    }
 
     public function historialclinico()
     {

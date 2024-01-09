@@ -18,6 +18,11 @@ return [
         'passwords' => 'users',
     ],
 
+    'pacientes' =>[
+        'driver' => 'eloquent',
+        'model' => App\Models\Paciente::class,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -39,6 +44,10 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'pacientes' => [
+            'driver' => 'session',
+            'provider' => 'pacientes',
         ],
     ],
 
@@ -64,7 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'pacientes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Paciente::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -92,6 +104,10 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+        'pacientes' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Paciente::class,
         ],
     ],
 

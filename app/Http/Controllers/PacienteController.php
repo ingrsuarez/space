@@ -23,6 +23,23 @@ class PacienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    public function __construct()
+    {
+        Auth::setDefaultDriver('pacientes');
+        config(['auth.defaults.passwords' => 'pacientes']); 
+    }
+
+
+
+    public function home(Request $request)
+    {
+        $paciente = Auth::user();
+        
+        return view('pacientes.index',compact('paciente'));
+    }
+
     public function index(Request $request)
     {
         if(isset($request->dni)){
@@ -207,6 +224,33 @@ class PacienteController extends Controller
         return redirect('home/')->with('message', 'Paciente eliminado de lista de espera!');
 
         
+    }
+
+
+    public function authenticate(Request $request)
+    {
+        $request->validate([
+            'emailPaciente' => 'required|email',
+            'password' => 'required'
+        ]);
+        $check = $request->only('emailPaciente','password');
+        // dd($check);
+        if(Auth::guard('pacientes')->attempt($check))
+        {
+            return redirect()->route('pacientes.index');
+        }else{
+            return redirect()->back()->with('message','Alguno de los datos ingresados es incorrecto!');
+        }
+        
+        return 'fallo';
+    }
+
+    public function logoutPaciente(Request $request)
+    {
+        Auth::guard('pacientes')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
 
 }
