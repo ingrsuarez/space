@@ -66,10 +66,11 @@
                 @csrf
                     <tr>
                         <td>
-                            <select class="form-select" name="day">
-                                <option value="1" selected>lunes</option>        
+                            <select class="form-select" name="day" required>
+                                <option value="" disabled selected hidden>seleccionar..</option>        
                             @php
                                 $days = [
+                                    '1' => 'lunes',
                                     '2' => 'martes',
                                     '3' => 'miercoles',
                                     '4' => 'jueves',
@@ -85,10 +86,11 @@
                             </select>
                         </td>
                         <td>
-                            <select name="frequency" class="form-select">
-                                <option value="10" selected>10 min</option>
+                            <select name="frequency" class="form-select"  required>
+                                <option value="" disabled selected hidden>seleccionar..</option>
                                 @php
                                 $frequencys = [
+                                    '10',
                                     '15',
                                     '20',
                                     '30',
@@ -103,8 +105,8 @@
                             </select>    
                         </td>
                         <td>
-                            <select name="start" class="form-select">
-                                <option value="06:00:00" selected>06:00 hs</option>
+                            <select name="start" class="form-select" required>
+                                <option value="" disabled selected hidden>seleccionar..</option>
                                 @php
                                 $start = [];
                                 for ($h=6; $h < 22; $h++) {
@@ -129,8 +131,8 @@
                             </select>    
                         </td>
                         <td>
-                            <select name="end" class="form-select">
-                                <option value="06:00:00" selected>06:00 hs</option>
+                            <select name="end" class="form-select" required>
+                                <option value="" disabled selected hidden>seleccionar..</option>
                                 @php
                                 
                                 foreach($start as $hour => $label)
@@ -142,7 +144,8 @@
                             </select>    
                         </td>
                         <td>
-                            <select class="form-select" name="room_id">
+                            <select class="form-select" name="room_id" required>
+                                <option value="" disabled selected hidden>seleccionar..</option>
                             @foreach($rooms as $room)
 
                                 <option value="{{$room->id}}">{{$room->name}}</option>
