@@ -27,12 +27,16 @@
                     
                     
                     <select class="form-select" wire:change="changeEvent($event.target.value)" autofocus>    
-                    @if($professional->hasRole('profesional'))
-                        <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>    
+                    @if($user->hasRole('profesional'))
+                        <option value="{{$user->id}}">{{strtoupper($user->lastName).' '.strtoupper($user->name)}}</option>    
                     @else
-                        @foreach($professionals as $professional)
-                            @if($professional->hasRole('profesional'))
-                                <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
+                        @foreach($professionals as $professionalList)
+                            @if($professionalList->hasRole('profesional'))
+                                @if($professionalList->id != $professional->id ) 
+                                    <option value="{{$professionalList->id}}">{{strtoupper($professionalList->lastName).' '.strtoupper($professionalList->name)}}</option>
+                                @else
+                                    <option selected value="{{$professionalList->id}}">{{strtoupper($professionalList->lastName).' '.strtoupper($professionalList->name)}}</option> 
+                                @endif
                             @endif
                         @endforeach
                     @endif
@@ -63,7 +67,7 @@
             </thead>
             <tbody>
                 <form id="new" action="{{route('agenda.store')}}" method="POST">
-                @csrf
+                    @csrf
                     <tr>
                         <td>
                             <select class="form-select" name="day" required>
@@ -153,8 +157,8 @@
                             </select>
                         </td>
                         <td>
-                            @if(!empty($user))
-                            <input type="hidden" value="{{$user->id}}" name="professional_id">
+                            @if(!empty($professional))
+                            <input type="hidden" value="{{$professional->id}}" name="professional_id">
                             <button type="submit" class="btn btn-sm btn-primary text-white">Agregar</button>
                             @endif
                         </td>
@@ -283,7 +287,7 @@
                          <td>
                             <form id="{{$segment->id}}" action="{{route('agenda.edit')}}" method="POST">
                             @csrf
-                            <input type="hidden" value="{{$user->id}}" name="professional_id" form="{{$segment->id}}">
+                            <input type="hidden" value="{{$professional->id}}" name="professional_id" form="{{$segment->id}}">
                             <button type="submit" class="btn btn-sm btn-primary text-white" form="{{$segment->id}}">Editar</button>
                             </form>
                         </td>

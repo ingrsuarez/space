@@ -29,9 +29,6 @@ Auth::routes(['verify'=>true]);
 Route::middleware(['verified'])->group(function(){
 
     //LIVEWIRE
-    
-    Route::post('/livewire/message/show-patients', [App\Http\Livewire\ShowPatients::class, 'mount']);
-    
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
@@ -255,10 +252,12 @@ Route::middleware(['verified'])->group(function(){
         ->name('wa.send');
 
     //AGENDAS
-    Route::get('agendas/index',[App\Http\Controllers\AgendaController::class,'index'])->middleware('can:agenda.index')->name('agendas.index');
+    Route::get('agendas/index/{professional?}',[App\Http\Controllers\AgendaController::class,'index'])
+        ->middleware('can:agenda.index')
+        ->name('agendas.index');
     Route::post('agenda/store',[App\Http\Controllers\AgendaController::class,'store'])->middleware('can:agenda.store')->name('agenda.store');
     Route::post('agenda/edit',[App\Http\Controllers\AgendaController::class,'edit'])->middleware('can:agenda.edit')->name('agenda.edit');
-    Route::get('agenda/delete/{agenda}',[App\Http\Controllers\AgendaController::class,'delete'])->middleware('can:agenda.delete')->name('agenda.delete');
+    Route::get('agenda/delete/{agenda}/{professional?}',[App\Http\Controllers\AgendaController::class,'delete'])->middleware('can:agenda.delete')->name('agenda.delete');
 
     //Add Remove User
     Route::get('institution/addUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachUser'])->middleware('can:institution.attach')->name('userInstitution.attach');

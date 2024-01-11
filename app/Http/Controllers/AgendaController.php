@@ -19,8 +19,9 @@ class AgendaController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(User $professional)
     {
+        // return $professional;
         $user = Auth::user();
         
         $professionals = User::whereHas(
@@ -32,10 +33,10 @@ class AgendaController extends Controller
                     $q->where('id', 2);
                 }
             )->get();
-        // if($professionals)
-        // {
-        //     return back()->with('error', 'No existen profesionales en esta institución!');
-        // }
+        if(isset($professional))
+        {
+            return view('agendas.index',compact('professionals','user','professional'));
+        }
         return view('agendas.index',compact('professionals','user'));
     }
 
@@ -55,7 +56,8 @@ class AgendaController extends Controller
         try 
         {
             $agenda->save();
-            return back()->with('message', 'Agenda guardada correctamente!');
+            return redirect()->route('agendas.index', ['professional' => $request->professional_id]);
+            // return back()->with('message', 'Agenda guardada correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
         {
@@ -97,11 +99,11 @@ class AgendaController extends Controller
 
     public function delete(Agenda $agenda)
     {
-
+        
         try 
         {
             $agenda->delete();
-            return back()->with('message', 'Agenda eliminada correctamente!');
+            return redirect()->route('agendas.index', ['professional' => $agenda->user_id]);
         
         } catch(\Illuminate\Database\QueryException $e)
         {
