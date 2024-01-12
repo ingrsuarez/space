@@ -401,7 +401,7 @@
               <label for="nueva-atencion" class="form-label h5"><strong>Nueva atención</strong></label>
               <textarea class="form-control" id="nueva-atencion" rows="3" name="entrada" required></textarea>
               <input type="hidden" value="{{$paciente->codPaciente}}" name="codPaciente"> 
-              <input type="hidden" value="{{$insurance->id}}" name="insurance_id">
+              <input type="hidden" value="{{$watingInsurance}}" name="insurance_id">
               <input class="form-check-input" type="checkbox" name="esPublico" id="flexCheckChecked" checked>
               <label class="form-check-label" for="flexCheckChecked">
                 Es publico
