@@ -79,10 +79,10 @@ class ShowPatients extends Component
             $pacientes = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','pacientes.celularPaciente','pacientes.numeroAfiliadoPaciente','insurances.name AS cobertura')
             ->join('historialClinico', 'codPacienteHC', '=', 'pacientes.codPaciente')
             ->join('users', 'users.id', '=', 'historialClinico.codUsuarioHC')
-            ->leftJoin('insurances', 'insurances.id', '=', 'pacientes.insurance_id')
+            ->leftJoin('insurances', 'insurances.id', '=', 'historialClinico.insurance_id')
             ->where('historialClinico.codUsuarioHC','=',$this->user->id)
             ->orderBy('historialClinico.fechaHC','DESC')
-            ->paginate(10);
+            ->paginate(15);
             
            
             return view('livewire.show-patients',compact('pacientes','watingMe'));

@@ -41,12 +41,13 @@ class FichaController extends Controller
         
         
         $wating = Wating_list::where('paciente_id',$paciente->codPaciente)->first();
+        
         if (!empty($wating))
         {
-            $insurance = $wating->insurance_id;
+            $watingInsurance = $wating->insurance_id;
         }else
         {
-            $insurance = null;
+            $watingInsurance = null;
         }
         
         $user->watingMe()->detach($paciente->codPaciente);
@@ -115,7 +116,7 @@ class FichaController extends Controller
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','insurance','appoinments','files','fibroscans','ecografias'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','watingInsurance','appoinments','files','fibroscans','ecografias'));
     }
 
     
