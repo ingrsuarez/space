@@ -111,12 +111,32 @@ class FichaController extends Controller
         }
         // Order the array to get the last files uploaded
         $ecografias = array_reverse(array_slice($ecografias,-10));
+
+        // Estudios de endoscopia
+        $directoryendoscopias = "patients/".$idPaciente."/endoscopia";
+        $endoscopias = [];
+            
+        foreach(Storage::disk('local')->files($directoryendoscopias) as $endoscopia){
+            $name = str_replace($directoryendoscopias.'/',"",$endoscopia);
+            $path = asset(Storage::disk('local')->url($endoscopia));
+            $link = Storage::path($endoscopia);
+            $endoscopias[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($endoscopia)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $endoscopias = array_reverse(array_slice($endoscopias,-10));
         //Historial clínico del paciente
 
         $codPaciente = $paciente->codPaciente;
         $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
         
-        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','watingInsurance','appoinments','files','fibroscans','ecografias'));
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','watingInsurance','appoinments','files','fibroscans','ecografias','endoscopias'));
     }
 
     

@@ -304,6 +304,12 @@ Route::middleware(['verified'])->group(function(){
     Route::get('ecografia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadEcografia'])
         ->middleware('can:store.file')->name('download.ecografia');
 
+    Route::post('endoscopia/file/store',[App\Http\Controllers\FilesController::class,'storeEndoscopia'])
+        ->middleware('can:store.file')->name('store.endoscopia');
+
+    Route::get('endoscopia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadEndoscopia'])
+        ->middleware('can:store.file')->name('download.endoscopia');
+
     //SHEETS
     Route::get('sheet/index',[App\Http\Controllers\SheetController::class,'index'])
         ->middleware('can:sheet.index')->name('sheet.index');

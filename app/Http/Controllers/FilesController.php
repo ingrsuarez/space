@@ -120,4 +120,39 @@ class FilesController extends Controller
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
+
+    public function storeEndoscopia(Request $request)
+    {
+        
+        $user = Auth::user();
+        $institution = $user->currentInstitution;
+        $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
+        $request->validate([
+            'endoscopia' => 'max:2000|mimes:pdf',
+        ]);
+      
+        $file = $request->file('endoscopia');
+        
+        $file->storeAs('','patients/'.$request->idPaciente.'/endoscopia/endoscopia-'.$request->idPaciente.'-'. $request->file_date.'.'.$file->extension(),'');
+
+        $uploaded_file = new Upload_file;
+        $uploaded_file->institution_id = $institution->id;
+        $uploaded_file->user_id = $user->id;
+        $uploaded_file->paciente_id = $paciente->codPaciente;
+        $uploaded_file->name = $file;
+        $uploaded_file->path = 'patient/';
+        $uploaded_file->type = $file->extension();
+        
+        $uploaded_file->save();
+        return redirect()->back()->withInput();
+    }
+
+    public function downloadEndoscopia($file, Request $request)
+    {
+       
+ 
+        $file_path = Storage::path('patients/'.$request->idPaciente.'/endoscopia/'.$file);
+
+        return response()->file($file_path,['content-type'=>'application/pdf']);
+    }
 }

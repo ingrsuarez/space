@@ -289,40 +289,76 @@
           </div>
         </div>
       @endif
-    @endcan
-
-{{--                     Professional view                 --}}
-
-    @can('sheet.index')
-      <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
-        <div class="accordion" id="accordionSheets">
-          <div class="accordion-item">  
-            <h2 class="accordion-header" id="Sheets">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Sheets-collapseOne" aria-expanded="true" aria-controls="sheets-collapseOne">
-                <div class="">
-                    Planillas: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
-                </div>
-              </button> 
-            </h2>
-            <div id="Sheets-collapseOne" class="accordion-collapse collapse" aria-labelledby="Sheets-headingOne">
-              <div class="accordion-body">
-                @isset($institution)
-                  @foreach ($institution->sheets as $sheet)
-                  @if(Route::has($sheet->route))
-                  <a class="btn btn-sm btn-warning m-2 shadow" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{ucfirst($sheet->name)}}</a>
-                  @endif
+      @if($institution->hasServicePath('endoscopia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionEndoscopia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="Endoscopia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Endoscopia-collapseOne" aria-expanded="true" aria-controls="Endoscopia-collapseOne">
+                  <div class="">
+                      Endoscopias: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Endoscopia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Endoscopia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.endoscopia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="endoscopia" name="endoscopia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaEndoscopia">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  
+                  @foreach ($endoscopias as $endoscopia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.endoscopia',['file'=>$endoscopia['name'], 'idPaciente'=>$endoscopia['idPaciente']])}}" target="_blank">{{ $endoscopia['name'] }}</a>
+                    <br>
                   @endforeach
-                @endisset
-                
-                
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      @endif
+    @endcan
+{{-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
+{{--                     Professional view                 --}}
+{{-- ///////////////////////////////////////////////////// --}}
+    @can('sheet.index')
+      @if(count($institution->sheets))  
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionSheets">
+            <div class="accordion-item">  
+              <h2 class="accordion-header" id="Sheets">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Sheets-collapseOne" aria-expanded="true" aria-controls="sheets-collapseOne">
+                  <div class="">
+                      Planillas: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button> 
+              </h2>
+              <div id="Sheets-collapseOne" class="accordion-collapse collapse" aria-labelledby="Sheets-headingOne">
+                <div class="accordion-body">
+                    @foreach ($institution->sheets as $sheet)
+                      @if(Route::has($sheet->route))
+                      <a class="btn btn-sm btn-warning m-2 shadow" href="{{route($sheet->route,['paciente'=>$paciente])}}">{{ucfirst($sheet->name)}}</a>
+                      @endif
+                    @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endisset        
     @endcan  
     @can('ficha')
       {{-- Download FILES --}}
+      {{-- Estudios de laboratorio --}}
       <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
         <div class="accordion" id="accordionLaboratorio">
           <div class="accordion-item">
@@ -356,43 +392,118 @@
           </div>
         </div>
       </div>
-
-      <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
-        <div class="accordion" id="accordionFibroscan">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="Fibroscan">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Fibroscan-collapseOne" aria-expanded="true" aria-controls="Fibroscan-collapseOne">
-                <div class="">
-                    Fibroscan: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+      {{-- Estudios de Fibroscan --}}
+      @if($institution->hasServicePath('fibroscan'))
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionFibroscan">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="Fibroscan">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Fibroscan-collapseOne" aria-expanded="true" aria-controls="Fibroscan-collapseOne">
+                  <div class="">
+                      Fibroscan: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Fibroscan-collapseOne" class="accordion-collapse collapse" aria-labelledby="Fibroscan-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.fibroscan')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="fibroscan" name="fibroscan" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  @foreach ($fibroscans as $fibroscan)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.fibroscan',['file'=>$fibroscan['name'], 'idPaciente'=>$fibroscan['idPaciente']])}}" target="_blank">{{ $fibroscan['name'] }}</a>
+                    <br>
+                  @endforeach
                 </div>
-              </button>
-            </h2>
-            <div id="Fibroscan-collapseOne" class="accordion-collapse collapse" aria-labelledby="Fibroscan-headingOne">
-              <div class="accordion-body">
-                <form action="{{route('store.fibroscan')}}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
-                  <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="fibroscan" name="fibroscan" required accept="application/pdf">
-                    <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
-                    <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
-                    <input type="date" class="form-control" id="file_date" name="file_date" required>
-                  </div>
-                    <div class="d-grid gap-2 col-4 ms-auto py-2">
-                    <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
-                  </div>
-                </form>
-                @foreach ($fibroscans as $fibroscan)
-                  <a class="btn btn-sm btn-secondary m-2" href="{{route('download.fibroscan',['file'=>$fibroscan['name'], 'idPaciente'=>$fibroscan['idPaciente']])}}" target="_blank">{{ $fibroscan['name'] }}</a>
-                  <br>
-                @endforeach
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-
+      @endif
+      {{-- Endoscopias --}}
+      @if($institution->hasServicePath('endoscopia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionEndoscopia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="Endoscopia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Endoscopia-collapseOne" aria-expanded="true" aria-controls="Endoscopia-collapseOne">
+                  <div class="">
+                      Endoscopias: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Endoscopia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Endoscopia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.endoscopia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="endoscopia" name="endoscopia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaEndoscopia">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  @foreach ($endoscopias as $endoscopia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.endoscopia',['file'=>$endoscopia['name'], 'idPaciente'=>$endoscopia['idPaciente']])}}" target="_blank">{{ $endoscopia['name'] }}</a>
+                    <br>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
+      {{-- Ecografías --}}
+      @if($institution->hasServicePath('ecografia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+          <div class="accordion" id="accordionEcografia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="ecografia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Ecografia-collapseOne" aria-expanded="true" aria-controls="Ecografia-collapseOne">
+                  <div class="">
+                      Ecografías: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Ecografia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Ecografia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.ecografia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="ecografia" name="ecografia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaNacimiento">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  @foreach ($ecografias as $ecografia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.ecografia',['file'=>$ecografia['name'], 'idPaciente'=>$ecografia['idPaciente']])}}" target="_blank">{{ $ecografia['name'] }}</a>
+                    <br>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
+      {{-- Historial  --}}
       <div class="col-sm px-5" style="max-width:50rem">
         <div class="card mb-3 shadow">
           <div class="card-body m-2">
