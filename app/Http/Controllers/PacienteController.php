@@ -98,7 +98,8 @@ class PacienteController extends Controller
         $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
         $paciente->nombrePaciente = strtolower($request->nombre);
         $paciente->apellidoPaciente = strtolower($request->apellido);
-        $paciente->celularPaciente = $request->telefono;
+        $paciente->celularPaciente = $request->celular;
+        $paciente->telefonoPaciente = $request->telefono;
         $paciente->emailPaciente = strtolower($request->email);
         $paciente->CoberturaPaciente = strtolower($request->cobertura);
         $paciente->ocupacionPaciente = strtolower($request->ocupacion);
@@ -150,7 +151,8 @@ class PacienteController extends Controller
         $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
         $paciente->nombrePaciente = strtolower($request->nombre);
         $paciente->apellidoPaciente = strtolower($request->apellido);
-        $paciente->celularPaciente = $request->telefono;
+        $paciente->celularPaciente = $request->celular;
+        $paciente->telefonoPaciente = $request->telefono;
         $paciente->emailPaciente = strtolower($request->email);
         $paciente->insurance_id = strtolower($request->insurance_id);
         $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;

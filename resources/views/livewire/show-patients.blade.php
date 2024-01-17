@@ -149,7 +149,7 @@
                 <input wire:model="dni" class="form-control me-2 shadow-sm" name="dni" type="search" placeholder="DNI" aria-label="Search" >
                 <input wire:model="name" class="form-control me-2 shadow-sm" name="nombre" type="text" placeholder="Nombre">
                 <input wire:model="lastName" class="form-control me-2 shadow-sm" name="apellido" type="search" placeholder="Apellido" aria-label="Search" >
-                <a href="{{route('paciente.create')}}" class="btn btn-primary me-2 shadow-sm" aria-label="Search">Nuevo</a>
+                <a href="{{route('paciente.create')}}" class="btn btn-primary me-2 shadow-sm text-white" aria-label="Search">Nuevo</a>
                 
             </div>
         </div>

@@ -29,8 +29,10 @@
 	                </div>
                 	<div class="input-group mb-3">
                   		<span class="input-group-text" id="telefono">Teléfono</span>
-                  		<input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono" required>
-                  		<span class="input-group-text" id="email">Correo</span>
+                  		<input type="text" class="form-control" aria-label="Username" id="telefono" name="telefono">
+                  		<span class="input-group-text" id="celular">Celular</span>
+                  		<input type="text" class="form-control" aria-label="Username" id="celular" name="celular" required>
+						<span class="input-group-text" id="email">Correo</span>
                   		<input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email">
                 	</div>
                 	<div class="input-group mb-3">
