@@ -62,6 +62,10 @@
 						<span class="input-group-text">Localidad</span>
 						<input type="text" class="form-control" aria-label="Username"id="localidad" name="localidad">
 	                </div>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Observaciones:</span>
+						<input type="text" class="form-control" id="observations" name="observations">
+	                </div>
 	                <div class="d-grid gap-2 d-md-flex justify-content-md-end">	                	
 	                	<button class="btn btn-outline-success " type="submit">Guardar</button>
 	                </div>

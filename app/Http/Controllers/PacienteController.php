@@ -160,6 +160,7 @@ class PacienteController extends Controller
         $paciente->sexoPaciente = strtolower($request->sexo);
         $paciente->domicilioPaciente = strtolower($request->domicilio);
         $paciente->localidadPaciente = strtolower($request->localidad);
+        $paciente->observations = strtolower($request->observations);
         try 
         {
             $paciente->save();

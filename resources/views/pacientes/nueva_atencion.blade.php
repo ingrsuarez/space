@@ -14,7 +14,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   @endif
-  <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+  <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
     <div class="accordion" id="accordionPanelsStayOpenExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -36,26 +36,31 @@
                     <span class="input-group-text" id="dni">DNI</span>
                     <input type="text" class="form-control" id="dni" name="dni" value="{{$paciente->idPaciente}}" readonly>
                     <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
-                    <span class="input-group-text" id="edad">Edad</span>
-                    <input type="text" class="form-control" id="edad" value="{{$edad}}" readonly>
                     <span class="input-group-text" id="email">Correo</span>
                     <input type="email" name="email" class="form-control" value="{{$paciente->emailPaciente}}">
-                    
                   </div>
+
                   <div class="input-group mb-3">
                     <span class="input-group-text">Nombre</span>
                     <input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre" value="{{ucfirst($paciente->nombrePaciente)}}">
                     <span class="input-group-text">Apellido</span>
                     <input type="text" class="form-control" aria-label="Username"id="apellido" name="apellido" value="{{ucfirst($paciente->apellidoPaciente)}}">
                   </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="edad">Edad</span>
+                    <input type="text" class="form-control" id="edad" value="{{$edad}}" readonly>
+                    <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
+                    <input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="domicilio" name="fechaNacimiento" value="{{$paciente->fechaNacimientoPaciente}}">
+                  </div>
+
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="telefono">Teléfono</span>
                     <input type="text" class="form-control" aria-label="Username" id="telefono" name="telefono" value="{{$paciente->telefonoPaciente}}">
                     <span class="input-group-text" id="celular">Celular</span>
                     <input type="text" class="form-control" aria-label="Username" id="celular" name="celular" value="{{$paciente->celularPaciente}}">
-                   
-                    
                   </div>
+
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="edad">Cobertura médica</span>
                     <select class="form-select" name="insurance_id" id="insurance_id" required>
@@ -69,8 +74,8 @@
                     </select>
                     <span class="input-group-text" id="edad">Número Afiliado</span>
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="edad" name="numeroAfiliado" value="{{$paciente->numeroAfiliadoPaciente}}">
-                    
                   </div>
+
                   <div class="input-group mb-3">
                     <span class="input-group-text">Ocupación:</span>
                     <input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion" value="{{$paciente->ocupacionPaciente}}">
@@ -90,11 +95,10 @@
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="domicilio" name="domicilio" value="{{$paciente->domicilioPaciente}}">
                     <span class="input-group-text" id="localidad">Localidad</span>
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="localidad" id="localidad" name="localidad" value="{{$paciente->localidadPaciente}}">
-                    
                   </div>
                   <div class="input-group mb-3">
-                    <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
-                    <input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="domicilio" name="fechaNacimiento" value="{{$paciente->fechaNacimientoPaciente}}">
+                    <span class="input-group-text" id="edad">Observaciones</span>
+                    <input type="text" class="form-control" id="observations" name="observations" value="{{ucfirst($paciente->observations)}}">
                   </div>
                   <div class="d-grid gap-2 col-4 ms-auto py-2">
                     <button type="submit" class="btn btn-sm btn-primary text-white">Actualizar Ficha</button>
@@ -110,10 +114,10 @@
     </div>
   </div>
   {{--                    Receptionist view                  --}}
-    @cannot('ficha')
+  @cannot('ficha')
    
-    <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
-      <div class="accordion" id="accordionWatingList">
+    <div class="row px-5 mb-3" style="max-width: 65rem;">
+      <div class="accordion col" id="accordionWatingList">
         <div class="accordion-item">
           <h2 class="accordion-header" id="WatingList">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#WatingList-collapseOne" aria-expanded="true" aria-controls="WatingList-collapseOne">
@@ -132,12 +136,9 @@
 
         </div>
       </div>
-    </div>
-    @endcan
-
     {{-- LAST PATIENT APPOINMENTS --}}
-    <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
-      <div class="accordion" id="accordionAppoinments">
+
+      <div class="accordion col" id="accordionAppoinments">
         <div class="accordion-item">
           <h2 class="accordion-header" id="Appoinments">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Appoinments-collapseOne" aria-expanded="true" aria-controls="Appoinments-collapseOne">
@@ -150,7 +151,7 @@
             <div class="accordion-body">
               @if(isset($institution))
                 <div class="input-group mb-3">
-                  <table class="table">
+                  <table class="table table-striped">
                     <thead class="table-light">
                         <th>Profesional</th>
                         <th>Fecha</th>
@@ -162,7 +163,7 @@
                         @foreach($appoinments as $appointment) 
                           <tr>
                               <td>{{strtoupper($appointment->user->name.' '.$appointment->user->lastName)}}</td>
-                              <td>{{$appointment->start}}</td>
+                              <td style="min-width: 100px">{{date('d-m-Y', strtotime($appointment->start))}}</td>
                               <td>
                                 @if (!empty($appointment->insurance_id))
                                   {{$appointment->insurance->name}}
@@ -182,11 +183,11 @@
         </div>
       </div>
     </div>
-    
+  @endcan
     {{-- UPLOAD FILES --}}
     @cannot('ficha')
       @if($institution->hasServicePath('lab'))
-        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
           <div class="accordion" id="accordionLaboratorio">
             <div class="accordion-item">
               <h2 class="accordion-header" id="Laboratorio">
@@ -222,7 +223,7 @@
         </div>
       @endif
       @if($institution->hasServicePath('fibroscan'))
-        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
           <div class="accordion" id="accordionFibroscan">
             <div class="accordion-item">
               <h2 class="accordion-header" id="Fibroscan">
@@ -258,7 +259,7 @@
         </div>
       @endif
       @if($institution->hasServicePath('ecografia'))
-        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
           <div class="accordion" id="accordionEcografia">
             <div class="accordion-item">
               <h2 class="accordion-header" id="ecografia">
@@ -294,7 +295,7 @@
         </div>
       @endif
       @if($institution->hasServicePath('endoscopia'))
-        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
           <div class="accordion" id="accordionEndoscopia">
             <div class="accordion-item">
               <h2 class="accordion-header" id="Endoscopia">
@@ -336,7 +337,7 @@
 {{-- ///////////////////////////////////////////////////// --}}
     @can('sheet.index')
       @if(count($institution->sheets))  
-        <div class="col-sm px-5 mb-3" style="max-width: 50rem;">
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
           <div class="accordion" id="accordionSheets">
             <div class="accordion-item">  
               <h2 class="accordion-header" id="Sheets">
