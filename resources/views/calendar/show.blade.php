@@ -397,14 +397,20 @@
             var eid = '3';
             var agenda = @json($availableAgenda);
             var daysOfWeek = [0,1,2,3,4,5,6];
-            console.log(daysOfWeek);
+            console.log("dias "+daysOfWeek);
             var scroll = '23:59:59';
             agenda.forEach(function(item, index){
               if (item.startTime < scroll)
               {
                 scroll = item.startTime;
-                delete daysOfWeek[item.daysOfWeek[0]];
               }
+              for (let i = 0; i < daysOfWeek.length; i++) {
+                    if (daysOfWeek[i] == item.daysOfWeek[0]) {
+                      delete daysOfWeek[item.daysOfWeek[0]];
+                    }
+                }
+                
+                console.log("item " +item.daysOfWeek[0]);
               
             });
             console.log(daysOfWeek);
@@ -447,7 +453,7 @@
               allDaySlot:false,
               displayEventTime: false,
               navLinks: true,
-              hiddenDays: [0],
+              hiddenDays: daysOfWeek,
               headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
