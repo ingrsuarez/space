@@ -250,7 +250,9 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'send'])
         ->middleware('can:appointment.index')
         ->name('wa.send');
-
+    Route::post('calendar/confirm',[App\Http\Controllers\AppointmentController::class,'confirm'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.confirm');
     //AGENDAS
     Route::get('agendas/index/{professional?}',[App\Http\Controllers\AgendaController::class,'index'])
         ->middleware('can:agenda.index')

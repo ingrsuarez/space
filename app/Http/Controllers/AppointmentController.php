@@ -875,4 +875,26 @@ class AppointmentController extends Controller
         
     }
 
+    public function confirm(Request $request)
+    {
+        $appointment = Appointment::where('id',$request->event_id)->first();
+        $appointment->status = 'confirmed';
+            try 
+            {
+                $appointment->save();
+                return redirect()->route('appointment.show', [
+                    'institution_id' => $appointment->institution_id,
+                    'user_id' => $appointment->user_id
+                ]);
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return redirect('/');
+                
+            }
+        
+    }
+
 }

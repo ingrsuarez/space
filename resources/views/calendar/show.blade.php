@@ -302,6 +302,7 @@
                     @if (!$user->hasRole('profesional'))
                     <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="eventReschedule">Reagendar</button>
                     <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
+                    <button type="submit" class="btn btn-primary mx-2 mb-2 shadow text-white" id="saveModalBtn" form="confirm">Confirmar</button>
                     @endif
                   </div>
 
@@ -339,7 +340,7 @@
                       <input type="text" class="form-control" form="sendToWatingList" name="description" id="description">
                     </div>
                     <div class="d-flex mb-3">
-                        <button type="submit" class="btn btn-primary mx-2 px-2 mb-2 shadow" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
+                        <button type="submit" class="btn btn-primary mx-2 px-2 mb-2 shadow text-white" id="lockBtn" form="sendToWatingList">Enviar a lista de espera</button>
                     </div>
                   </div>
                 </form>
@@ -354,6 +355,11 @@
         @method('POST')
         @csrf
         <input type="hidden" id="wa_event_id" name="event_id" readonly>
+      </form>
+      <form id="confirm" action="{{ route('appointment.confirm') }}" method="POST">
+        @method('POST')
+        @csrf
+        <input type="hidden" id="confirm_event_id" name="event_id" readonly>
       </form>
       {{-- <form id="sendToWatingList" action="{{ route('appointment.toWaitingList') }}" method="POST">
         @method('POST')
@@ -480,6 +486,7 @@
                   $('#dateEvent').val(dateText);
                   $('#event_id').val(info.event.id);
                   $('#wa_event_id').val(info.event.id);
+                  $('#confirm_event_id').val(info.event.id);
                   $('#startDateEvent').val(startDate);
                   $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));
                   $('#timeEndEvent').val(moment(endDate).format('HH:mm:ss'));
