@@ -447,7 +447,7 @@
               allDaySlot:false,
               displayEventTime: false,
               navLinks: true,
-              hiddenDays: daysOfWeek,
+              hiddenDays: [0],
               headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
