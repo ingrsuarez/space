@@ -396,16 +396,18 @@
             var appointments = @json($events);
             var eid = '3';
             var agenda = @json($availableAgenda);
-            
+            var daysOfWeek = [0,1,2,3,4,5,6];
+            console.log(daysOfWeek);
             var scroll = '23:59:59';
             agenda.forEach(function(item, index){
               if (item.startTime < scroll)
               {
                 scroll = item.startTime;
+                delete daysOfWeek[item.daysOfWeek[0]];
               }
               
             });
-            
+            console.log(daysOfWeek);
             var hour = parseInt(scroll)-1;
             if (hour > 9)
             {
@@ -445,7 +447,7 @@
               allDaySlot:false,
               displayEventTime: false,
               navLinks: true,
-              hiddenDays: [ 0 ],
+              hiddenDays: daysOfWeek,
               headerToolbar: {
                 left: 'prev,next',
                 center: 'title',
@@ -454,7 +456,7 @@
               locale: 'es',
               businessHours: {
                 // days of week. an array of zero-based day of week integers (0=Sunday)
-                daysOfWeek: [ 1, 2, 3, 4, 5, 6 ], // Monday - Thursday
+                daysOfWeek: [ 1, 2, 3, 4, 5, 6 ], // Monday - Thursday [ 1, 2, 3, 4, 5, 6 ]
 
                 startTime: '07:00', // a start time (10am in this example)
                 endTime: '22:00', // an end time (6pm in this example)
