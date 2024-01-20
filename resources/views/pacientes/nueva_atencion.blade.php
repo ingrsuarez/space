@@ -331,6 +331,43 @@
           </div>
         </div>
       @endif
+      @if($institution->hasServicePath('cardiologia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
+          <div class="accordion" id="accordionEndoscopia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="Cardiologia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Cardiologia-collapseOne" aria-expanded="true" aria-controls="Cardiologia-collapseOne">
+                  <div class="">
+                      Estudios de cardiología: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Cardiologia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Cardiologia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.cardiologia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="cardiologia" name="cardiologia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaCardiologia">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  
+                  @foreach ($cardiologias as $cardiologia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.cardiologia',['file'=>$cardiologia['name'], 'idPaciente'=>$cardiologia['idPaciente']])}}" target="_blank">{{ $cardiologia['name'] }}</a>
+                    <br>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
     @endcan
 {{-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ --}}
 {{--                     Professional view                 --}}
@@ -500,6 +537,44 @@
                   </form>
                   @foreach ($ecografias as $ecografia)
                     <a class="btn btn-sm btn-secondary m-2" href="{{route('download.ecografia',['file'=>$ecografia['name'], 'idPaciente'=>$ecografia['idPaciente']])}}" target="_blank">{{ $ecografia['name'] }}</a>
+                    <br>
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
+      {{-- cardiologia --}}
+      @if($institution->hasServicePath('cardiologia'))
+        <div class="col-sm px-5 mb-3" style="max-width: 64rem;">
+          <div class="accordion" id="accordionEndoscopia">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="Cardiologia">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Cardiologia-collapseOne" aria-expanded="true" aria-controls="Cardiologia-collapseOne">
+                  <div class="">
+                      Estudios de cardiología: <strong>{{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}</strong>
+                  </div>
+                </button>
+              </h2>
+              <div id="Cardiologia-collapseOne" class="accordion-collapse collapse" aria-labelledby="Cardiologia-headingOne">
+                <div class="accordion-body">
+                  <form action="{{route('store.cardiologia')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="file" class="form-label h5"><strong>Asegurese de que el informe corresponda al paciente seleccionado!</strong></label>
+                    <div class="input-group mb-3">
+                      <input type="file" class="form-control" id="cardiologia" name="cardiologia" required accept="application/pdf">
+                      <input type="hidden" id="dni" name="idPaciente" value="{{$paciente->idPaciente}}">
+                      <span class="input-group-text" id="fechaCardiologia">Fecha estudio</span>
+                      <input type="date" class="form-control" id="file_date" name="file_date" required>
+                    </div>
+                      <div class="d-grid gap-2 col-4 ms-auto py-2">
+                      <button type="submit" class="btn btn-sm btn-primary text-white">SUBIR</button>                    
+                    </div>
+                  </form>
+                  
+                  @foreach ($cardiologias as $cardiologia)
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.cardiologia',['file'=>$cardiologia['name'], 'idPaciente'=>$cardiologia['idPaciente']])}}" target="_blank">{{ $cardiologia['name'] }}</a>
                     <br>
                   @endforeach
                 </div>

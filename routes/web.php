@@ -312,6 +312,12 @@ Route::middleware(['verified'])->group(function(){
     Route::get('endoscopia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadEndoscopia'])
         ->middleware('can:store.file')->name('download.endoscopia');
 
+    Route::post('cardiologia/file/store',[App\Http\Controllers\FilesController::class,'storeCardiologia'])
+        ->middleware('can:store.file')->name('store.cardiologia');
+
+    Route::get('cardiologia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadCardiologia'])
+        ->middleware('can:store.file')->name('download.cardiologia');
+
     //SHEETS
     Route::get('sheet/index',[App\Http\Controllers\SheetController::class,'index'])
         ->middleware('can:sheet.index')->name('sheet.index');
