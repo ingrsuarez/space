@@ -26,7 +26,9 @@ class ShowAgenda extends Component
         $this->rooms = Room::where('institution_id',$this->institution->id)->get();
         // $this->professionals = $this->institution->users;
         $this->user = Auth::user();
-        // $this->professional = $this->professionals[0];
+        $this->professional = $this->professionals[0];
+        $agenda = Agenda::where('user_id',$this->professional->id)->where('institution_id',$this->institution->id)->orderBy('day')->get();
+        $this->agenda = $agenda;
     }
 
     public function render()
