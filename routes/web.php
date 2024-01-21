@@ -370,7 +370,7 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/psychological/update/{paciente}/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalUpdate'])
     ->middleware('can:psychological.create')->name('psychological.update');
 
-    Route::get('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiology'])
+    Route::get('sheet/kinesiology/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'kinesiology'])
         ->middleware('can:kinesiology.create')->name('kinesiology.create');
 
     Route::post('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiologySave'])

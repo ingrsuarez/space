@@ -132,6 +132,7 @@
                         <span class="input-group-text" id="dni">Evolución:</span>
                         <textarea class="form-control" id="evolution" rows="5" name="evolution" MaxLength="512" required></textarea>
                         <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
+                        <input type="hidden" name="insurance_id" value="{{$insurance->id}}">
                         </div>
                         
 

@@ -491,7 +491,7 @@ class SheetController extends Controller
 
 
 
-    public function kinesiology(Paciente $paciente)
+    public function kinesiology(Paciente $paciente,  Insurance $insurance)
     {
         $insurances = Insurance::all();
         //Edad del paciente
@@ -499,7 +499,7 @@ class SheetController extends Controller
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
         $edad = $fecha_nacimiento->diffInYears($today);
         $kinesiology_sheets = KinesiologySheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
-        return view('kinesiology.new',compact('paciente','edad','insurances','kinesiology_sheets'));
+        return view('kinesiology.new',compact('paciente','edad','insurances','kinesiology_sheets','insurance'));
     }
 
     public function kinesiologySave(Paciente $paciente, Request $request)
