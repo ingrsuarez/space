@@ -11,6 +11,7 @@ use App\Models\Insurance;
 use App\Models\ClinicalSheet;
 use App\Models\NutritionSheet;
 use App\Models\PsychologicalSheet;
+use App\Models\KinesiologySheet;
 use App\Models\Sheet;
 use App\Models\HistorialClinico;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -36,32 +37,23 @@ class SheetController extends Controller
         $sheets = Sheet::all();
         return view('sheets.index',compact('sheets'));
     }
-    
-    public function nutrition(Paciente $paciente)
-    {
-        $insurances = Insurance::all();
-        //Edad del paciente
-        $today = Carbon::now();
-        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
-        $edad = $fecha_nacimiento->diffInYears($today);
-        $nutrition_sheets = NutritionSheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
-        return view('nutrition.new',compact('paciente','edad','insurances','nutrition_sheets'));
-    }
 
-
-    public function clinical(Paciente $paciente)
+    public function clinical(Paciente $paciente, Insurance $insurance)
     {
+        
         $insurances = Insurance::all();
+        
         //Edad del paciente
         $today = Carbon::now();
         $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
         $edad = $fecha_nacimiento->diffInYears($today);
         $clinical_sheets = clinicalSheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
-        return view('clinical.new',compact('paciente','edad','insurances','clinical_sheets'));
+        return view('clinical.new',compact('paciente','edad','insurances','clinical_sheets','insurance'));
     }
 
     public function clinicalSave(Request $request)
     {
+        
         $clinical_sheet = new ClinicalSheet; 
 
         $clinical_sheet->user_id = Auth::user()->id;
@@ -128,7 +120,7 @@ class SheetController extends Controller
         $historial->codInstitucionHC = $user->institution_id;
         $historial->entrada = 'Carga de planilla clínica';
         $historial->esPublico = '0';
-        $historial->insurance_id = null;
+        $historial->insurance_id = $request->insurance_id;
         $historial->especialidad = $strEspecialidades;
         $historial->save();
 
@@ -201,6 +193,17 @@ class SheetController extends Controller
         // return view('clinical.pdf',compact('paciente','clinicalSheet'));
         $pdf = Pdf::loadView('clinical.pdf',compact('paciente','clinicalSheet'));
         return $pdf->stream(); 
+    }
+
+    public function nutrition(Paciente $paciente, Insurance $insurance)
+    {
+        $insurances = Insurance::all();
+        //Edad del paciente
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+        $nutrition_sheets = NutritionSheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
+        return view('nutrition.new',compact('paciente','edad','insurances','nutrition_sheets','insurance'));
     }
 
     public function nutritionSave(Paciente $paciente, Request $request)
@@ -278,7 +281,7 @@ class SheetController extends Controller
         $historial->codInstitucionHC = $user->institution_id;
         $historial->entrada = 'Carga de planilla nutricional';
         $historial->esPublico = '0';
-        $historial->insurance_id = null;
+        $historial->insurance_id = $request->insurance_id;
         $historial->especialidad = $strEspecialidades;
         $historial->save();
 
@@ -482,5 +485,95 @@ class SheetController extends Controller
 
         return redirect()->action([SheetController::class, 'psychological'], ['paciente' => $paciente->codPaciente]);
 
+    }
+
+
+
+
+
+    public function kinesiology(Paciente $paciente)
+    {
+        $insurances = Insurance::all();
+        //Edad del paciente
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+        $kinesiology_sheets = KinesiologySheet::where('paciente_id',$paciente->codPaciente)->with('user')->orderBy('created_at','desc')->get();
+        return view('kinesiology.new',compact('paciente','edad','insurances','kinesiology_sheets'));
+    }
+
+    public function kinesiologySave(Paciente $paciente, Request $request)
+    {
+        // $evolution = $request->validate([
+        //     'evolution' => 'required|max:512']);
+
+        $kinesiology_sheet = new KinesiologySheet; 
+        $kinesiology_sheet->user_id = Auth::user()->id;
+        $kinesiology_sheet->institution_id = Auth::user()->institution_id;
+        $kinesiology_sheet->paciente_id = $paciente->codPaciente;
+        $kinesiology_sheet->evolution = $request->evolution;
+
+
+        $kinesiology_sheet->save();
+
+        $paciente = Paciente::find($paciente->codPaciente);
+        $user = Auth::user();
+        
+        $especialidades = Auth::user()->professions;
+
+        $strEspecialidades = "";
+        foreach ($especialidades as $especialidad)
+        {
+            $strEspecialidades .= $especialidad->name." - "; 
+            
+        }
+        
+        $historial = new HistorialClinico;
+        $historial->codPacienteHC = $paciente->codPaciente;
+        $historial->codUsuarioHC = $user->id;
+        $historial->fechaHC = Carbon::now()->toDateTimeString();
+        $historial->codInstitucionHC = $user->institution_id;
+        $historial->entrada = 'Carga de planilla de Kinesiología,'.ucfirst(strtolower($request->evolution));
+        $historial->esPublico = '0';
+        $historial->insurance_id = $request->insurance_id;
+        $historial->especialidad = $strEspecialidades;
+        $historial->save();
+
+        return redirect()->action([SheetController::class, 'kinesiology'], ['paciente' => $paciente->codPaciente]);
+    }
+
+    public function kinesiologyEdit(KinesiologySheet $kinesiologySheet)
+    {
+        $paciente = Paciente::find($kinesiologySheet->paciente_id);
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+       
+        return view('kinesiology.edit',compact('kinesiologySheet','paciente','edad'));
+    }
+
+    public function kinesiologyUpdate(Paciente $paciente, KinesiologySheet $kinesiologySheet, Request $request)
+    {
+        
+        $kinesiologySheet->user_id = Auth::user()->id;
+        $kinesiologySheet->institution_id = Auth::user()->institution_id;
+        $kinesiologySheet->paciente_id = $paciente->codPaciente;
+        $kinesiologySheet->edad = $request->edad;
+        $kinesiologySheet->control = $request->control;
+       
+
+        $kinesiologySheet->save();
+        return redirect()->action([SheetController::class, 'kinesiology'], ['paciente' => $paciente->codPaciente]);
+    }
+
+    public function kinesiologyPDF(KinesiologySheet $kinesiologySheet)
+    {
+        $paciente = Paciente::where('codPaciente',$kinesiologySheet->paciente_id)->first();
+        $kinesiology_sheet = kinesiologySheet::where('paciente_id',$paciente->codPaciente)
+            ->orderBy('created_at','desc')
+            ->get();
+        
+        $pdf = Pdf::loadView('kinesiology.pdf',compact('paciente','kinesiology_sheet'));
+        return $pdf->stream(); 
     }
 }

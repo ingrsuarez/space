@@ -60,8 +60,8 @@
                       @isset($paciente->insurance_id)
                         <option value="{{$paciente->insurance_id}}">{{$paciente->insurance->name}}
                       @endisset
-                        @foreach ($insurances as $insurance)
-                          <option value="{{$insurance->id}}"> {{ucfirst($insurance->name)}}								
+                        @foreach ($insurances as $insurance_option)
+                          <option value="{{$insurance_option->id}}"> {{ucfirst($insurance_option->name)}}								
                         @endforeach	
                       
                     </select>
@@ -132,6 +132,7 @@
                       <span class="input-group-text" id="dni">SCORE FIBROSCAN</span>
                       <input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="fibroscan" name="fibroscan">
                       <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
+                      <input type="hidden" name="insurance_id" value="{{$insurance->id}}">
                       <span class="input-group-text" id="edad">SCORE EFCA</span>
                       <input type="text" class="form-control" aria-label="efca" aria-describedby="efca" id="efca" name="efca">
                     </div>

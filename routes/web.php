@@ -325,7 +325,7 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/store',[App\Http\Controllers\SheetController::class,'store'])
         ->middleware('can:sheet.store')->name('sheet.store');
 
-    Route::get('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinical'])
+    Route::get('sheet/clinical/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'clinical'])
         ->middleware('can:clinical.create')->name('clinical.create');
         
     Route::post('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinicalSave'])
@@ -340,7 +340,7 @@ Route::middleware(['verified'])->group(function(){
     Route::get('sheet/clinical/pdf/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalPDF'])
     ->middleware('can:clinical.create')->name('clinical.pdf'); 
 
-    Route::get('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutrition'])
+    Route::get('sheet/nutrition/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'nutrition'])
         ->middleware('can:nutrition.create')->name('nutrition.create');
         
     Route::post('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutritionSave'])
@@ -370,6 +370,20 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/psychological/update/{paciente}/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalUpdate'])
     ->middleware('can:psychological.create')->name('psychological.update');
 
+    Route::get('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiology'])
+        ->middleware('can:kinesiology.create')->name('kinesiology.create');
+
+    Route::post('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiologySave'])
+    ->middleware('can:kinesiology.create')->name('kinesiology.save');
+
+    Route::get('sheet/kinesiology/edit/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyEdit'])
+    ->middleware('can:kinesiology.create')->name('kinesiology.edit');
+
+    Route::get('sheet/kinesiology/pdf/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyPDF'])
+    ->middleware('can:kinesiology.create')->name('kinesiology.pdf'); 
+
+    Route::post('sheet/kinesiology/update/{paciente}/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyUpdate'])
+    ->middleware('can:kinesiology.create')->name('kinesiology.update');
     //ACCOUNTS
     
     Route::get('accounts/cash',[App\Http\Controllers\AccountsController::class,'show'])
