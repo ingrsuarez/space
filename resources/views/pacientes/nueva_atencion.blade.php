@@ -129,7 +129,7 @@
             <div id="WatingList-collapseOne" class="accordion-collapse collapse" aria-labelledby="WatingList-headingOne">
               <div class="accordion-body">
                 @if(isset($institution))
-                  @livewire('payment-panel',['institution' => $institution, 'paciente'=>$paciente]) 
+                  @livewire('payment-panel',['institution' => $institution, 'paciente'=>$paciente, 'insurances' => $insurances]) 
                 @endif
               </div>    
             </div>

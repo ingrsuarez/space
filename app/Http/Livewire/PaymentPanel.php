@@ -10,6 +10,7 @@ class PaymentPanel extends Component
 {
     public $institution;
     public $paciente;
+    public $insurances;
 
     public function mount()
     {

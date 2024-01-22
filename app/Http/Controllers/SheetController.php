@@ -504,15 +504,12 @@ class SheetController extends Controller
 
     public function kinesiologySave(Paciente $paciente, Request $request)
     {
-        // $evolution = $request->validate([
-        //     'evolution' => 'required|max:512']);
 
         $kinesiology_sheet = new KinesiologySheet; 
         $kinesiology_sheet->user_id = Auth::user()->id;
         $kinesiology_sheet->institution_id = Auth::user()->institution_id;
         $kinesiology_sheet->paciente_id = $paciente->codPaciente;
         $kinesiology_sheet->evolution = $request->evolution;
-
 
         $kinesiology_sheet->save();
 

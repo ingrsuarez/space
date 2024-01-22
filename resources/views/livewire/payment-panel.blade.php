@@ -22,6 +22,15 @@
             <span class="input-group-text">.00</span>
 
         </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="edad">Cobertura médica</span>
+            <select class="form-select" name="insurance_id" id="insurance_id" required>
+                @foreach ($insurances as $insurance)
+                  <option value="{{$insurance->id}}"> {{ucfirst($insurance->name)}}								
+                @endforeach	
+              
+            </select>
+        </div>
         <div class="d-grid gap-2 col-4 ms-auto py-2">
             <button type="submit" class="btn btn-sm btn-primary text-white">ENVIAR</button>                    
         </div>

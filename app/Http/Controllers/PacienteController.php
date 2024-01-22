@@ -207,6 +207,7 @@ class PacienteController extends Controller
         $wating->user_id = $request->user_id;
         $wating->institution_id = $institution->id;
         $wating->paciente_id = $paciente->codPaciente;
+        $wating->insurance_id = $request->insurance_id;
         if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
         {
             return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
