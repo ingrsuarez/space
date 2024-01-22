@@ -8,9 +8,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    @push('meta')
+        <meta http-equiv="refresh" content="30">
+    @endpush
     <div class="container">
         @livewire('show-patients',['wating_institution' => $wating_institution, 'user' => $user])   
-
+        
     </div>
 @endsection
 @section('scripts')
