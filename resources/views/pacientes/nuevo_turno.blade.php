@@ -62,7 +62,7 @@
         <span class="input-group-text" id="dni">DNI</span>
         <input type="text" class="form-control" aria-label="dni"id="dni" name="dni"required autofocus>
         <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
-                  <input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento" required>			
+                  <input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento">			
               </div>
               <div class="input-group mb-3">
         <span class="input-group-text">Nombre</span>
@@ -86,7 +86,7 @@
                   @endforeach
                 </select>
                 <span class="input-group-text">Número Afiliado</span>
-                <input type="text" class="form-control" aria-label="Username" id="edad" name="numeroAfiliado" required>	                  
+                <input type="text" class="form-control" aria-label="Username" id="edad" name="numeroAfiliado">	                  
               </div>
               <div class="input-group mb-3">
         <span class="input-group-text">Domicilio</span>
