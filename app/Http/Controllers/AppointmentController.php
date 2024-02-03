@@ -537,7 +537,7 @@ class AppointmentController extends Controller
                 ->where('status','<>','cancelled')
                 ->count();
 
-            if ($over_count < 2)
+            if ($over_count < 10)
             {
                 $creator = Auth::user();
                 $appointment = new Appointment;
@@ -844,21 +844,35 @@ class AppointmentController extends Controller
             $paciente->save();
             $paciente_id = $paciente->codPaciente;
         
-        
+            $over_count = Appointment::where('start',$request->startDate)
+                ->where('user_id',$request->user_id)
+                ->where('institution_id',$request->institution_id)
+                ->where('status','<>','cancelled')
+                ->count();
 
-            $appointment = new Appointment;
+            if ($over_count < 10)
+            {
+                $creator = Auth::user();
+                $appointment = new Appointment;
 
-            $appointment->institution_id = $request->institution_id;
-            $appointment->user_id = $request->user_id;
-            $appointment->paciente_id = $paciente_id;
-            $appointment->room_id = $request->room_id;
-            $appointment->start = $request->startDate;
-            $appointment->end = $request->endDate;
-            $appointment->medicare = '';
-            $appointment->insurance_id = $request->insurance_id;
-            $appointment->obs = $request->obs;
-            $appointment->status = 'active';
-            $appointment->overturn = 0;
+                $appointment->institution_id = $request->institution_id;
+                $appointment->user_id = $request->user_id;
+                $appointment->paciente_id = $paciente_id;
+                $appointment->room_id = $request->room_id;
+                $appointment->start = $request->startDate;
+                $appointment->end = $request->endDate;
+                $appointment->medicare = $request->insurance_id;
+                $appointment->obs = $request->obs;
+                $appointment->status = 'active';
+                $appointment->overturn = $over_count;
+                $appointment->creator_id = $creator->id;
+                $appointment->insurance_id = $request->insurance_id;
+
+            }else
+            {
+                return back()->with('error', 'No es posible agendar aqui un sobre turno!');
+            }
+
             
             $appointment->save();
             return redirect()->route('appointment.show',[
