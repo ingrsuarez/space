@@ -102,6 +102,22 @@
                 var frequency = @json($frequency);
                 var today = new Date();
                 today.setDate(today.getDate() + 7);
+
+                var daysOfWeek = [0,1,2,3,4,5,6];
+
+                var scroll = '23:59:59';
+                agenda.forEach(function(item, index){
+                  if (item.startTime < scroll)
+                  {
+                    scroll = item.startTime;
+                  }
+                  for (let i = 0; i < daysOfWeek.length; i++) {
+                        if (daysOfWeek[i] == item.daysOfWeek[0]) {
+                          delete daysOfWeek[item.daysOfWeek[0]];
+                        }
+                    }
+                });
+
                 let calendarEl = document.getElementById('calendar');
                 
                 var calendar = new Calendar(calendarEl, {
@@ -120,11 +136,11 @@
                   slotLabelInterval: frequency,
                   firstDay: 1,
                   height: 1350,
-                  weekends: false,
+                  weekends: true,
                   selectOverlap: false,
                   selectConstraint: 'available',
                   eventConstraint: "available",
-    
+                  hiddenDays: daysOfWeek,
                   headerToolbar: {
                     left: 'prev,next',
                     center: 'title',
