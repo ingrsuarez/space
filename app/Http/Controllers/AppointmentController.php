@@ -92,7 +92,7 @@ class AppointmentController extends Controller
                             $price = '';
                         }
                     }
-                    if ($appointment->overturn == 1)
+                    if ($appointment->overturn >= 1)
                     {   
                         if($appointment->status == 'active')
                         {
@@ -243,7 +243,7 @@ class AppointmentController extends Controller
                         $price = '';
                     }
                 }
-                if ($appointment->overturn == 1)
+                if ($appointment->overturn >= 1)
                 {
                     if($appointment->status == 'active')
                         {
@@ -420,7 +420,7 @@ class AppointmentController extends Controller
                         $price = '';
                     }
                 }
-                if ($appointment->overturn == 1)
+                if ($appointment->overturn >= 1)
                 {
                     if($appointment->status == 'active')
                         {
