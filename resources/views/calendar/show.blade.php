@@ -445,7 +445,7 @@
               slotDuration: frequency,
               slotLabelInterval: frequency,
               firstDay: 1,
-              height: 1350,
+              height: 2350,
               weekends: true,
               selectOverlap: false,
               selectConstraint: 'available',
