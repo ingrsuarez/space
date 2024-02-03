@@ -131,7 +131,6 @@
                 </thead>
                 <tbody>
                   
-
                     @foreach($appointments as $appointment)
                         @if($appointment->status != 'cancelled')
                         <tr style="height:200px">
@@ -140,12 +139,14 @@
                             
 
                             <td><strong>{{ucfirst($appointment->obs)}}</strong></td>
-                            {{-- @if($appointment->status == 'cancelled') --}}
-                                {{-- <td style="background-color: rgb(175, 94, 94)"><strong>Cancelado</strong></td> --}}
-                            @if($appointment->status == 'confirmed')
-                                <td style="background-color: rgb(46, 165, 52)"><strong>Confirmado</strong></td>
-                            @else   
-                                <td><strong>Activo</strong></td>
+                            @if (!empty($appointment->insurance))
+                                @if($appointment->status == 'confirmed')
+                                    <td style="background-color: rgb(46, 165, 52)"><strong>{{$appointment->insurance->name}}</strong></td>
+                                @else   
+                                    <td><strong>{{$appointment->insurance->name}}</strong></td>
+                                @endif
+                            @else
+                                <td><strong></strong></td>    
                             @endif
                         </tr>
                         @endif   
