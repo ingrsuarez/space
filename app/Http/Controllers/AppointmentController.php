@@ -854,7 +854,8 @@ class AppointmentController extends Controller
             $appointment->room_id = $request->room_id;
             $appointment->start = $request->startDate;
             $appointment->end = $request->endDate;
-            $appointment->medicare = 'issn';
+            $appointment->medicare = '';
+            $appointment->insurance_id = $request->insurance_id;
             $appointment->obs = $request->obs;
             $appointment->status = 'active';
             $appointment->overturn = 0;
