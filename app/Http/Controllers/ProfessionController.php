@@ -39,18 +39,15 @@ class ProfessionController extends Controller
     }
 
     public function store(Request $request)
-    {
-
-        
-
+    {   
+        $user = Auth::user();
         $profession = new Profession;
         $profession->name = $request->name;
 
-        
-        
         try 
         {
             $profession->save();
+            $user->professions()->attach($profession->id);
             return back()->with('message', 'Especialidad guardada correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
@@ -63,6 +60,8 @@ class ProfessionController extends Controller
              return back()->with('error', $e->getMessage());
             }
         }
+
+
     }
 
     public function edit($id)
@@ -79,6 +78,7 @@ class ProfessionController extends Controller
         try 
         {
             $profession->save();
+            
             return redirect()->route('profession.create')->with('message', 'Especialidad guardada correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
