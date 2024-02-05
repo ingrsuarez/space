@@ -13,7 +13,7 @@ class Institution extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\Models\User')->withTimestamps();
+        return $this->belongsToMany('App\Models\User')->orderBy('lastName')->withTimestamps();
     }
 
     public function admins()
