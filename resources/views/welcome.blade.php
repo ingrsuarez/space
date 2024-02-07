@@ -49,7 +49,7 @@
                         <a href="{{ url('/home') }}" class="navbar-brand position-relative end-0">Home</a>
                     @else
                         <div class="text-center m-2">
-                        <a href="{{ route('login') }}" class="btn btn-primary shadow-sm text-white">Iniciar seción</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary shadow-sm text-white">Iniciar sesión</a>
                         </div>
                         @if (Route::has('register'))
                         <div class="text-center m-2">
