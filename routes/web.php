@@ -6,6 +6,7 @@ use App\Http\Controllers\TrabajoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FichaController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\SheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,6 +216,10 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.institution')
         ->name('appointment.show');
 
+    Route::post('calendar/service',[App\Http\Controllers\AppointmentController::class,'service'])
+        ->middleware('can:appointment.institution')
+        ->name('appointment.service');
+
     Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])
         ->middleware('can:appointment.store')
         ->name('appointment.store');
@@ -331,13 +336,13 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinicalSave'])
     ->middleware('can:clinical.create')->name('clinical.save');
 
-    Route::get('sheet/clinical/edit/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalEdit'])
+    Route::get('sheet/clinicalEdit/{clinicalSheet?}',[App\Http\Controllers\SheetController::class,'clinicalEdit'])
     ->middleware('can:clinical.create')->name('clinical.edit');
 
     Route::post('sheet/clinical/update/{paciente}/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalUpdate'])
     ->middleware('can:clinical.create')->name('clinical.update');
     
-    Route::get('sheet/clinical/pdf/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalPDF'])
+    Route::get('sheet/clinicalPdf/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalPDF'])
     ->middleware('can:clinical.create')->name('clinical.pdf'); 
 
     Route::get('sheet/nutrition/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'nutrition'])
@@ -346,10 +351,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutritionSave'])
     ->middleware('can:nutrition.create')->name('nutrition.save');
 
-    Route::get('sheet/nutrition/edit/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionEdit'])
+    Route::get('sheet/nutritionEdit/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionEdit'])
     ->middleware('can:nutrition.create')->name('nutrition.edit');
 
-    Route::get('sheet/nutrition/pdf/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionPDF'])
+    Route::get('sheet/nutritionPdf/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionPDF'])
     ->middleware('can:nutrition.create')->name('nutrition.pdf'); 
 
     Route::post('sheet/nutrition/update/{paciente}/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionUpdate'])
@@ -361,10 +366,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/psychological/{paciente}',[App\Http\Controllers\SheetController::class,'psychologicalSave'])
     ->middleware('can:psychological.create')->name('psychological.save');
 
-    Route::get('sheet/psychological/edit/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalEdit'])
+    Route::get('sheet/psychologicalEdit/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalEdit'])
     ->middleware('can:psychological.create')->name('psychological.edit');
 
-    Route::get('sheet/psychological/pdf/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalPDF'])
+    Route::get('sheet/psychologicalPdf/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalPDF'])
     ->middleware('can:psychological.create')->name('psychological.pdf'); 
 
     Route::post('sheet/psychological/update/{paciente}/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalUpdate'])
@@ -376,10 +381,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiologySave'])
     ->middleware('can:kinesiology.create')->name('kinesiology.save');
 
-    Route::get('sheet/kinesiology/edit/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyEdit'])
+    Route::get('sheet/kinesiologyEdit/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyEdit'])
     ->middleware('can:kinesiology.create')->name('kinesiology.edit');
 
-    Route::get('sheet/kinesiology/pdf/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyPDF'])
+    Route::get('sheet/kinesiologyPdf/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyPDF'])
     ->middleware('can:kinesiology.create')->name('kinesiology.pdf'); 
 
     Route::post('sheet/kinesiology/update/{paciente}/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyUpdate'])
