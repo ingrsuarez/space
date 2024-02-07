@@ -45,6 +45,7 @@
                             <option  value="{{$clinicalSheet->cx_bariatrica}}"> {{$clinicalSheet->cx_bariatrica}}</option>
                             <option value="si">Si </option>
                             <option value="no">No </option>
+                            <option value="no sabe">No sabe</option>
                         </select>
                         <span class="input-group-text"></span>
                         
