@@ -141,6 +141,7 @@
                       <select class="form-select" name="cx_bariatrica" id="cx_bariatrica" required>
                           <option value="si">Si </option>
                           <option value="no">No </option>
+                          <option value="no sabe">No sabe</option>
                       </select>
                       <span class="input-group-text"></span>
                       
