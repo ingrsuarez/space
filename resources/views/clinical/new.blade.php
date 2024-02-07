@@ -199,7 +199,7 @@
                       <span class="input-group-text" id="telefono">TA</span>
                       <input type="text" class="form-control" aria-label="otros" aria-describedby="ta" id="ta" name="ta">
                       <span class="input-group-text" id="telefono">PESO (KG)</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="peso" id="peso" name="peso" onkeyup="calculate()">
+                      <input type="number" class="form-control" aria-label="otros" aria-describedby="peso" id="peso" name="peso" onkeyup="calculate()">
 
                     </div>
                     <div class="input-group mb-3">
