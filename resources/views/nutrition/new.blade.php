@@ -134,7 +134,7 @@
                         <span class="input-group-text" id="dni">EDAD:</span>
                         <input type="text" class="form-control" id="edad" name="edad" value="{{$edad}}" readonly>
                         <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
-                        <input type="text" name="insurance_id" value="{{$insurance->id}}">
+                        <input type="hidden" name="insurance_id" value="{{$insurance->id}}">
                         <span class="input-group-text">FUMA:</span>
                         <select class="form-select" name="fuma" id="fuma" autofocus required>
                           <option value="no">No </option>
