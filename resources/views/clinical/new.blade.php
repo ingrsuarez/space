@@ -351,9 +351,11 @@
                   <td class="d-none d-lg-table-cell">{{$sheet->fibroscan}}</td>
                   <td class="d-none d-lg-table-cell">{{$sheet->efca}}</td>
                   <td class="d-none d-lg-table-cell">{{$sheet->cx_bariatrica}}</td>
-                  <td style="width:15%"> 
-                    <a class="btn btn-info text-white" 
-                    href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
+                  <td style="width:15%">
+                    @if($sheet->user_id == Auth::user()->id) 
+                      <a class="btn btn-info text-white" 
+                      href="{{route('clinical.edit',$sheet->id)}}">Editar</a>
+                    @endif
                     <a class="btn btn-warning text-white" 
                     href="{{route('clinical.pdf',$sheet->id)}}" target="_blank">Imprimir</a>
                       
