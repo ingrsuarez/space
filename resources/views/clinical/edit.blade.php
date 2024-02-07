@@ -88,8 +88,8 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="telefono">HISTORIA DE OBESIDAD</span>
-                        <input type="text" class="form-control" aria-label="otros" aria-describedby="obesidad" id="obesidad" name="obesidad"  value="{{$clinicalSheet->obesidad}}">
-                        
+                        {{-- <input type="text" class="form-control" aria-label="otros" aria-describedby="obesidad" id="obesidad" name="obesidad"  value="{{$clinicalSheet->obesidad}}"> --}}
+                        <textarea class="form-control" rows="4" id="obesidad" name="obesidad">{{$clinicalSheet->obesidad}}</textarea>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="telefono">INTERNACION</span>
@@ -183,10 +183,10 @@
                         <input type="text" class="form-control" aria-label="aco" aria-describedby="aco" id="gacopca" name="aco"  value="{{$clinicalSheet->aco}}">
 
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3 w-50">
                         <span class="input-group-text" id="telefono">PROBLEMAS</span>
-                        <input type="text" class="form-control" aria-label="aco" aria-describedby="problemas" id="problemas" name="problemas"  value="{{$clinicalSheet->problemas}}">
-
+                        {{-- <input type="text" class="form-control" aria-label="aco" aria-describedby="problemas" id="problemas" name="problemas"  value="{{$clinicalSheet->problemas}}"> --}}
+                        <textarea class="form-control" rows="8" id="problemas" name="problemas">{{$clinicalSheet->problemas}}</textarea>
                     </div>
                     <strong>FAMILIOGRAMA:</strong>
                     
