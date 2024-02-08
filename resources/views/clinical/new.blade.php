@@ -183,6 +183,50 @@
                       <input type="text" class="form-control" aria-label="otros" aria-describedby="vacunas" id="vacunas" name="vacunas">
                       
                     </div>
+
+                    <strong>HÁBITOS:</strong>
+                    
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">ACTIVIDAD FÍSICA</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="actividad_fisica" id="actividad_fisica" name="actividad_fisica">
+                      <span class="input-group-text" id="telefono">OH</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="oh" id="oh" name="oh">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">TBQ</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="tbq" id="tbq" name="tbq">
+                      <span class="input-group-text" id="telefono">DROGAS</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="drogas" id="drogas" name="drogas">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">ALERGIAS</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="alergias" id="alergias" name="alergias">
+                      <span class="input-group-text" id="telefono">SUEÑO</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="sueño" id="sueño" name="sueño">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">CATARSIS</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="catarsis" id="catarsis" name="catarsis">
+                      <span class="input-group-text" id="telefono">DIURESIS</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="diuresis" id="diuresis" name="diuresis">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">G_P_C_A_</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="gpca" id="gpca" name="gpca">
+                      <span class="input-group-text" id="telefono">FUM</span>
+                      <input type="text" class="form-control" aria-label="otros" aria-describedby="fum" id="fum" name="fum">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">ACO</span>
+                      <input type="text" class="form-control" aria-label="aco" aria-describedby="aco" id="gacopca" name="aco">
+
+                    </div>
+
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="telefono">HISTORIA DE OBESIDAD</span>
                       {{-- <input type="text" class="form-control" aria-label="otros" aria-describedby="obesidad" id="obesidad" name="obesidad"> --}}
@@ -192,6 +236,24 @@
                       <span class="input-group-text" id="telefono">INTERNACION</span>
                       <input type="text" class="form-control" aria-label="otros" aria-describedby="internacion" id="internacion" name="internacion">
                       
+                    </div>
+
+                    <strong>FAMILIOGRAMA:</strong>
+                    
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">ANT. FLIARES</span>
+                      <input type="text" class="form-control" aria-label="aco" aria-describedby="ant_familiares" id="ant_familiares" name="ant_familiares">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">VIVE CON</span>
+                      <input type="text" class="form-control" aria-label="aco" aria-describedby="vive_con" id="vive_con" name="vive_con">
+
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="telefono">FARMACOS</span>
+                      <input type="text" class="form-control" aria-label="aco" aria-describedby="farmacos" id="farmacos" name="farmacos">
+
                     </div>
 
                     <strong>Examen físico:</strong>
@@ -236,72 +298,12 @@
                       
                     </div>
 
-                    
-
-                    <strong>HÁBITOS:</strong>
-                    
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">ACTIVIDAD FÍSICA</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="actividad_fisica" id="actividad_fisica" name="actividad_fisica">
-                      <span class="input-group-text" id="telefono">OH</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="oh" id="oh" name="oh">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">TBQ</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="tbq" id="tbq" name="tbq">
-                      <span class="input-group-text" id="telefono">DROGAS</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="drogas" id="drogas" name="drogas">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">ALERGIAS</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="alergias" id="alergias" name="alergias">
-                      <span class="input-group-text" id="telefono">SUEÑO</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="sueño" id="sueño" name="sueño">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">CATARSIS</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="catarsis" id="catarsis" name="catarsis">
-                      <span class="input-group-text" id="telefono">DIURESIS</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="diuresis" id="diuresis" name="diuresis">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">G_P_C_A_</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="gpca" id="gpca" name="gpca">
-                      <span class="input-group-text" id="telefono">FUM</span>
-                      <input type="text" class="form-control" aria-label="otros" aria-describedby="fum" id="fum" name="fum">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">ACO</span>
-                      <input type="text" class="form-control" aria-label="aco" aria-describedby="aco" id="gacopca" name="aco">
-
-                    </div>
                     <div class="input-group mb-3 w-50">
                       <span class="input-group-text" id="telefono">PROBLEMAS</span>
                       {{-- <input type="text" class="form-control" aria-label="aco" aria-describedby="problemas" id="problemas" name="problemas"> --}}
                       <textarea class="form-control" rows="8" id="problemas" name="problemas"></textarea>
                     </div>
-                    <strong>FAMILIOGRAMA:</strong>
                     
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">ANT. FLIARES</span>
-                      <input type="text" class="form-control" aria-label="aco" aria-describedby="ant_familiares" id="ant_familiares" name="ant_familiares">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">VIVE CON</span>
-                      <input type="text" class="form-control" aria-label="aco" aria-describedby="vive_con" id="vive_con" name="vive_con">
-
-                    </div>
-                    <div class="input-group mb-3">
-                      <span class="input-group-text" id="telefono">FARMACOS</span>
-                      <input type="text" class="form-control" aria-label="aco" aria-describedby="farmacos" id="farmacos" name="farmacos">
-
-                    </div>
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="telefono">PLAN</span>
                       <input type="text" class="form-control" aria-label="aco" aria-describedby="plan" id="plan" name="plan">
