@@ -220,9 +220,17 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.institution')
         ->name('appointment.service');
 
+    Route::get('calendar/service/{institution_id?}{service_id?}',[App\Http\Controllers\AppointmentController::class,'service'])
+        ->middleware('can:appointment.institution')
+        ->name('appointment.service');
+
     Route::post('calendar/store',[App\Http\Controllers\AppointmentController::class,'store'])
         ->middleware('can:appointment.store')
         ->name('appointment.store');
+    
+    Route::post('calendarService/store',[App\Http\Controllers\AppointmentController::class,'serviceStore'])
+        ->middleware('can:appointment.store')
+        ->name('appointmentService.store');
 
     Route::post('calendar/cancel',[App\Http\Controllers\AppointmentController::class,'cancel'])
         ->middleware('can:appointment.cancel')
@@ -262,9 +270,16 @@ Route::middleware(['verified'])->group(function(){
     Route::get('agendas/index/{professional?}',[App\Http\Controllers\AgendaController::class,'index'])
         ->middleware('can:agenda.index')
         ->name('agendas.index');
-    Route::post('agenda/store',[App\Http\Controllers\AgendaController::class,'store'])->middleware('can:agenda.store')->name('agenda.store');
+    Route::post('agenda/store',[App\Http\Controllers\AgendaController::class,'store'])
+        ->middleware('can:agenda.store')
+        ->name('agenda.store');
     Route::post('agenda/edit',[App\Http\Controllers\AgendaController::class,'edit'])->middleware('can:agenda.edit')->name('agenda.edit');
     Route::get('agenda/delete/{agenda}/{professional?}',[App\Http\Controllers\AgendaController::class,'delete'])->middleware('can:agenda.delete')->name('agenda.delete');
+
+    Route::post('agendaService/store',[App\Http\Controllers\AgendaController::class,'serviceStore'])
+        ->middleware('can:agenda.store')
+        ->name('agendaService.store');
+
 
     //Add Remove User
     Route::get('institution/addUser/{institution}/{user}',[App\Http\Controllers\InstitutionController::class,'attachUser'])->middleware('can:institution.attach')->name('userInstitution.attach');
@@ -331,7 +346,7 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:sheet.store')->name('sheet.store');
 
     Route::get('sheet/clinical/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'clinical'])
-        ->middleware('can:clinical.create')->name('clinical.create');
+        ->middleware('can:clinical.view')->name('clinical.create');
         
     Route::post('sheet/clinical/{paciente}',[App\Http\Controllers\SheetController::class,'clinicalSave'])
     ->middleware('can:clinical.create')->name('clinical.save');
@@ -343,10 +358,10 @@ Route::middleware(['verified'])->group(function(){
     ->middleware('can:clinical.create')->name('clinical.update');
     
     Route::get('sheet/clinicalPdf/{clinicalSheet}',[App\Http\Controllers\SheetController::class,'clinicalPDF'])
-    ->middleware('can:clinical.create')->name('clinical.pdf'); 
+    ->middleware('can:clinical.view')->name('clinical.pdf'); 
 
     Route::get('sheet/nutrition/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'nutrition'])
-        ->middleware('can:nutrition.create')->name('nutrition.create');
+        ->middleware('can:nutrition.view')->name('nutrition.create');
         
     Route::post('sheet/nutrition/{paciente}',[App\Http\Controllers\SheetController::class,'nutritionSave'])
     ->middleware('can:nutrition.create')->name('nutrition.save');
@@ -355,7 +370,7 @@ Route::middleware(['verified'])->group(function(){
     ->middleware('can:nutrition.create')->name('nutrition.edit');
 
     Route::get('sheet/nutritionPdf/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionPDF'])
-    ->middleware('can:nutrition.create')->name('nutrition.pdf'); 
+    ->middleware('can:nutrition.view')->name('nutrition.pdf'); 
 
     Route::post('sheet/nutrition/update/{paciente}/{nutritionSheet}',[App\Http\Controllers\SheetController::class,'nutritionUpdate'])
     ->middleware('can:nutrition.create')->name('nutrition.update');
@@ -364,19 +379,19 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:psychological.create')->name('psychological.create');
 
     Route::post('sheet/psychological/{paciente}',[App\Http\Controllers\SheetController::class,'psychologicalSave'])
-    ->middleware('can:psychological.create')->name('psychological.save');
+    ->middleware('can:psychological.view')->name('psychological.save');
 
     Route::get('sheet/psychologicalEdit/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalEdit'])
     ->middleware('can:psychological.create')->name('psychological.edit');
 
     Route::get('sheet/psychologicalPdf/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalPDF'])
-    ->middleware('can:psychological.create')->name('psychological.pdf'); 
+    ->middleware('can:psychological.view')->name('psychological.pdf'); 
 
     Route::post('sheet/psychological/update/{paciente}/{psychologicalSheet}',[App\Http\Controllers\SheetController::class,'psychologicalUpdate'])
     ->middleware('can:psychological.create')->name('psychological.update');
 
     Route::get('sheet/kinesiology/{paciente}/{insurance?}',[App\Http\Controllers\SheetController::class,'kinesiology'])
-        ->middleware('can:kinesiology.create')->name('kinesiology.create');
+        ->middleware('can:kinesiology.view')->name('kinesiology.create');
 
     Route::post('sheet/kinesiology/{paciente}',[App\Http\Controllers\SheetController::class,'kinesiologySave'])
     ->middleware('can:kinesiology.create')->name('kinesiology.save');
@@ -385,7 +400,7 @@ Route::middleware(['verified'])->group(function(){
     ->middleware('can:kinesiology.create')->name('kinesiology.edit');
 
     Route::get('sheet/kinesiologyPdf/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyPDF'])
-    ->middleware('can:kinesiology.create')->name('kinesiology.pdf'); 
+    ->middleware('can:kinesiology.view')->name('kinesiology.pdf'); 
 
     Route::post('sheet/kinesiology/update/{paciente}/{kinesiologySheet}',[App\Http\Controllers\SheetController::class,'kinesiologyUpdate'])
     ->middleware('can:kinesiology.create')->name('kinesiology.update');
