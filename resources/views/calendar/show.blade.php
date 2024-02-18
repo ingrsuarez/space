@@ -540,6 +540,7 @@
                 
                 // var end = moment(start).add(15,'minutes').format();
                 var today = new Date();
+                today.setDate(today.getDate() - 1);
                 var dateText = moment(start.start).locale('es').format('dddd LLL');
 
                 var startDate = moment(start.start).format('YYYY-MM-DD HH:mm:ss');
@@ -559,6 +560,7 @@
                 $('#date').val(dateText);
                 $('#dateNew').val(dateText);
                 $('#dateLock').val(dateText);
+                
                 if(start.start <= today){
                   alert('La fecha seleccionada ya pasó')
                 }else{
