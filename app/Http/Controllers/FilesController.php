@@ -163,7 +163,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'cardiologia' => 'max:2000|mimes:pdf',
+            'cardiologia' => 'max:8000|mimes:pdf',
         ]);
       
         $file = $request->file('cardiologia');
