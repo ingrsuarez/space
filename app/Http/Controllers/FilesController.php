@@ -23,7 +23,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'laboratory' => 'max:2000|mimes:pdf',
+            'laboratory' => 'max:8000|mimes:pdf',
         ]);
       
         $file = $request->file('laboratory');
@@ -60,7 +60,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'fibroscan' => 'max:2000|mimes:pdf',
+            'fibroscan' => 'max:8000|mimes:pdf',
         ]);
       
         $file = $request->file('fibroscan');
@@ -94,7 +94,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'ecografia' => 'max:2000|mimes:pdf',
+            'ecografia' => 'max:8000|mimes:pdf',
         ]);
       
         $file = $request->file('ecografia');
@@ -128,7 +128,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'endoscopia' => 'max:2000|mimes:pdf',
+            'endoscopia' => 'max:8000|mimes:pdf',
         ]);
       
         $file = $request->file('endoscopia');
