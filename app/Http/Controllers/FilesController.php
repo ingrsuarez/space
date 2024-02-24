@@ -60,7 +60,7 @@ class FilesController extends Controller
         $institution = $user->currentInstitution;
         $paciente = Paciente::where('idPaciente','=',$request->idPaciente)->first();
         $request->validate([
-            'fibroscan' => 'max:8000|mimes:pdf',
+            'fibroscan' => 'max:10240|mimes:pdf',
         ]);
       
         $file = $request->file('fibroscan');

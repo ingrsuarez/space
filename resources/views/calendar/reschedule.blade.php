@@ -101,8 +101,11 @@
                 var agenda = @json($availableAgenda);
                 var frequency = @json($frequency);
                 var today = new Date();
-                today.setDate(today.getDate() + 7);
-
+                
+                var startDay = new Date();
+                startDay.setDate(today.getDate() + 7);
+                today.setDate(today.getDate() - 1);
+                
                 var daysOfWeek = [0,1,2,3,4,5,6];
 
                 var scroll = '23:59:59';
@@ -154,7 +157,7 @@
                     startTime: '07:00', // a start time (10am in this example)
                     endTime: '19:00', // an end time (6pm in this example)
                   },
-    
+                  eventOrder: "id",
                   nowIndicator: true,
                   events: appointments.concat(agenda),
                  

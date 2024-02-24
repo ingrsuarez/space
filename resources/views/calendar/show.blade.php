@@ -467,7 +467,7 @@
                 startTime: '07:00', // a start time (10am in this example)
                 endTime: '22:00', // an end time (6pm in this example)
               },
-
+              eventOrder: "id",
               nowIndicator: true,
               events: appointments.concat(agenda),
 
@@ -560,7 +560,7 @@
                 $('#date').val(dateText);
                 $('#dateNew').val(dateText);
                 $('#dateLock').val(dateText);
-                
+
                 if(start.start <= today){
                   alert('La fecha seleccionada ya pasó')
                 }else{
