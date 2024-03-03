@@ -292,7 +292,7 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.index')
         ->name('wa.send');
 
-    Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'sendService'])
+    Route::post('calendar/serviceConfirmation',[App\Http\Controllers\WaController::class,'sendService'])
         ->middleware('can:appointment.index')
         ->name('waService.send');
 
