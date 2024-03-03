@@ -17,4 +17,5 @@ class Wating_service extends Model
         'service_id',
         'paciente_id'
     ];
+    
 }
