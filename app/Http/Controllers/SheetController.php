@@ -391,7 +391,7 @@ class SheetController extends Controller
         $psychological_sheet->conducta_alimentaria = $request->conducta_alimentaria;
         $psychological_sheet->atracon = $request->atracon;
         $psychological_sheet->comedor_nocturno = $request->comedor_nocturno;
-        $psychological_sheet->actividad_física = $request->actividad_física;
+        $psychological_sheet->actividad_fisica = $request->actividad_fisica;
         $psychological_sheet->trabajo = $request->trabajo;
         $psychological_sheet->familia = $request->familia;
         $psychological_sheet->perdidas = $request->perdidas;
