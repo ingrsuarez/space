@@ -81,7 +81,7 @@ class GuestController extends Controller
             } catch(\Illuminate\Database\QueryException $e)
             {
                 $errorCode = $e->errorInfo[1];
-                
+                return  $e;
                 return redirect('/');
                 
             }
