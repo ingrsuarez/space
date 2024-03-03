@@ -156,4 +156,5 @@ class User extends Authenticatable implements MustVerifyEmail
         $hasService = $user->services()->where('id',$service->id)->exists();
         return $hasService;
     }
+    
 }

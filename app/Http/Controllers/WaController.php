@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Service;
 use App\Models\Agenda;
 use App\Models\Confirmation;
+use App\Models\ConfirmationService;
 
 
 class WaController extends Controller
@@ -98,7 +99,6 @@ class WaController extends Controller
 
     public function sendService(Request $request)
     {
-
         $appointment = AppointmentService::where('id',$request->event_id)->first();
         $service = Service::where('id',$appointment->service_id)->first();
         $institution = Institution::where('id',$appointment->institution_id)->first();
@@ -109,19 +109,19 @@ class WaController extends Controller
         $phone_number = preg_replace('/[^0-9]/', '', $cellphone);
         $user = Auth::user();
         $token = preg_replace('/[^A-Za-z0-9\-]/', '', Hash::make($appointment->id.$patient->nombrePaciente.$fecha));
-        if (Confirmation::where('appointment_id', '=', $appointment->id)->first()) 
+        if (ConfirmationService::where('appointment_id', '=', $appointment->id)->first()) 
         {
             return redirect()->route('appointment.service', [
                 'institution_id' => $appointment->institution_id,
-                'user_id' => $appointment->user_id
+                'service_id' => $appointment->service_id
             ]);
 
         }else
         {
-            $confirmation = new Confirmation;
+            $confirmation = new ConfirmationService;
             $confirmation->token = $token;
             $confirmation->appointment_id = $appointment->id;
-            $confirmation->user_id = $user->id;
+            $confirmation->service_id = $service->id;
     
             try 
             {
@@ -131,7 +131,6 @@ class WaController extends Controller
             } catch(\Illuminate\Database\QueryException $e)
             {
                 $errorCode = $e->errorInfo[1];
-                
                 return back()->with('error', $e->getMessage());
                 
             }
@@ -144,7 +143,7 @@ class WaController extends Controller
         .strtoupper($institution->name).".%0A"
         ."%f0%9f%93%8d ".$institution->location." "
         ."%0A%0A%e2%9c%85 *Click para confirmar asistencia:*%0A"
-        ."https://space4clinic.com/confirm/".$token."%0A*Agende este número para poder acceder al link de confirmación!*";
+        ."https://space4clinic.com/confirmService/".$token."%0A*Agende este número para poder acceder al link de confirmación!*";
         $url = "https://api.whatsapp.com/send/?phone=".$phone_number."&text=";
         
         // return view('wa.confirmation',compact('url','message'));

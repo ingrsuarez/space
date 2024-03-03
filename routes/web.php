@@ -25,6 +25,10 @@ Route::get('/', function () {
 
 Route::get('/confirm/{token}', [App\Http\Controllers\GuestController::class, 'confirm'])->name('confirm.appointment');
 Route::get('/confirmed/{appointment}/{confirmation}', [App\Http\Controllers\GuestController::class, 'confirmed'])->name('confirmed.appointment');
+
+Route::get('/confirmService/{token}', [App\Http\Controllers\GuestController::class, 'confirmService'])->name('confirm.serviceAppointment');
+Route::get('/confirmedService/{appointment}/{confirmation}', [App\Http\Controllers\GuestController::class, 'confirmedService'])->name('confirmed.serviceAppointment');
+
 Auth::routes(['verify'=>true]);
 
 Route::middleware(['verified'])->group(function(){
