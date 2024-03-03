@@ -8,13 +8,18 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\AppointmentService;
+use App\Models\Service;
 use App\Models\Lock;
+use App\Models\LockService;
 use App\Models\Paciente;
 use App\Models\Institution;
 use App\Models\Insurance;
 use App\Models\User;
 use App\Models\Agenda;
+use App\Models\AgendaService;
 use App\Models\Wating_list;
+use App\Models\Wating_service;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cash;
 
@@ -188,6 +193,10 @@ class AppointmentController extends Controller
                 }
 
 
+            }elseif($user->hasRole('profesional_servicio'))
+            {
+
+                return redirect()->action([AppointmentController::class, 'service'], ['institution_id'=>$institution->id,'service_id' => $user->services[0]->id]);
             }else{
                 return view('calendar.index',compact('institution','user'));
             }
@@ -527,6 +536,140 @@ class AppointmentController extends Controller
                 
     }
 
+    public function service(Request $request)
+    {
+        
+        if(empty($request->institution_id))
+        {
+            return redirect()->route('appointment.index');
+        }else{
+            
+            $institution = Institution::find($request->institution_id);
+            $service = Service::find($request->service_id);
+
+            // SELECT *
+            // FROM notes
+            // INNER JOIN institution_user
+            // ON notes.user_id = institution_user.user_id
+            // WHERE institution_user.institution_id = 1
+           
+            $insurances = Insurance::all();
+            $appointments = AppointmentService::where('institution_id',$institution->id)
+                ->where('service_id',$service->id)
+                ->where('status','!=','cancelled')
+                ->get();
+            
+            $locks = LockService::where('institution_id',$institution->id)->where('service_id',$service->id)->get();
+            $events = array();
+            $agendas = AgendaService::where('service_id',$service->id)->where('institution_id',$institution->id)->get();
+            $frequency = 60;
+            foreach ($appointments as $appointment){
+                $insurance = Insurance::where('id',$appointment->insurance_id)->first();
+                if ($appointment->overturn >= 1)
+                {
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#d14c1f';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }  
+                    $events[] = [
+                        'id'=> $appointment->id,
+                        'room' => $appointment->room_id,
+                        'paciente' => $appointment->paciente_id,
+                        'insurance' => $appointment->insurance_id,
+                        'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                            ' '.$insurance->name,
+                        'start' => $appointment->start,
+                        'end' => $appointment->end,
+                        'editable' => false,
+                        'backgroundColor' => $color
+                    ];  
+                }else{
+                    if($appointment->status == 'active')
+                        {
+                            $color = '#4040a1';
+                        }else
+                        {
+                            $color = '#6aa84f';
+                        }  
+                    $events[] = [
+                    'id'=> $appointment->id,
+                    'room' => $appointment->room_id,
+                    'paciente' => $appointment->paciente_id,
+                    'insurance' => $appointment->insurance_id,
+                    'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                    'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                        ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
+                        ' '.$insurance->name,
+                    'start' => $appointment->start,
+                    'end' => $appointment->end,
+                    'editable' => false,
+                    'backgroundColor' => $color
+                    ];  
+                }
+            }
+            foreach ($locks as $lock){
+                $events[] = [
+                    'groupId' => 'unAvailable',
+                    'id'=> $lock->id,
+                    'title' => 'Bloqueado por: '.ucfirst($lock->creator->name).' '.ucfirst($lock->creator->lastName),
+                    'start' => $lock->start,
+                    'end' => $lock->end,
+                    'editable' => 'false',
+                    'overlap' => 'false',
+                    'display' => 'background',
+                    'color' => '#ff4021'
+                ];
+            }
+            if(empty($agendas[0]))
+            {
+                return back()->with('error', 'Este Servicio no tiene una agenda abierta!');
+            }else
+            {
+                foreach ($agendas as $agenda)
+                {
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'available',
+                        'daysOfWeek' => [$agenda->day],
+                        'startTime' => $agenda->start,
+                        'endTime' => $agenda->end,
+                        'display' => 'inverse-background',
+                        'color' => '#ccc',
+                        'backgroundColor' => '#ffcc5c'
+                        
+                    ];
+                    // $availableAgenda[] = [
+                    //     'id' => $agenda->room_id,
+                    //     'groupId' => 'room',
+                    //     'daysOfWeek' => [$agenda->day],
+                    //     'title' => $agenda->room->name,
+                        
+                    // ];
+
+                    if($frequency > $agenda->frequency)
+                    {
+                        $frequency = $agenda->frequency;   
+                    }
+                }
+                $frequency = '00:'.$frequency.':00';
+                $user = Auth::user();
+                return view('calendar.showService',compact('events','institution','service','availableAgenda','frequency','insurances','user'));  
+
+            }
+
+
+            
+        }
+                
+    }
+
     public function store(Request $request)
     {
         if (!empty($request->patient_id))
@@ -585,6 +728,63 @@ class AppointmentController extends Controller
         
     }
 
+    public function serviceStore(Request $request)
+    {
+        
+        if (!empty($request->patient_id))
+        {
+            $over_count = AppointmentService::where('start',$request->startDate)
+                ->where('service_id',$request->service_id)
+                ->where('institution_id',$request->institution_id)
+                ->where('status','<>','cancelled')
+                ->count();
+
+            if ($over_count < 10)
+            {
+                $creator = Auth::user();
+                $appointment = new AppointmentService;
+
+                $appointment->institution_id = $request->institution_id;
+                $appointment->service_id = $request->service_id;
+                $appointment->paciente_id = $request->patient_id;
+                $appointment->room_id = $request->room_id;
+                $appointment->start = $request->startDate;
+                $appointment->end = $request->endDate;
+                $appointment->obs = $request->obs;
+                $appointment->status = 'active';
+                $appointment->overturn = $over_count;
+                $appointment->creator_id = $creator->id;
+                $appointment->insurance_id = $request->insurance_id;
+
+            }else
+            {
+                return back()->with('error', 'No es posible agendar aqui un sobre turno!');
+            }
+
+            try 
+            {    
+                $appointment->save();
+                return redirect()->route('appointment.service', [
+                    'institution_id' => $appointment->institution_id,
+                    'service_id' => $appointment->service_id
+                ]);
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return back()->with('error', $e->getMessage());
+                
+            }
+        }else
+        {
+
+            return back()->with('error', 'Debe seleccionar un paciente!');
+            
+        }
+        
+    }
+
     public function cancel(Request $request)
     {
         if($request->groupId == "unAvailable")
@@ -605,6 +805,41 @@ class AppointmentController extends Controller
                 return redirect()->route('appointment.show', [
                     'institution_id' => $appointment->institution_id,
                     'user_id' => $appointment->user_id
+                ]);
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return 'error';
+                
+            }
+
+        }
+        
+    }
+
+    public function serviceCancel(Request $request)
+    {
+        
+        if($request->groupId == "unAvailable")
+        // Cancel Lock
+        {
+            $lock = LockService::where('id',$request->event_id)->first();
+            $lock->delete();
+            return redirect()->route('appointment.service', [
+                'institution_id' => $lock->institution_id,
+                'service_id' => $lock->service_id
+            ]);
+        }else{
+            $appointment = AppointmentService::find($request->event_id);
+            $appointment->status = 'cancelled';
+            try 
+            {
+                $appointment->save();
+                return redirect()->route('appointment.service', [
+                    'institution_id' => $appointment->institution_id,
+                    'service_id' => $appointment->service_id
                 ]);
             
             } catch(\Illuminate\Database\QueryException $e)
@@ -707,6 +942,96 @@ class AppointmentController extends Controller
 
         }  
     }
+
+    public function serviceReschedule(Request $request) 
+    {
+        
+        if(empty($request->institution_id))
+        {
+            return redirect()->route('appointment.index');
+        }else{
+            
+            $observaciones = AppointmentService::find($request->event_id)->obs;
+            $institution = Institution::find($request->institution_id);
+            $service = Service::find($request->service_id);
+            $patient = Paciente::find($request->patient_id);
+            $appointments = AppointmentService::where('institution_id',$institution->id)->where('service_id',$service->id)->where('status','!=','cancelled')->get();
+            $locks = LockService::where('institution_id',$institution->id)->where('service_id',$service->id)->get();
+            $events = array();
+            $agendas = AgendaService::where('service_id',$service->id)->where('institution_id',$institution->id)->get();
+            $frequency = 60;
+            foreach ($appointments as $appointment){
+                $events[] = [
+                'id'=> $appointment->id,
+                'room' => $appointment->room_id,
+                'paciente' => $appointment->paciente_id,
+                'insurance' => $appointment->insurance_id,
+                'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
+                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                    ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
+                'start' => $appointment->start,
+                'end' => $appointment->end,
+                'editable' => false,
+                'backgroundColor' => '#4040a1'
+                ];  
+                
+            }
+            foreach ($locks as $lock){
+                $events[] = [
+                    'groupId' => 'unAvailable',
+                    'id'=> $lock->id,
+                    'title' => 'Bloqueado por: '.ucfirst($lock->creator->name).' '.ucfirst($lock->creator->lastName),
+                    'start' => $lock->start,
+                    'end' => $lock->end,
+                    'editable' => 'false',
+                    'overlap' => 'false',
+                    'display' => 'background',
+                    'color' => '#ff4021'
+                ];
+            }
+            if(empty($agendas[0]))
+            {
+                return back()->with('error', 'Este Servicio no tiene una agenda abierta!');
+            }else
+            {
+                foreach ($agendas as $agenda)
+                {
+                    $availableAgenda[] = [
+                        'id' => $agenda->room_id,
+                        'groupId' => 'available',
+                        'daysOfWeek' => [$agenda->day],
+                        'startTime' => $agenda->start,
+                        'endTime' => $agenda->end,
+                        'display' => 'inverse-background',
+                        'color' => '#ccc',
+                        'backgroundColor' => '#ffcc5c'
+                        
+                    ];
+                    // $availableAgenda[] = [
+                    //     'id' => $agenda->room_id,
+                    //     'groupId' => 'room',
+                    //     'daysOfWeek' => [$agenda->day],
+                    //     'title' => $agenda->room->name,
+                        
+                    // ];
+
+                    if($frequency > $agenda->frequency)
+                    {
+                        $frequency = $agenda->frequency;   
+                    }
+                }
+                $frequency = '00:'.$frequency.':00';
+                $eventId = $request->event_id;
+                $insuranceId = $request->insurance_id;
+                return view('calendar.rescheduleService',compact('eventId','events','institution','service','availableAgenda','frequency','patient','observaciones','insuranceId'));  
+
+            }
+
+
+        }  
+    }
+
     public function toWaitingList(Request $request)
     {   
 
@@ -730,6 +1055,40 @@ class AppointmentController extends Controller
         $wating->paciente_id = $request->patient_id;
         $wating->insurance_id = $request->insurance_id;
         if(Wating_list::where('paciente_id',$paciente->codPaciente)->exists())
+        {
+            return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
+             
+        }else
+        {
+            $wating->save();
+            return redirect('home/')->with('message', 'Paciente enviado a lista de espera!');
+        }
+        return $request;
+    }
+
+    public function toWaitingService(Request $request)
+    {   
+
+        
+        // if($request->method == 'cash' && $request->amount != null)
+        // {
+        //     $cash = new CashService;
+        //     $cash->user_id = Auth::user()->id;
+        //     $cash->service_id = $request->service_id;
+        //     $cash->institution_id = $request->institution_id;
+        //     $cash->paciente_id = $request->patient_id;
+        //     $cash->description = $request->description;
+        //     $cash->debit = $request->amount;
+        //     $cash->save();
+        // }
+        $paciente = Paciente::find($request->patient_id);
+        
+        $wating = new Wating_service;
+        $wating->service_id = $request->service_id;
+        $wating->institution_id = $request->institution_id;
+        $wating->paciente_id = $request->patient_id;
+        $wating->insurance_id = $request->insurance_id;
+        if(Wating_service::where('paciente_id',$paciente->codPaciente)->exists())
         {
             return redirect('home/')->with('message', 'El paciente ya esta en lista de espera!');
              
@@ -812,6 +1171,76 @@ class AppointmentController extends Controller
 
     }
 
+    public function serviceRestore(Request $request)
+    {
+       
+        if (!empty($request->patient_id))
+        {
+            //First cancel previus appointment
+            $cancelAppointment = AppointmentService::find($request->event_id);
+            $cancelAppointment->status = 'cancelled';
+            try 
+            {
+                $cancelAppointment->save();
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return 'error';
+                
+            }
+            $creator = Auth::user();
+            //Store new appointment
+
+
+            $over_count = AppointmentService::where('start',$request->startDate)
+                ->where('service_id',$request->service_id)
+                ->where('institution_id',$request->institution_id)
+                ->where('status','<>','cancelled')
+                ->count();
+
+            if ($over_count < 10)
+            {
+                
+                $appointment = new AppointmentService;
+
+                $appointment->institution_id = $request->institution_id;
+                $appointment->service_id = $request->service_id;
+                $appointment->paciente_id = $request->patient_id;
+                $appointment->room_id = $request->room_id;
+                $appointment->start = $request->startDate;
+                $appointment->end = $request->endDate;
+                $appointment->obs = $request->obs;
+                $appointment->status = 'active';
+                $appointment->overturn = $over_count;
+                $appointment->creator_id = $creator->id;
+                $appointment->insurance_id = $request->insurance_id;
+
+            }else
+            {
+                return back()->with('error', 'No es posible agendar aqui un sobre turno!');
+            }
+    
+            try 
+            {
+                $appointment->save();
+                return redirect()->route('appointment.service', [
+                    'institution_id' => $appointment->institution_id,
+                    'service_id' => $appointment->service_id
+                ]);
+            
+            } catch(\Illuminate\Database\QueryException $e)
+            {
+                $errorCode = $e->errorInfo[1];
+                
+                return back()->with('error', $e->getMessage());
+                
+            }
+        }
+
+    }
+
     public function storeLock(Request $request)
     {
         $creator = Auth::user();
@@ -823,6 +1252,34 @@ class AppointmentController extends Controller
         $lock->end = $request->endDate;
         $lock->creator_id = $creator->id;
         $lock->obs = 'BLOQUEO';
+        try 
+        {
+            $lock->save();
+            return back()->with('message', 'Bloqueo agendado correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+            return back()->with('error', $e->getMessage());
+            
+        }
+        return $lock;
+    }
+
+    public function storeServiceLock(Request $request)
+    {
+        
+        $creator = Auth::user();
+        $lock = new LockService;
+
+        $lock->institution_id = $request->institution_id;
+        $lock->service_id = $request->service_id;
+        $lock->start = $request->startDate;
+        $lock->end = $request->endDate;
+        $lock->creator_id = $creator->id;
+        $lock->obs = 'BLOQUEO';
+
         try 
         {
             $lock->save();

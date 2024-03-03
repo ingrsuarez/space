@@ -9,6 +9,10 @@ use App\Models\Appointment;
 use App\Models\Institution;
 use App\Models\User;
 use App\Models\Agenda;
+use App\Models\AgendaService;
+use App\Models\Service;
+
+
 
 
 class AgendaController extends Controller
@@ -21,23 +25,31 @@ class AgendaController extends Controller
 
     public function index(User $professional)
     {
-        // return $professional;
         $user = Auth::user();
-        
+        $institution = Institution::find($user->institution_id)->first();
+
+        $services = $institution->services;
+        if (count($services) > 0)
+        {
+            $service = $services[0];
+        }else{
+            $service = null;
+        }
+
         $professionals = User::whereHas(
-            'institutions', function($q)use($user){
-                $q->where('id', $user->institution_id);
-            }
-        )->whereHas(
+                'institutions', function($q)use($user){
+                    $q->where('id', $user->institution_id);
+                }
+            )->whereHas(
                 'roles', function($q){
                     $q->where('id', 2);
                 }
             )->get();
         if(isset($professional))
         {
-            return view('agendas.index',compact('professionals','user','professional'));
+            return view('agendas.index',compact('professionals','user','professional','services','institution','service'));
         }
-        return view('agendas.index',compact('professionals','user'));
+        return view('agendas.index',compact('professionals','user','services','institution','service'));
     }
 
     public function store(Request $request)
@@ -104,6 +116,35 @@ class AgendaController extends Controller
         {
             $agenda->delete();
             return redirect()->route('agendas.index', ['professional' => $agenda->user_id]);
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+             return back()->with('error', $e->getMessage());
+            
+        } 
+    }
+
+    public function serviceStore(Request $request)
+    {
+
+        $agenda = new AgendaService;
+        $agenda->institution_id = $request->institution_id;
+        $agenda->service_id = $request->service_id;
+        $agenda->room_id = $request->room_id;
+        $agenda->day = $request->day;
+        $agenda->frequency = $request->frequency;
+        $agenda->start = $request->start;
+        $agenda->end = $request->end;
+        $agenda->max_days = '30';
+        $agenda->overturn = '0';
+
+        try 
+        {
+            $agenda->save();
+            return redirect()->route('agendas.index');
+            // return back()->with('message', 'Agenda guardada correctamente!');
         
         } catch(\Illuminate\Database\QueryException $e)
         {

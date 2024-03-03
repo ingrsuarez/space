@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Wating_list;
+use App\Models\Wating_service;
 use App\Models\Institution;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -230,6 +231,14 @@ class PacienteController extends Controller
         
     }
 
+    public function watingService_detach(Paciente $paciente, $institution)
+    {
+        
+        $paciente->watingServiceFor()->detach();
+        return redirect('home/')->with('message', 'Paciente eliminado de lista de espera!');
+
+        
+    }
 
     public function authenticate(Request $request)
     {

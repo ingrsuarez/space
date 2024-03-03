@@ -143,4 +143,17 @@ class User extends Authenticatable implements MustVerifyEmail
         $hasInsurance = $user->insurances()->where('insurance_id', $insurance_id)->exists();
         return $hasInsurance;
     }
+
+    public function services()
+    {
+        return $this->belongsToMany('App\Models\Service');
+    }
+
+    public function hasService($service_id)
+    {
+        
+        $user = Auth::user();
+        $hasService = $user->services()->where('id',$service->id)->exists();
+        return $hasService;
+    }
 }

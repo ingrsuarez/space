@@ -33,6 +33,11 @@ class Paciente extends Authenticatable
     {
         return $this->belongsToMany('App\Models\User','wating_list','paciente_id','user_id')->withPivot('institution_id','created_at')->orderBy('pivot_created_at','ASC');
     }
+
+    public function watingServiceFor()
+    {
+        return $this->belongsToMany('App\Models\User','wating_service','paciente_id','user_id')->withPivot('institution_id','created_at')->orderBy('pivot_created_at','ASC');
+    }
     
     public function waitingIn()
     {

@@ -56,7 +56,11 @@ Route::middleware(['verified'])->group(function(){
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
     Route::get('editPaciente/{paciente}',[App\Http\Controllers\PacienteController::class,'updateAppointment'])->name('paciente.updateAppointment');
     
-    Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])->name('wating.detach');
+    Route::get('wating/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_detach'])
+        ->name('wating.detach');
+
+    Route::get('watingService/detach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'watingService_detach'])
+        ->name('watingService.detach');
     //PROFESSION
     Route::get('profession/index',[App\Http\Controllers\ProfessionController::class,'index'])->middleware('can:profession.index')->name('profession.index');
     Route::get('profession/add/{profession}',[App\Http\Controllers\ProfessionController::class,'add'])->middleware('can:profession.add')->name('profession.add');
@@ -208,7 +212,7 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.index')
         ->name('appointment.day');
 
-    Route::get('calendar/show/{institution_id?}{user_id?}',[App\Http\Controllers\AppointmentController::class,'show'])
+    Route::get('calendar/show/{institution_id?}/{user_id?}',[App\Http\Controllers\AppointmentController::class,'show'])
         ->middleware('can:appointment.index')
         ->name('appointment.show');
 
@@ -216,11 +220,11 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.institution')
         ->name('appointment.show');
 
-    Route::post('calendar/service',[App\Http\Controllers\AppointmentController::class,'service'])
+    Route::post('calendar/service/{institution_id?}/{service_id?}',[App\Http\Controllers\AppointmentController::class,'service'])
         ->middleware('can:appointment.institution')
         ->name('appointment.service');
 
-    Route::get('calendar/service/{institution_id?}{service_id?}',[App\Http\Controllers\AppointmentController::class,'service'])
+    Route::get('calendar/service/{institution_id?}/{service_id?}',[App\Http\Controllers\AppointmentController::class,'service'])
         ->middleware('can:appointment.institution')
         ->name('appointment.service');
 
@@ -236,6 +240,10 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.cancel')
         ->name('appointment.cancel');
 
+    Route::post('calendarService/cancel',[App\Http\Controllers\AppointmentController::class,'serviceCancel'])
+        ->middleware('can:appointment.cancel')
+        ->name('appointmentService.cancel');
+
     Route::post('calendar/reschedule',[App\Http\Controllers\AppointmentController::class,'reschedule'])
         ->middleware('can:appointment.cancel')
         ->name('appointment.reschedule');
@@ -244,17 +252,37 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:appointment.index')
         ->name('appointment.reschedule');
 
+    Route::post('calendarService/reschedule',[App\Http\Controllers\AppointmentController::class,'serviceReschedule'])
+        ->middleware('can:appointment.cancel')
+        ->name('appointmentService.reschedule');
+
+    Route::get('calendarService/reschedule',[App\Http\Controllers\AppointmentController::class,'index'])
+        ->middleware('can:appointment.index')
+        ->name('appointmentService.reschedule');
+
     Route::post('calendar/restore',[App\Http\Controllers\AppointmentController::class,'restore'])
         ->middleware('can:appointment.store')
         ->name('appointment.restore');
+
+    Route::post('calendarService/restore',[App\Http\Controllers\AppointmentController::class,'serviceRestore'])
+        ->middleware('can:appointment.store')
+        ->name('appointmentService.restore');
         
     Route::post('calendar/wating',[App\Http\Controllers\AppointmentController::class,'toWaitingList'])
         ->middleware('can:appointment.store')
         ->name('appointment.toWaitingList');
 
+    Route::post('calendarService/wating',[App\Http\Controllers\AppointmentController::class,'toWaitingService'])
+        ->middleware('can:appointment.store')
+        ->name('appointment.toWaitingService');
+
     Route::post('calendar/storeLock',[App\Http\Controllers\AppointmentController::class,'storeLock'])
         ->middleware('can:appointment.index')
         ->name('appointment.storeLock');
+
+    Route::post('calendar/storeServiceLock',[App\Http\Controllers\AppointmentController::class,'storeServiceLock'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.storeServiceLock');
 
     Route::post('calendar/storePatient',[App\Http\Controllers\AppointmentController::class,'storePatient'])
         ->middleware('can:appointment.index')
@@ -263,6 +291,11 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'send'])
         ->middleware('can:appointment.index')
         ->name('wa.send');
+
+    Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'sendService'])
+        ->middleware('can:appointment.index')
+        ->name('waService.send');
+
     Route::post('calendar/confirm',[App\Http\Controllers\AppointmentController::class,'confirm'])
         ->middleware('can:appointment.index')
         ->name('appointment.confirm');

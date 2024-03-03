@@ -12,7 +12,7 @@
         <meta http-equiv="refresh" content="30">
     @endpush
     <div class="container">
-        @livewire('show-patients',['wating_institution' => $wating_institution, 'user' => $user])   
+        @livewire('show-patients',['wating_institution' => $wating_institution, 'user' => $user, 'services' => $services])   
         
     </div>
 @endsection

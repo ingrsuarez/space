@@ -23,7 +23,6 @@
               @if(isset($institution))
 
                   <div class="input-group mb-3">
-                    
 
                     <table class="table">
                       <thead class="table-light">
@@ -54,10 +53,75 @@
                               <td><button type="submit" form="f{{$professional->id}}" class="btn btn-sm btn-primary text-white shadow">Seleccionar</button></td>
                             </tr>
                           </form>
+                          @endif
+                        @endforeach  
+                      </tbody>
+                    </table> 
+                    {{-- <select class="form-select" name = 'user_id' autofocus>
+                      @foreach($institution->users as $professional)
+                        @if($professional->hasRole('profesional'))
+                          <option value="{{$professional->id}}">{{strtoupper($professional->lastName).' '.strtoupper($professional->name)}}</option>
                         @endif
-                      @endforeach  
-                    </tbody>
-                  </table> 
+                      @endforeach   
+                    </select>  
+        
+                    <button type="submit" class="btn btn-sm btn-primary text-white">Seleccionar</button> --}}
+                      
+                  </div>
+                                     
+
+                </form>
+              @endif
+            </div>    
+          </div>
+
+        </div>
+      </div>
+
+      <div class="accordion" id="accordionServices">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="Services">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Services-collapseOne" aria-expanded="true" aria-controls="Services-collapseOne">
+            <div class="">
+                Seleccionar servicio: <strong>{{strtoupper($institution->name)}}</strong>
+            </div>
+          </button>
+          </h2>
+          <div id="Services-collapseOne" class="accordion-collapse collapse show" aria-labelledby="Services-headingOne">
+            <div class="accordion-body">
+              @if(isset($institution))
+
+                  <div class="input-group mb-3">
+
+                    <table class="table">
+                      <thead class="table-light">
+                          <th>Servicio</th>
+                          <th>Observaciones</th>
+                          
+                          <th></th>
+                      </thead>
+                      <tbody>
+                        @foreach($institution->services as $service)
+                          {{-- @if($professional->hasRole('profesional')) --}}
+                          <form id="f{{$service->id}}" action="{{route('appointment.service')}}" method="POST">
+                            @csrf
+                            {{-- @method('put') --}}
+                            <tr>
+                              <td>
+                                  <input type="hidden" name="institution_id" form="f{{$service->id}}" value="{{$institution->id}}">
+                                  <input type="hidden" name = 'service_id' form="f{{$service->id}}" value="{{$service->id}}">
+                                  {{strtoupper($service->name)}}
+                              </td>
+                              <td>
+
+                              </td>
+                              <td><button type="submit" form="f{{$service->id}}" class="btn btn-sm btn-primary text-white shadow">Seleccionar</button></td>
+                            </tr>
+                          </form>
+                          {{-- @endif --}}
+                        @endforeach  
+                      </tbody>
+                    </table> 
                     {{-- <select class="form-select" name = 'user_id' autofocus>
                       @foreach($institution->users as $professional)
                         @if($professional->hasRole('profesional'))

@@ -55,28 +55,50 @@
 						<input type="text" class="form-control" aria-label="Username"id="localidad" name="localidad" value="{{$user->localidad}}">
                   		
                 	</div>
+					<div class="d-flex flex-row bd-highlight mb-3">
+						<div class="container">
+							<label class="h5">Roles:</label>
+							@foreach ($roles as $role)
+							<div class="input-group mb-3" style="max-width: 10rem;" >
+								<div class="input-group-text">
 
-                	
-                	<label class="h5">Roles:</label>
-                		@foreach ($roles as $role)
-                		<div class="input-group mb-3" style="max-width: 10rem;" >
-							<div class="input-group-text">
-
-							  
-							   @if($user->hasRole($role->id) )
-							   	<input type="checkbox" name="roles[]" value="{{$role->id}}" checked>
-							   @else 
-							    <input type="checkbox" name="roles[]" value="{{$role->id}}" >
-							   @endif
-							</div>
-							<div class="form-control">
-								{{ucfirst($role->name)}}	
-							</div>
 								
-						</div>	
-                		
-                		@endforeach
-                	
+								@if($user->hasRole($role->id) )
+									<input type="checkbox" name="roles[]" value="{{$role->id}}" checked>
+								@else 
+									<input type="checkbox" name="roles[]" value="{{$role->id}}" >
+								@endif
+								</div>
+								<div class="form-control">
+									{{ucfirst($role->name)}}	
+								</div>
+									
+							</div>	
+							
+							@endforeach
+						</div>
+						<div class="container">
+							<label class="h5">Servicios:</label>
+							@foreach ($services as $service)
+							<div class="input-group mb-3" style="max-width: 10rem;" >
+								<div class="input-group-text">
+
+								@if($user->services()->where('id',$service->id)->exists() )
+									<input type="checkbox" name="services[]" value="{{$service->id}}" checked>
+								@else 
+									<input type="checkbox" name="services[]" value="{{$service->id}}" >
+									
+								@endif
+								</div>
+								<div class="form-control">
+									{{ucfirst($service->name)}}	
+								</div>
+									
+							</div>	
+							
+							@endforeach
+						</div>
+					</div>
 	                <div class="d-grid gap-2 d-md-flex justify-content-md-end">	                	
 	                	<button class="btn btn-outline-success " type="submit">Guardar</button>
 	                </div>

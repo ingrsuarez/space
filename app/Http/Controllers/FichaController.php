@@ -51,6 +51,11 @@ class FichaController extends Controller
         }
         
         $user->watingMe()->detach($paciente->codPaciente);
+        if(count($user->services) > 0)
+        {
+            $user->services[0]->watingMe()->detach($paciente->codPaciente);
+        }
+
         // Estudios de Laboratorios
         $directory = "patients/".$idPaciente."/lab";
         $files = [];

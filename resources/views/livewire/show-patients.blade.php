@@ -28,21 +28,31 @@
                                     <div class="card-body">                
                                         @can('wating.list')
                                             <p class="card-text">
-                                            @if(!empty($institution))    
-                                            @foreach($watingMe as $paciente)
-                                                @php $insuranceName = explode(" ",$paciente->insurance);@endphp
-                                                @if($paciente->institution_id == $institution->id)
-                                                    {{(($loop->index)+1).' - '}}  
-                                                    <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
-                                                    {{strtoupper($paciente->apellidoPaciente).' '.
-                                                    strtoupper($paciente->nombrePaciente)}}
-                                                    </a>{{' - '.$insuranceName[0]}}<br>
+                                                @if(!empty($institution))    
+                                                    @foreach($watingMe as $paciente)
+                                                        @php $insuranceName = explode(" ",$paciente->insurance);@endphp
+                                                        @if($paciente->institution_id == $institution->id)
+                                                            {{(($loop->index)+1).' - '}}  
+                                                            <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
+                                                            {{strtoupper($paciente->apellidoPaciente).' '.
+                                                            strtoupper($paciente->nombrePaciente)}}
+                                                            </a>{{' - '.$insuranceName[0]}}<br>
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach($watingService as $paciente)
+                                                            
+                                                        @php $insuranceName = explode(" ",$paciente->insurance);@endphp
+                                                        @if($paciente->institution_id == $institution->id)
+                                                            {{(($loop->index)+1).' - '}}  
+                                                            <a href="{{route("ficha.index",$paciente->idPaciente)}}"> 
+                                                            {{strtoupper($paciente->apellidoPaciente).' '.
+                                                            strtoupper($paciente->nombrePaciente)}}
+                                                            </a>{{' - '.$insuranceName[0].' - '.ucfirst($paciente->name)}}<br>
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                            @endforeach
-                                            @endif
                                             </p>
                                         @else                        
-                                            
                                             <table class="table">
                                                 <thead class="table-light">
                                                     <th>Profesional</th>
@@ -59,10 +69,8 @@
                                                             @foreach($professional->watingMe as $paciente)
                                                                 @if($paciente->pivot->institution_id == $institution->id)
                                                                 <tr>
-                                                                    <td>
-                                                                        
-                                                                            {{strtoupper($professional->name.' '.$professional->lastName)}}
-                                                                        
+                                                                    <td>  
+                                                                        {{strtoupper($professional->name.' '.$professional->lastName)}}
                                                                     </td>
                                                                     <td>
                                                                         <a href="{{route("ficha.index",$paciente->idPaciente)}}">
@@ -77,6 +85,25 @@
                                                             @endforeach
                                                             
                                                         @endif
+                                                    @endforeach
+                                                    @foreach($services as $service)
+                                                        @foreach($service->watingMe as $paciente)
+                                                            @if($paciente->pivot->institution_id == $institution->id)
+                                                                <tr>
+                                                                    <td>  
+                                                                        {{strtoupper($service->name)}}
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="{{route("ficha.index",$paciente->idPaciente)}}">
+                                                                            {{strtoupper($paciente->apellidoPaciente).' '.strtoupper($paciente->nombrePaciente)}}    
+                                                                        </a>
+                                                                    </td>
+                                                                    
+                                                                    <td>{{($paciente->pivot->created_at)->format('H:i:s A')}}</td>
+                                                                    <td><a class="btn btn-danger text-white" href="{{ route('watingService.detach',['paciente'=>$paciente,'institution'=>$institution]) }}">Quitar</a></td>
+                                                                </tr>
+                                                            @endif
+                                                        @endforeach
                                                     @endforeach
                                                 @endif   
                                                 </tbody>

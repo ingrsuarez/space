@@ -5,6 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\Service;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -89,7 +90,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('user.edit',compact('user','roles'));
+        $services = Service::all();
+        return view('user.edit',compact('user','roles','services'));
 
     }
 
@@ -103,7 +105,7 @@ class UserController extends Controller
     public function update($id,Request $request)
     {
         
-       $user = User::find($id);
+        $user = User::find($id);
 
         $user->fechaNacimiento = $request->fechaNacimiento;
         $user->name = strtolower($request->name);
@@ -115,6 +117,7 @@ class UserController extends Controller
         $user->localidad = strtolower($request->localidad);
         
         $user->roles()->sync($request->roles);
+        $user->services()->sync($request->services);
         try 
         {
             $user->save();

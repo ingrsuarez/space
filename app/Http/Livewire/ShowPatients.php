@@ -24,6 +24,7 @@ class ShowPatients extends Component
     public $institution;
     public $wating;
     public $user;
+    public $services;
     public $professionals;
     public $wating_institution;
 
@@ -61,18 +62,33 @@ class ShowPatients extends Component
             ->where('wating_list.user_id','=',$this->user->id)
             ->orderBy('wating_list.created_at','ASC')
             ->get();
+        if(count($this->user->services) > 0)
+        {
+            $service = $this->user->services[0];
+            $watingService = Paciente::select('pacientes.idPaciente','pacientes.nombrePaciente','pacientes.apellidoPaciente','insurances.name AS insurance','wating_service.institution_id','services.name')
+                ->join('wating_service', 'wating_service.paciente_id', '=', 'pacientes.codPaciente')
+                ->join('services', 'services.id', '=', 'wating_service.service_id')
+                ->leftJoin('insurances', 'insurances.id', '=', 'wating_service.insurance_id')
+                ->where('wating_service.service_id','=',$service->id)
+                ->orderBy('wating_service.created_at','ASC')
+                ->get();
 
+        }else
+        {
+            $watingService = [];
+        }
+        
 
         if($this->name <> ''){    
             $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')->paginate(5); 
-            return view('livewire.show-patients',compact('pacientes','watingMe'));
+            return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
         }elseif($this->lastName <> ''){
             $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')->paginate(7); 
-            return view('livewire.show-patients',compact('pacientes','watingMe'));
+            return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
 
         }elseif($this->dni <> ''){
             $pacientes = Paciente::where('idPaciente','LIKE',$this->dni.'%')->paginate(5); 
-            return view('livewire.show-patients',compact('pacientes','watingMe'));
+            return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
 
         }else
         {
@@ -85,7 +101,7 @@ class ShowPatients extends Component
             ->paginate(15);
             
            
-            return view('livewire.show-patients',compact('pacientes','watingMe'));
+            return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
         
         }
 

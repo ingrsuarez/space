@@ -45,28 +45,42 @@ class FindPatients extends Component
 
     public function render()
     {
-        if($this->name <> ''){    
-            $pacientes = LastAppointment::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')
-            ->where(function ($query) {
-                $query->whereNull('user_id')
-                    ->orWhere('user_id',$this->professional->id);
-            })
-            ->paginate(4);
-            
-            if ($pacientes->count() < 1)
+        if($this->name <> ''){  
+            if(!empty($this->professional))
+            {  
+                $pacientes = LastAppointment::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')
+                ->where(function ($query) {
+                    $query->whereNull('user_id')
+                        ->orWhere('user_id',$this->professional->id);
+                })
+                ->paginate(4);
+                
+                if ($pacientes->count() < 1)
+                {
+                    $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')->paginate(4);
+                }
+            }
+            else
             {
                 $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')->paginate(4);
             }
             return view('livewire.find-patients',compact('pacientes'));
             
         }elseif($this->lastName <> ''){
-            $pacientes = LastAppointment::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')
-                ->where(function ($query) {
-                    $query->whereNull('user_id')
-                        ->orWhere('user_id',$this->professional->id);
-                })
-                ->paginate(4); 
-            if ($pacientes->count() < 1)
+            if(!empty($this->professional))
+            { 
+                $pacientes = LastAppointment::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')
+                    ->where(function ($query) {
+                        $query->whereNull('user_id')
+                            ->orWhere('user_id',$this->professional->id);
+                    })
+                    ->paginate(4); 
+                if ($pacientes->count() < 1)
+                {
+                    $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')->paginate(4);
+                }
+            }
+            else
             {
                 $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')->paginate(4);
             }
@@ -74,14 +88,21 @@ class FindPatients extends Component
             
 
         }elseif($this->dni <> ''){
-            $pacientes = LastAppointment::where('idPaciente','LIKE',$this->dni.'%')
-                ->where(function ($query) {
-                    $query->whereNull('user_id')
-                        ->orWhere('user_id',$this->professional->id);
-                })
-                ->paginate(4); 
-            
-            if ($pacientes->count() < 1)
+            if(!empty($this->professional))
+            {
+                $pacientes = LastAppointment::where('idPaciente','LIKE',$this->dni.'%')
+                    ->where(function ($query) {
+                        $query->whereNull('user_id')
+                            ->orWhere('user_id',$this->professional->id);
+                    })
+                    ->paginate(4); 
+                
+                if ($pacientes->count() < 1)
+                {
+                    $pacientes = Paciente::where('idPaciente','LIKE',$this->dni.'%')->paginate(4);
+                }
+            }
+            else
             {
                 $pacientes = Paciente::where('idPaciente','LIKE',$this->dni.'%')->paginate(4);
             }
@@ -91,12 +112,19 @@ class FindPatients extends Component
 
         }else
         {
-            
-            $pacientes = LastAppointment::where(function ($query) {
-                $query->whereNull('user_id')
-                    ->orWhere('user_id',$this->professional->id);
-            })->paginate(10);
-            
+            if(!empty($this->professional))
+            {
+                $pacientes = LastAppointment::where(function ($query) {
+                    $query->whereNull('user_id')
+                        ->orWhere('user_id',$this->professional->id);
+                })->paginate(10);
+            }
+            else
+            {
+                $pacientes = LastAppointment::where(function ($query) {
+                    $query->whereNull('user_id');
+                })->paginate(10);
+            }
             return view('livewire.find-patients',compact('pacientes'));
         
         }

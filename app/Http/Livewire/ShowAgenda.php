@@ -22,7 +22,7 @@ class ShowAgenda extends Component
 
     public function mount()
     {
-        $this->institution = User::find(Auth::user()->id)->currentInstitution;
+        $this->institution = $this->user->currentInstitution;
         $this->rooms = Room::where('institution_id',$this->institution->id)->get();
         // $this->professionals = $this->institution->users;
         $this->user = Auth::user();

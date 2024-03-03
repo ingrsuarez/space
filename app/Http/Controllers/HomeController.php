@@ -6,6 +6,7 @@ use App\Models\Paciente;
 use App\Models\User;
 use App\Models\Cash;
 use App\Models\Wating_list;
+use App\Models\Wating_service;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,21 +45,29 @@ class HomeController extends Controller
         
         $today = Carbon::now();
         $monthAgo = Carbon::now()->subDays(30);
-        
+
         $ultimosPacientes = HistorialClinico::where('codUsuarioHc',$user->id)
             ->whereBetween('fechaHC',[$monthAgo->format('Y-m-d').' 00:00:00',$today->format('Y-m-d').' 23:59:59'])
             ->count();
         if ($user->hasRole('profesional'))
         {
             $wating_institution = Wating_list::where('institution_id',$institution->id)->where('user_id',$user->id)->count();
+        }elseif($user->hasRole('profesional_servicio'))
+        {   
+            $service = $user->services[0];
+            $wating_institution = Wating_service::where('institution_id',$institution->id)->where('service_id',$service->id)->count();
+            
         }else{
-            $wating_institution = Wating_list::where('institution_id',$institution->id)->count();
+            $wating_institution = Wating_list::where('institution_id',$institution->id)->count() + Wating_service::where('institution_id',$institution->id)->count();
+            // return Wating_service::where('institution_id',$institution->id)->get()->count();
         }
-        
-        $institutions = Auth::user()->institutions;
+        // return $wating_institution;
+        $institutions = $user->institutions;
         if(!empty($institution))
         {
             $professionals = $institution->users;
+            $services = $institution->services;
+
         }else
         {
             $professionals = null;
@@ -66,20 +75,22 @@ class HomeController extends Controller
 
         
         if(isset($request->dni)){
+            
             $search = ['dni'=>$request->dni];
 
             $pacientes = Paciente::where('idPaciente','LIKE',$request->dni.'%')->paginate(5);
+            
             return view('home',compact('institutions','ultimosPacientes','search','pacientes','user','professionals','wating_institution'));
         }elseif(isset($request->nombre)){
             $search = ['nombre'=>$request->nombre];
             $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($request->nombre).'%"')->paginate(5);
-            return view('home',compact('institutions','ultimosPacientes','search','pacientes','user','professionals','wating_institution'));
+            return view('home',compact('institutions','ultimosPacientes','search','pacientes','user','professionals','wating_institution','services'));
         }elseif(isset($request->apellido)){
             $search = ['apellido'=>$request->apellido];
             $pacientes = Paciente::whereRaw('lower(apellidoPaciente) LIKE "'.strtolower($request->apellido).'%"')->paginate(5);
-            return view('home',compact('institutions','ultimosPacientes','search','pacientes','user','professionals','wating_institution'));
+            return view('home',compact('institutions','ultimosPacientes','search','pacientes','user','professionals','wating_institution','services'));
         }
-        return view('home',compact('institutions','ultimosPacientes','institution','user','professionals','wating_institution'));
+        return view('home',compact('institutions','ultimosPacientes','institution','user','professionals','wating_institution','services'));
     }
 
     public function dashboard()
