@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\Appointment;
+use App\Models\AppointmentService;
+use App\Models\Service;
 use App\Models\Insurance;
 use App\Models\Cash;
 
@@ -89,6 +91,22 @@ class PacienteController extends Controller
         $appointment->overturn = 0;
         
         return view('pacientes.nuevo_turno',compact('institution','professional','appointment','insurances'));
+    }
+    public function createWithAppointmentService(Request $request)
+    {
+        $insurances = Insurance::all();
+        $service = Service::find($request->service_id);
+        $institution = Institution::find($request->institution_id);
+        $appointment = new AppointmentService;
+        $appointment->room_id = $request->room_id;
+        $appointment->start = $request->startDate;
+        $appointment->end = $request->endDate;
+        $appointment->medicare = 'issn';
+        $appointment->obs = $request->obs;
+        $appointment->status = 'active';
+        $appointment->overturn = 0;
+        
+        return view('pacientes.nuevo_turno_service',compact('institution','service','appointment','insurances'));
     }
 
     public function store(Request $request)

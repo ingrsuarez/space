@@ -56,6 +56,8 @@ Route::middleware(['verified'])->group(function(){
     Route::post('paciente/store',[App\Http\Controllers\PacienteController::class,'store'])->name('paciente.store');
     Route::post('paciente/createAndAppoint',[App\Http\Controllers\PacienteController::class,'createWithAppointment'])
     ->name('createAndAppoint');
+    Route::post('paciente/createAppointService',[App\Http\Controllers\PacienteController::class,'createWithAppointmentService'])
+    ->name('createAndAppointService');
     
     Route::post('wating/attach/{paciente}/{institution}',[App\Http\Controllers\PacienteController::class,'wating_attach'])->middleware('can:wating.attach')->name('wating.attach');
     Route::get('editPaciente/{paciente}',[App\Http\Controllers\PacienteController::class,'updateAppointment'])->name('paciente.updateAppointment');
@@ -291,6 +293,10 @@ Route::middleware(['verified'])->group(function(){
     Route::post('calendar/storePatient',[App\Http\Controllers\AppointmentController::class,'storePatient'])
         ->middleware('can:appointment.index')
         ->name('appointment.storePatient');
+
+    Route::post('calendar/storePatientService',[App\Http\Controllers\AppointmentController::class,'storePatientService'])
+        ->middleware('can:appointment.index')
+        ->name('appointment.storePatientService');
 
     Route::post('calendar/sendConfirmation',[App\Http\Controllers\WaController::class,'send'])
         ->middleware('can:appointment.index')

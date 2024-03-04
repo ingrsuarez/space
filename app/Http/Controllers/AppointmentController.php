@@ -1362,6 +1362,73 @@ class AppointmentController extends Controller
         
     }
 
+    public function storePatientService(Request $request)
+    {
+        
+        $paciente = new Paciente;
+        $paciente->idPaciente = $request->dni;
+        $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
+        $paciente->nombrePaciente = strtolower($request->nombre);
+        $paciente->apellidoPaciente = strtolower($request->apellido);
+        $paciente->celularPaciente = $request->telefono;
+        $paciente->emailPaciente = strtolower($request->email);
+        $paciente->CoberturaPaciente = "";
+        $paciente->insurance_id = $request->insurance_id;
+        $paciente->numeroAfiliadoPaciente = $request->numeroAfiliado;
+        $paciente->domicilioPaciente = strtolower($request->domicilio);
+        $paciente->localidadPaciente = strtolower($request->localidad);
+
+        try 
+        {
+            $paciente->save();
+            $paciente_id = $paciente->codPaciente;
+        
+            $over_count = AppointmentService::where('start',$request->startDate)
+                ->where('service_id',$request->service_id)
+                ->where('institution_id',$request->institution_id)
+                ->where('status','<>','cancelled')
+                ->count();
+
+            if ($over_count < 10)
+            {
+                $creator = Auth::user();
+                $appointment = new AppointmentService;
+
+                $appointment->institution_id = $request->institution_id;
+                $appointment->service_id = $request->service_id;
+                $appointment->paciente_id = $paciente_id;
+                $appointment->room_id = $request->room_id;
+                $appointment->start = $request->startDate;
+                $appointment->end = $request->endDate;
+                $appointment->obs = $request->obs;
+                $appointment->status = 'active';
+                $appointment->overturn = $over_count;
+                $appointment->creator_id = $creator->id;
+                $appointment->insurance_id = $request->insurance_id;
+
+            }else
+            {
+                return back()->with('error', 'No es posible agendar aqui un sobre turno!');
+            }
+
+            
+            $appointment->save();
+
+            return redirect()->route('appointment.service',[
+                'institution_id' => $appointment->institution_id,
+                'service_id' => $appointment->service_id
+            ]);
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+            return back()->with('error', $e->getMessage());
+            
+        }
+        
+    }
+
     public function confirm(Request $request)
     {
         $appointment = Appointment::where('id',$request->event_id)->first();

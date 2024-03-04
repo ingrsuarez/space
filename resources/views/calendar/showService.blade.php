@@ -23,7 +23,7 @@
           <input type="hidden" id="roomLock" name="room_id">
           <input type="hidden" id="institutionLock" name="institution_id" value="{{$institution->id}}">
       </form>
-      <form id="createAndAppoint" action="{{ route('createAndAppoint') }}" method="POST">
+      <form id="createAndAppoint" action="{{ route('createAndAppointService') }}" method="POST">
         @method('POST')
         @csrf
         <input type="hidden" name="service_id" value="{{$service->id}}">

@@ -5,7 +5,7 @@
         <div class="col-sm" style="max-width: 28rem;">
             <div class="d-flex">
                 @csrf
-                <input wire:model="dni" class="form-control me-2 shadow-sm" type="search" placeholder="DNI" aria-label="Search" >
+                <input wire:model="dni" class="form-control me-2 shadow-sm" type="number" min="1" step="1" placeholder="DNI" aria-label="Search" >
                 <input wire:model="name" class="form-control me-2 shadow-sm" type="text" placeholder="Nombre">
                 <input wire:model="lastName" class="form-control me-2 shadow-sm" type="search" placeholder="Apellido" aria-label="Search" >
                 
