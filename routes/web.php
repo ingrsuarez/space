@@ -44,6 +44,7 @@ Route::middleware(['verified'])->group(function(){
     Route::post('/historial/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('ficha.store');
     Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'update'])->name('ficha.update');
     Route::post('/editar/ficha',[App\Http\Controllers\FichaController::class, 'update'])->name('ficha.edit');
+    Route::post('/atencion',[App\Http\Controllers\FichaController::class, 'atention'])->name('ficha.atention');
 
     //USUARIOS
 

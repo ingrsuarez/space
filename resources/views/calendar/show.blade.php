@@ -297,12 +297,15 @@
                   <div class="d-flex mb-3">
                     <button type="button" class="btn btn-secondary px-2 mb-2 shadow" data-bs-dismiss="modal">Cerrar</button>
                     
-                    
-                    <button type="submit" class="btn btn-warning ms-auto px-2 mb-2 shadow" id="newPatient" form="eventAction">Cancelar</button>
+
                     @if (!$user->hasRole('profesional'))
-                    <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="eventReschedule">Reagendar</button>
-                    <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
-                    <button type="submit" class="btn btn-primary mx-2 mb-2 shadow text-white" id="saveModalBtn" form="confirm">Confirmar</button>
+                      <button type="submit" class="btn btn-warning ms-auto px-2 mb-2 shadow" id="newPatient" form="eventAction">Cancelar</button>
+                    
+                      <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="eventReschedule">Reagendar</button>
+                      <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
+                      <button type="submit" class="btn btn-primary mx-2 mb-2 shadow text-white" id="saveModalBtn" form="confirm">Confirmar</button>
+                    @else
+                      <button type="submit" class="btn btn-warning ms-auto px-2 mb-2 shadow" id="atention" form="eventAtention">Atender</button>
                     @endif
                   </div>
 
@@ -322,7 +325,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Cobro: $</span>
                       </div>
-                      <input type="text" class="form-control" form="sendToWatingList" name="amount" id="amount">
+                      <input type="number" step="0.1" min="0" class="form-control" form="sendToWatingList" name="amount" id="amount">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Método de pago:</span>
                       </div>
@@ -350,6 +353,11 @@
         </div>
 
 
+      </form>
+      <form id="eventAtention" action="{{ route("ficha.atention")}}" method="POST">
+        @method('POST')
+        @csrf
+        <input type="hidden" id="paciente_id" name="event_id">
       </form>
       <form id="sendConfirmation" action="{{ route('wa.send') }}" method="POST">
         @method('POST')
@@ -490,6 +498,7 @@
                   
                   $('#patientEvent').val(info.event.extendedProps.paciente);
                   $('#patient').val(info.event.extendedProps.paciente);
+                  $('#paciente_id').val(info.event.id);
                   $('#watingPatient').val(info.event.extendedProps.paciente);
                   $('#dateEvent').val(dateText);
                   $('#event_id').val(info.event.id);

@@ -164,7 +164,6 @@ class FichaController extends Controller
         
         return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','watingInsurance','appoinments','files','fibroscans','ecografias','endoscopias','cardiologias'));
     }
-
     
     public function store(Request $request)
     {
@@ -218,5 +217,150 @@ class FichaController extends Controller
 
         return redirect('ficha/'.$request->idPaciente);
         
+    }
+
+    public function atention(Request $request)
+    {
+        $appointment = Appointment::where('id',$request->event_id)->first();
+        
+        $user = Auth::user();
+        $insurances = Insurance::all();
+        $institution = $user->currentInstitution;
+        $paciente = Paciente::where('codPaciente',$appointment->paciente_id)->first();
+        $idPaciente = $paciente->idPaciente;
+        $appoinments = Appointment::where('paciente_id',$paciente->codPaciente)
+            ->where('institution_id',$institution->id)
+            ->orderBy('created_at', 'desc')->get();
+        
+        
+        //Edad del paciente
+        $today = Carbon::now();
+        $fecha_nacimiento = Carbon::parse($paciente->fechaNacimientoPaciente);
+        $edad = $fecha_nacimiento->diffInYears($today);
+        
+        
+        $wating = Wating_list::where('paciente_id',$paciente->codPaciente)->first();
+        
+        if (!empty($wating))
+        {
+            $watingInsurance = $wating->insurance_id;
+        }else
+        {
+            $watingInsurance = null;
+        }
+        
+        $user->watingMe()->detach($paciente->codPaciente);
+        if(count($user->services) > 0)
+        {
+            $user->services[0]->watingMe()->detach($paciente->codPaciente);
+        }
+
+        // Estudios de Laboratorios
+        $directory = "patients/".$idPaciente."/lab";
+        $files = [];
+            
+        foreach(Storage::disk('local')->files($directory) as $file){
+            $name = str_replace($directory.'/',"",$file);
+            $path = asset(Storage::disk('local')->url($file));
+            $link = Storage::path($file);
+            $files[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($file)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $files = array_reverse(array_slice($files,-10));
+
+        // Estudios de Fibroscan
+        $directoryFibroscans = "patients/".$idPaciente."/fibroscan";
+        $fibroscans = [];
+            
+        foreach(Storage::disk('local')->files($directoryFibroscans) as $fibroscan){
+            $name = str_replace($directoryFibroscans.'/',"",$fibroscan);
+            $path = asset(Storage::disk('local')->url($fibroscan));
+            $link = Storage::path($fibroscan);
+            $fibroscans[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($fibroscan)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $fibroscans = array_reverse(array_slice($fibroscans,-10));
+        //Historial clínico del paciente
+
+        // Estudios de ecografia
+        $directoryecografias = "patients/".$idPaciente."/ecografia";
+        $ecografias = [];
+            
+        foreach(Storage::disk('local')->files($directoryecografias) as $ecografia){
+            $name = str_replace($directoryecografias.'/',"",$ecografia);
+            $path = asset(Storage::disk('local')->url($ecografia));
+            $link = Storage::path($ecografia);
+            $ecografias[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($ecografia)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $ecografias = array_reverse(array_slice($ecografias,-10));
+
+        // Estudios de endoscopia
+        $directoryendoscopias = "patients/".$idPaciente."/endoscopia";
+        $endoscopias = [];
+            
+        foreach(Storage::disk('local')->files($directoryendoscopias) as $endoscopia){
+            $name = str_replace($directoryendoscopias.'/',"",$endoscopia);
+            $path = asset(Storage::disk('local')->url($endoscopia));
+            $link = Storage::path($endoscopia);
+            $endoscopias[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($endoscopia)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $endoscopias = array_reverse(array_slice($endoscopias,-10));
+
+        // Estudios de cardiologia
+        $directorycardiologias = "patients/".$idPaciente."/cardiologia";
+        $cardiologias = [];
+            
+        foreach(Storage::disk('local')->files($directorycardiologias) as $cardiologia){
+            $name = str_replace($directorycardiologias.'/',"",$cardiologia);
+            $path = asset(Storage::disk('local')->url($cardiologia));
+            $link = Storage::path($cardiologia);
+            $cardiologias[] = [
+                'path' => $path,
+                'name' => $name,
+                'idPaciente' => $idPaciente,
+                'link' => $link,
+                'size' => Storage::disk('local')->size($cardiologia)
+            ];
+            
+        }
+        // Order the array to get the last files uploaded
+        $cardiologias = array_reverse(array_slice($cardiologias,-10));
+
+        //Historial clínico del paciente
+
+        $codPaciente = $paciente->codPaciente;
+        $historiales = HistorialClinico::where('codPacienteHC',$codPaciente)->join('users', 'codUsuarioHC', '=', 'users.id')->orderBy('fechaHC', 'desc')->select('historialClinico.*', 'users.name','users.lastName')->get();
+        
+        return view('pacientes.nueva_atencion',compact('edad','paciente','historiales','institution','insurances','watingInsurance','appoinments','files','fibroscans','ecografias','endoscopias','cardiologias'));
     }
 }
