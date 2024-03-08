@@ -274,14 +274,14 @@
                                                 
                                             </td>
                                             <td>
-                                                <form id="{{$segment->id}}" action="{{route('agenda.edit')}}" method="POST">
+                                                <form id="{{$segment->id}}" action="{{route('agendaService.edit')}}" method="POST">
                                                 @csrf
                                                 <input type="hidden" value="{{$service->id}}" name="service_id" form="{{$segment->id}}">
                                                 <button type="submit" class="btn btn-sm btn-primary text-white" form="{{$segment->id}}">Editar</button>
                                                 </form>
                                             </td>
                                             <td>
-                                                <a class="btn btn-danger text-white" href="{{ route('agenda.delete',$segment->id) }}">Eliminar</a>
+                                                <a class="btn btn-danger text-white" href="{{ route('agendaService.delete',$segment->id) }}">Eliminar</a>
                                             </td>
                                         </tr>
                                         

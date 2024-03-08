@@ -109,7 +109,53 @@ class AgendaController extends Controller
         } 
     }
 
+    public function editService(Request $request)
+    {
+        
+        $agenda = AgendaService::find($request->agenda_id);
+        $agenda->institution_id = $request->institution_id;
+        $agenda->service_id = $request->service_id;
+        $agenda->room_id = $request->room_id;
+        $agenda->day = $request->day;
+        $agenda->frequency = $request->frequency;
+        $agenda->start = $request->start;
+        $agenda->end = $request->end;
+        $agenda->max_days = '30';
+        $agenda->overturn = '0';
+
+        
+        try 
+        {
+            $agenda->save();
+            return back()->with('message', 'Agenda guardada correctamente!');
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+             return back()->with('error', $e->getMessage());
+            
+        } 
+    }
+
     public function delete(Agenda $agenda)
+    {
+        
+        try 
+        {
+            $agenda->delete();
+            return redirect()->route('agendas.index', ['professional' => $agenda->user_id]);
+        
+        } catch(\Illuminate\Database\QueryException $e)
+        {
+            $errorCode = $e->errorInfo[1];
+            
+             return back()->with('error', $e->getMessage());
+            
+        } 
+    }
+
+    public function deleteService(AgendaService $agenda)
     {
         
         try 

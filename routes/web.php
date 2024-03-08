@@ -317,8 +317,21 @@ Route::middleware(['verified'])->group(function(){
     Route::post('agenda/store',[App\Http\Controllers\AgendaController::class,'store'])
         ->middleware('can:agenda.store')
         ->name('agenda.store');
-    Route::post('agenda/edit',[App\Http\Controllers\AgendaController::class,'edit'])->middleware('can:agenda.edit')->name('agenda.edit');
-    Route::get('agenda/delete/{agenda}/{professional?}',[App\Http\Controllers\AgendaController::class,'delete'])->middleware('can:agenda.delete')->name('agenda.delete');
+    Route::post('agenda/edit',[App\Http\Controllers\AgendaController::class,'edit'])
+        ->middleware('can:agenda.edit')
+        ->name('agenda.edit');
+
+    Route::get('agenda/delete/{agenda}/{professional?}',[App\Http\Controllers\AgendaController::class,'delete'])
+        ->middleware('can:agenda.delete')
+        ->name('agenda.delete');
+
+    Route::post('agendaService/edit',[App\Http\Controllers\AgendaController::class,'editService'])
+        ->middleware('can:agenda.edit')
+        ->name('agendaService.edit');
+        
+    Route::get('agendaService/delete/{agenda}/{professional?}',[App\Http\Controllers\AgendaController::class,'deleteService'])
+        ->middleware('can:agenda.delete')
+        ->name('agendaService.delete');
 
     Route::post('agendaService/store',[App\Http\Controllers\AgendaController::class,'serviceStore'])
         ->middleware('can:agenda.store')
