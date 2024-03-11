@@ -222,7 +222,9 @@ class FichaController extends Controller
     public function atention(Request $request)
     {
         $appointment = Appointment::where('id',$request->event_id)->first();
-        
+        $appointment->status = "treated";
+        $appointment->save();
+
         $user = Auth::user();
         $insurances = Insurance::all();
         $institution = $user->currentInstitution;

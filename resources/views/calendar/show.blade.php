@@ -320,7 +320,7 @@
                     <input type="hidden" id="watingPatient" name="patient_id">
                     <input type="hidden" id="professional" name="professional_id" value="{{$professional->id}}">
                     <input type="hidden" id="insuranceId" name="insurance_id">
-                    
+                    <input type="hidden" id="wating_event_id" name="event_id">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">Cobro: $</span>
@@ -503,6 +503,7 @@
                   $('#dateEvent').val(dateText);
                   $('#event_id').val(info.event.id);
                   $('#wa_event_id').val(info.event.id);
+                  $('#wating_event_id').val(info.event.id);
                   $('#confirm_event_id').val(info.event.id);
                   $('#startDateEvent').val(startDate);
                   $('#timeEvent').val(moment(startDate).format('HH:mm:ss'));

@@ -106,6 +106,10 @@ class AppointmentController extends Controller
                         {
                             $color = '#6aa84f';
                         }
+                        if($appointment->status == 'treated')
+                        {
+                            $color = '#eb8383';
+                        }
                         $events[] = [
                             'id'=> $appointment->id,
                             'room' => $appointment->room_id,
@@ -127,6 +131,10 @@ class AppointmentController extends Controller
                         }else
                         {
                             $color = '#6aa84f';
+                        }
+                        if($appointment->status == 'treated')
+                        {
+                            $color = '#eb8383';
                         }
                         $events[] = [
                         'id'=> $appointment->id,
@@ -434,10 +442,16 @@ class AppointmentController extends Controller
                     if($appointment->status == 'active')
                         {
                             $color = '#d14c1f';
-                        }else
+                        }
+                    else
                         {
                             $color = '#6aa84f';
-                        }  
+                        } 
+                        
+                    if($appointment->status == 'treated')
+                    {
+                        $color = '#eb8383';
+                    }
                     $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
@@ -461,6 +475,10 @@ class AppointmentController extends Controller
                         }else
                         {
                             $color = '#6aa84f';
+                        }
+                    if($appointment->status == 'treated')
+                        {
+                            $color = '#eb8383';
                         }  
                     $events[] = [
                     'id'=> $appointment->id,
@@ -1035,7 +1053,10 @@ class AppointmentController extends Controller
     public function toWaitingList(Request $request)
     {   
 
-        
+        $appointment = Appointment::find($request->event_id);
+        $appointment->status = "treated";
+        $appointment->save();
+
         if($request->method == 'cash' && $request->amount != null)
         {
             $cash = new Cash;
