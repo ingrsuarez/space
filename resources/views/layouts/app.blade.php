@@ -67,6 +67,9 @@
                             @can('institution.sheets')
                                 <li><a class="dropdown-item" href="{{route('institution.sheets')}}">Planillas</a></li>
                             @endcan
+                            @can('report.index')
+                                <li><a class="dropdown-item" href="{{route('report.index')}}">Reportes</a></li>
+                            @endcan
                           </ul>
                         </li>
 
