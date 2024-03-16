@@ -8,7 +8,10 @@
                 @if(isset($institution))
                     <div class="form-group row">
                         <select class="form-select mx-4" wire:change="changeEvent($event.target.value)" style="max-width: 20rem;" autofocus>    
+<<<<<<< HEAD
                             <option value="" disable>Seleccionar....</option>    
+=======
+>>>>>>> 8425b1cbfbd40f010c340520b91d681c922f9cdd
                             @foreach($professionals as $professionalList)
                                 @if($professionalList->hasRole('profesional'))
                                     @if($professionalList->id != $currentProfessional->id ) 
@@ -55,9 +58,14 @@
                         <tr>
                             <td>{{date('d-m-Y', strtotime($result->start))}}</td>
                             <td>{{ucfirst($result->paciente->apellidoPaciente).' '.ucfirst($result->paciente->nombrePaciente)}}</td>
+<<<<<<< HEAD
                             @isset($result->insurance)    
                                 <td>{{$result->insurance->name}}</td>
                             @endisset
+=======
+                            <td>{{$result->insurance->name}}</td>
+
+>>>>>>> 8425b1cbfbd40f010c340520b91d681c922f9cdd
 
                         </tr>
                     @endforeach
