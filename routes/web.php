@@ -33,6 +33,11 @@ Auth::routes(['verify'=>true]);
 
 Route::middleware(['verified'])->group(function(){
 
+    //REPORTS
+    Route::get('/report',[App\Http\Controllers\ReportController::class, 'index'])
+        ->middleware('can:report.index')
+        ->name('report.index');
+
     //LIVEWIRE
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

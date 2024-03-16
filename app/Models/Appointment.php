@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Insurance;
 
 class Appointment extends Model
 {
@@ -27,6 +28,6 @@ class Appointment extends Model
 
     public function insurance()
     {
-        return $this->belongsTo('App\Models\Insurance');
+        return $this->belongsTo('App\Models\Insurance','insurance_id');
     }
 }
