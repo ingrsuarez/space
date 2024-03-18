@@ -57,7 +57,6 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'tipo' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'response' => ['required',new \App\Rules\Recaptcha]
         ]); 
@@ -77,7 +76,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'lastName' => $data['lastName'],
             'email' => $data['email'],
-            'tipo' => $data['tipo'],
             'password' => Hash::make($data['password']),
         ]);
     }
