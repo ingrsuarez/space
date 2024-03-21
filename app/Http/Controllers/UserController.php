@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Service;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -42,16 +43,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
+
+
         $user = new User;
         
-        $user->fechaNacimiento = $request->fechaNacimiento;
-        $user->name = strtolower($request->name);
-        $user->lastName = strtolower($request->lastName);
-        $user->password = $request->password;
-        $user->tipo = $request->tipo;
-        $user->telefono = $request->telefono;
-        $user->email = strtolower($request->email);
-        $user->localidad = strtolower($request->localidad);
+
+        $user->name = strtolower($validated['name']);
+        $user->lastName = strtolower($validated['lastName']);
+        $user->password = Hash::make($validated['password']);
+        $user->tipo = 0;
+        $user->email_verified_at = date("Y-m-d H:i:s");
+        $user->email = strtolower($validated['email']);
+
         try 
         {
             $user->save();
