@@ -18,7 +18,8 @@
         </div>
         <div class="card mb-3 px-4" >
             <a class="btn btn-success text-white mx-auto mt-lg-n5" style="min-width: 20rem;" href="#" ><h2 class="h2" >Estudios</h2></a>
-            @isset($files)
+            @isset($files)  
+
             <div class="card mx-auto my-4" >
                 <div class="card-header bg-info ">
                     Laboratorios:
@@ -32,7 +33,9 @@
                 </div>
                
             </div>
+
             @endisset
+
           
         </div>
     </div>
