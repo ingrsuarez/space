@@ -33,6 +33,16 @@ Auth::routes(['verify'=>true]);
 
 Route::middleware(['verified'])->group(function(){
 
+    //USERS AS PATIENTS
+    Route::get('/user/patient',[App\Http\Controllers\UserPatientController::class, 'home'])
+        // ->middleware('can:patient.home')
+        ->name('patient.home');
+
+    Route::post('/userPatient/store',[App\Http\Controllers\UserPatientController::class, 'store'])
+    // ->middleware('can:patient.home')
+    ->name('userPatient.store');
+
+
     //REPORTS
     Route::get('/report',[App\Http\Controllers\ReportController::class, 'index'])
         ->middleware('can:report.index')
@@ -40,16 +50,30 @@ Route::middleware(['verified'])->group(function(){
 
     //LIVEWIRE
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('searchPaciente');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+        ->middleware('can:home.index')
+        ->name('home');
+    Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])
+        ->middleware('can:home.index')
+        ->name('searchPaciente');
     Route::get('/panel', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
     //HISTORIAL
 
-    Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index'])->name('ficha.index');
-    Route::post('/historial/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])->name('ficha.store');
-    Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'update'])->name('ficha.update');
-    Route::post('/editar/ficha',[App\Http\Controllers\FichaController::class, 'update'])->name('ficha.edit');
-    Route::post('/atencion',[App\Http\Controllers\FichaController::class, 'atention'])->name('ficha.atention');
+    Route::get('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'index'])
+        ->middleware('can:home.index')
+        ->name('ficha.index');
+    Route::post('/historial/{idPaciente}',[App\Http\Controllers\FichaController::class, 'store'])
+        ->middleware('can:home.index')
+        ->name('ficha.store');
+    Route::post('/ficha/{idPaciente}',[App\Http\Controllers\FichaController::class, 'update'])
+        ->middleware('can:home.index')    
+        ->name('ficha.update');
+    Route::post('/editar/ficha',[App\Http\Controllers\FichaController::class, 'update'])
+        ->middleware('can:home.index')
+        ->name('ficha.edit');
+    Route::post('/atencion',[App\Http\Controllers\FichaController::class, 'atention'])
+        ->middleware('can:home.index')
+        ->name('ficha.atention');
 
     //USUARIOS
 
@@ -477,17 +501,17 @@ Route::middleware(['verified'])->group(function(){
 });
 
 
-Route::prefix('pacientes')->name('pacientes.')->group(function(){
-    Route::middleware(['guest:pacientes'])->group(function (){
-        Route::view('login','pacientes.login')->name('login');
-        Route::post('authenticate',[App\Http\Controllers\PacienteController::class,'authenticate'])
-        ->name('authenticate');
+// Route::prefix('pacientes')->name('pacientes.')->group(function(){
+//     Route::middleware(['guest:pacientes'])->group(function (){
+//         Route::view('login','pacientes.login')->name('login');
+//         Route::post('authenticate',[App\Http\Controllers\PacienteController::class,'authenticate'])
+//         ->name('authenticate');
         
-    });
-    Route::middleware(['auth:pacientes'])->group(function (){
-        Route::get('inicio',[App\Http\Controllers\PacienteController::class,'home'])
-        ->name('index');
-        Route::post('logout', [App\Http\Controllers\PacienteController::class, 'logoutPaciente'])
-        ->name('logout');
-    });
-});
+//     });
+//     Route::middleware(['auth:pacientes'])->group(function (){
+//         Route::get('inicio',[App\Http\Controllers\PacienteController::class,'home'])
+//         ->name('index');
+//         Route::post('logout', [App\Http\Controllers\PacienteController::class, 'logoutPaciente'])
+//         ->name('logout');
+//     });
+// });

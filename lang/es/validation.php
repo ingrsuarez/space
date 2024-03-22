@@ -77,4 +77,10 @@ return [
         'username'                 => 'usuario',
         'year'                     => 'año',
     ],
+    'min' => [
+        'array' => 'The :attribute must have at least :min items.',
+        'file' => 'The :attribute must be at least :min kilobytes.',
+        'numeric' => 'The :attribute must be at least :min.',
+        'string' => 'La :attributed debe ser por lo menos de :min caracteres.',
+    ],
 ];

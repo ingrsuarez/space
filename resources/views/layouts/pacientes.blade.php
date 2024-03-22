@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @livewireStyles()
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -50,9 +51,11 @@
             <a class="navbar-brand me-auto ms-3" href="{{ url('/') }}">
                 {{ config('app.name', 'ADMESYS') }}
             </a>
-            
-            
-
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="container ms-5">
+                <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav d-flex flex-row ms-auto">
                         <!-- Authentication Links -->
@@ -71,17 +74,17 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ ucwords(Auth::user()->nombrePaciente) }}
+                                    {{ ucfirst(Auth::user()->name)." ".ucfirst(Auth::user()->lastName) }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('pacientes.logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('pacientes.logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -96,15 +99,16 @@
         
 
         {{-- <div class="offcanvas offcanvas-start offcanvas-backdrop position-absolute sidebar-nav" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"> --}}
-        <div class="offcanvas offcanvas-start sidebar-nav d-none" tabindex="-1" id="offcanvas">    
+        {{-- <div class="offcanvas offcanvas-start sidebar-nav d-none" tabindex="-1" id="offcanvas">    
           
           
-        </div>
+        </div> --}}
            
-        <div class="py-4 position-relative top56">
+        <div class="position-relative top56">
             @yield('content')
         </div>
         
     </div>
+    @livewireScripts()
 </body>
 </html>

@@ -11,38 +11,32 @@
     	<div class="card mb-3" style="max-width: 50rem;">
     		<div class="card-header text-white bg-primary">
                 Nuevo Usuario: 
+				{{$errors}}
             </div>
             <div class="card-body">
               	<form id="actualizar-ficha" action="{{ route('user.store') }}" method="POST">
             		@csrf
             		<div class="input-group mb-3">
 						<span class="input-group-text">Nombre</span>
-						<input type="text" class="form-control" aria-label="Username" id="nombre" name="name">
+						<input type="text" class="form-control" id="nombre" name="name">
 						<span class="input-group-text">Apellido</span>
-						<input type="text" class="form-control" aria-label="Username"id="apellido" name="lastName">
+						<input type="text" class="form-control" id="apellido" name="lastName">
 	                </div>
-            		<div class="input-group mb-3">
+					<div class="input-group mb-3">
 						<span class="input-group-text" id="email">Correo</span>
-                  		<input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email">
-						<span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
-                  		<input type="date" class="form-control" aria-label="Username" aria-describedby="fechaNacimiento" id="fechaNacimiento" name="fechaNacimiento">			
+                  		<input type="email" name="email" class="form-control">
+			
                 	</div>
-
                 	<div class="input-group mb-3">
-						<label class="input-group-text" for="inputGroupSelect01">Options</label>
-						<select class="form-select" id="inputGroupSelect01" name="tipo">
-							<option selected>Tipo...</option>
-							<option value="3">Administrativo</option>
-							<option value="2">Profesional</option>
-							
-						</select>
-					</div>
-                	
-                	<div class="input-group mb-3">
-                  		<span class="input-group-text" id="telefono">Teléfono</span>
-                  		<input type="text" class="form-control" aria-label="Username" aria-describedby="edad" id="telefono" name="telefono">
-                  		<span class="input-group-text">Localidad</span>
-						<input type="text" class="form-control" aria-label="Username"id="localidad" name="localidad">
+						<span class="input-group-text">Contraseña</span>
+                  		<input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+						  @error('password')
+						  <span class="invalid-feedback" role="alert">
+							  <strong>{{ $message }}</strong>
+						  </span>
+					  @enderror
+                  		<span class="input-group-text">Confirmar Contraseña</span>
+						<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                   		
                 	</div>
 
