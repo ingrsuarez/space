@@ -258,30 +258,30 @@ class PacienteController extends Controller
         
     }
 
-    public function authenticate(Request $request)
-    {
-        $request->validate([
-            'emailPaciente' => 'required|email',
-            'password' => 'required'
-        ]);
-        $check = $request->only('emailPaciente','password');
-        // dd($check);
-        if(Auth::guard('pacientes')->attempt($check))
-        {
-            return redirect()->route('pacientes.index');
-        }else{
-            return redirect()->back()->with('message','Alguno de los datos ingresados es incorrecto!');
-        }
+    // public function authenticate(Request $request)
+    // {
+    //     $request->validate([
+    //         'emailPaciente' => 'required|email',
+    //         'password' => 'required'
+    //     ]);
+    //     $check = $request->only('emailPaciente','password');
+    //     // dd($check);
+    //     if(Auth::guard('pacientes')->attempt($check))
+    //     {
+    //         return redirect()->route('pacientes.index');
+    //     }else{
+    //         return redirect()->back()->with('message','Alguno de los datos ingresados es incorrecto!');
+    //     }
         
-        return 'fallo';
-    }
+    //     return 'fallo';
+    // }
 
-    public function logoutPaciente(Request $request)
-    {
-        Auth::guard('pacientes')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
-    }
+    // public function logoutPaciente(Request $request)
+    // {
+    //     Auth::guard('pacientes')->logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return redirect('/');
+    // }
 
 }

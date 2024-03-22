@@ -38,9 +38,14 @@ class HomeController extends Controller
         if (empty($institution))
         {
             $institution_id = $user->institutions->first();
-            $user->institution_id = $institution_id->id;
-            $user->save();
-            $institution = $user->currentInstitution;
+            if(!empty($institution_id))
+            {
+                $user->institution_id = $institution_id->id;
+                $user->save();
+                $institution = $user->currentInstitution;
+            }else{
+                return redirect()->route('patient.home');
+            }
         }
         
         $today = Carbon::now();

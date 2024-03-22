@@ -51,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function paciente()
+    {
+        return $this->belongsToMany('App\Models\Paciente','user_paciente','user_id','paciente_id')->withPivot('relation')->withTimestamps();
+    }
+
     public function historialclinicos()
     {
         return $this->hasMany('App\Models\historialClinico','codUsuarioHC');
