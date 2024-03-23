@@ -51,7 +51,7 @@ Route::middleware(['verified'])->group(function(){
     //LIVEWIRE
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
-        ->middleware('can:home.index')
+        // ->middleware('can:home.index')
         ->name('home');
     Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])
         ->middleware('can:home.index')
