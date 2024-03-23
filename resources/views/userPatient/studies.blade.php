@@ -41,7 +41,7 @@
             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     @foreach ($ecografias as $file)
-                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.file',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.ecografia',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
                     <br>
                     @endforeach
 
@@ -59,7 +59,7 @@
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     @foreach ($endoscopias as $file)
-                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.file',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.endoscopia',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
                     <br>
                     @endforeach
                 </div>
@@ -75,7 +75,7 @@
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     @foreach ($cardiologias as $file)
-                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.file',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
+                    <a class="btn btn-sm btn-secondary m-2" href="{{route('download.cardiologia',['file'=>$file['name'], 'idPaciente'=>$file['idPaciente']])}}" target="_blank">{{ $file['name'] }}</a>
                     <br>
                     @endforeach
                 </div>

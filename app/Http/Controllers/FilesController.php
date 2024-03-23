@@ -98,9 +98,25 @@ class FilesController extends Controller
 
     public function downloadFibroscan($file, Request $request)
     {
-       
- 
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/fibroscan/'.$file);
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $pacientesUser = $user->paciente;
+        if(count($roles) > 0)
+        {
+            $file_path = Storage::path('patients/'.$request->idPaciente.'/fibroscan/'.$file);
+            return response()->file($file_path,['content-type'=>'application/pdf']);
+        }else
+        {
+            foreach ($pacientesUser as $paciente)
+            {
+                if($paciente->idPaciente == $request->idPaciente)
+                {
+                    $file_path = Storage::path('patients/'.$request->idPaciente.'/fibroscan/'.$file);
+                    return response()->file($file_path,['content-type'=>'application/pdf']);
+                }
+            }
+            
+        }
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
@@ -133,8 +149,26 @@ class FilesController extends Controller
     public function downloadEcografia($file, Request $request)
     {
        
- 
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/ecografia/'.$file);
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $pacientesUser = $user->paciente;
+        if(count($roles) > 0)
+        {
+            $file_path = Storage::path('patients/'.$request->idPaciente.'/ecografia/'.$file);
+            return response()->file($file_path,['content-type'=>'application/pdf']);
+        }else
+        {
+            foreach ($pacientesUser as $paciente)
+            {
+                if($paciente->idPaciente == $request->idPaciente)
+                {
+                    $file_path = Storage::path('patients/'.$request->idPaciente.'/ecografia/'.$file);
+                    return response()->file($file_path,['content-type'=>'application/pdf']);
+                }
+            }
+            
+        }
+        
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
@@ -168,8 +202,26 @@ class FilesController extends Controller
     public function downloadEndoscopia($file, Request $request)
     {
        
- 
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/endoscopia/'.$file);
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $pacientesUser = $user->paciente;
+        if(count($roles) > 0)
+        {
+            $file_path = Storage::path('patients/'.$request->idPaciente.'/endoscopia/'.$file);
+            return response()->file($file_path,['content-type'=>'application/pdf']);
+        }else
+        {
+            foreach ($pacientesUser as $paciente)
+            {
+                if($paciente->idPaciente == $request->idPaciente)
+                {
+                    $file_path = Storage::path('patients/'.$request->idPaciente.'/endoscopia/'.$file);
+                    return response()->file($file_path,['content-type'=>'application/pdf']);
+                }
+            }
+            
+        }
+        
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
@@ -203,8 +255,26 @@ class FilesController extends Controller
     public function downloadCardiologia($file, Request $request)
     {
        
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $pacientesUser = $user->paciente;
+        if(count($roles) > 0)
+        {
+            $file_path = Storage::path('patients/'.$request->idPaciente.'/cardiologia/'.$file);
+            return response()->file($file_path,['content-type'=>'application/pdf']);
+        }else
+        {
+            foreach ($pacientesUser as $paciente)
+            {
+                if($paciente->idPaciente == $request->idPaciente)
+                {
+                    $file_path = Storage::path('patients/'.$request->idPaciente.'/cardiologia/'.$file);
+                    return response()->file($file_path,['content-type'=>'application/pdf']);
+                }
+            }
+            
+        }
         
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/cardiologia/'.$file);
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }

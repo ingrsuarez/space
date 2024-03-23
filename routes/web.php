@@ -409,25 +409,25 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:store.file')->name('store.fibroscan');
 
     Route::get('fibroscan/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadFibroscan'])
-        ->middleware('can:store.file')->name('download.fibroscan');
+        ->name('download.fibroscan');
     
     Route::post('ecografia/file/store',[App\Http\Controllers\FilesController::class,'storeEcografia'])
         ->middleware('can:store.file')->name('store.ecografia');
 
     Route::get('ecografia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadEcografia'])
-        ->middleware('can:store.file')->name('download.ecografia');
+        ->name('download.ecografia');
 
     Route::post('endoscopia/file/store',[App\Http\Controllers\FilesController::class,'storeEndoscopia'])
         ->middleware('can:store.file')->name('store.endoscopia');
 
     Route::get('endoscopia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadEndoscopia'])
-        ->middleware('can:store.file')->name('download.endoscopia');
+        ->name('download.endoscopia');
 
     Route::post('cardiologia/file/store',[App\Http\Controllers\FilesController::class,'storeCardiologia'])
         ->middleware('can:store.file')->name('store.cardiologia');
 
     Route::get('cardiologia/file/download/{file}',[App\Http\Controllers\FilesController::class,'downloadCardiologia'])
-        ->middleware('can:store.file')->name('download.cardiologia');
+        ->name('download.cardiologia');
 
     //SHEETS
     Route::get('sheet/index',[App\Http\Controllers\SheetController::class,'index'])
