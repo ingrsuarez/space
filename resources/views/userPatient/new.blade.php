@@ -11,7 +11,7 @@
     @push('meta')
         <meta http-equiv="refresh" content="30">
     @endpush
-    <div class="col-sm px-5">
+    <div class="col-sm px-sm-5">
             @livewire('register-user',['user' => $user, 'insurances' => $insurances])   
     </div>
 @endsection

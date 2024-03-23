@@ -1,5 +1,5 @@
 <div>
-    <div class="col-sm px-5">
+    <div class="col-sm mt-4">
     	<div class="card mb-3 shadow" style="max-width: 50rem;">
     		<div class="card-header text-white bg-primary">
                 Actualice sus datos:
@@ -7,70 +7,94 @@
             <div class="card-body">
               	<form id="actualizar-ficha" action="{{ route('userPatient.store') }}" method="POST">
             		@csrf
-            		<div class="input-group mb-3">
-						<span class="input-group-text" id="dni2">DNI</span>
-						<input wire:model="dni" class="form-control me-2 shadow-sm" type="number" min="1" step="1">
-                        
-						<span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
-                  		<input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" 
-                        @isset($paciente->fechaNacimientoPaciente)
-                            value="{{$paciente->fechaNacimientoPaciente}}" required>
-                            <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
-                        @else
-                            required>    
-                        @endisset		
-                	</div>
-                	<div class="input-group mb-3">
-						<span class="input-group-text">Nombre</span>
-						<input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre"
-                        @if(!empty($paciente))
-                            value="{{ucfirst($paciente->nombrePaciente)}}" required>	
-                        @else
-                            required>    
-                        @endif
-						<span class="input-group-text">Apellido</span>
-						<input type="text" class="form-control" aria-label="Username"id="apellido" name="apellido"
-                        @if(!empty($paciente))
-                            value="{{ucfirst($paciente->apellidoPaciente)}}" required>	
-                        @else
-                            required>    
-                        @endif
-	                </div>
-                	<div class="input-group mb-3">
-                  		<span class="input-group-text" id="telefono">Teléfono</span>
-                  		<input type="text" class="form-control" aria-label="Username" id="telefono" name="telefono"
-                            @if(!empty($paciente))
-                                value="{{$paciente->telefonoPaciente}}">	
-                            @else
-                                >    
-                            @endif
-                  		<span class="input-group-text" id="celular">Celular</span>
-                  		<input type="text" class="form-control" aria-label="Username" id="celular" name="celular"
-                            @if(!empty($paciente))
-                                value="{{$paciente->celularPaciente}}" required>	
+
+            		<div class="d-sm-flex flex-row mb-0 mb-sm-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="dni2">DNI</span>
+                            <input wire:model="dni" class="form-control" type="number" min="1" step="1">
+                        </div>
+                        <div class="input-group ms-sm-2 mb-3">                    
+                            <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
+                            <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" style="max-width: 20rem" 
+                            @isset($paciente->fechaNacimientoPaciente)
+                                value="{{$paciente->fechaNacimientoPaciente}}" required>
+                                <input type="hidden" name="codPaciente" value="{{$paciente->codPaciente}}">
                             @else
                                 required>    
-                            @endif 
-						<span class="input-group-text" id="email">Correo</span>
-                  		<input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email"                        
-                            value="{{$user->email}}">	
-                	</div>
-                	<div class="input-group mb-3">
-	                  	<span class="input-group-text">Cobertura médica</span>
-						<select class="form-select" name="cobertura" id="cobertura" required>
-							@isset($insurances)
-								@foreach ($insurances as $insurance)
-                                    @if(isset($paciente->insurance_id) and $insurance->id == $paciente->insurance_id)
-                                        <option value="{{$insurance->id}}" selected> {{ucfirst($insurance->name)}}	
-                                    @else
-									    <option value="{{$insurance->id}}"> {{ucfirst($insurance->name)}}								
-                                    @endif
-                                @endforeach	
-							@endisset
-						</select>
-	                  	<span class="input-group-text">Número Afiliado</span>
-	                  	<input type="text" class="form-control" aria-label="Username" id="numeroAfiliado" name="numeroAfiliado">	                  
-	                </div>
+                            @endisset		
+                        </div>
+                    </div>
+                    <div class="d-sm-flex flex-row mb-0 mb-sm-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Nombre</span>
+                            <input type="text" class="form-control" aria-label="Username" id="nombre" name="nombre"
+                            @if(!empty($paciente))
+                                value="{{ucfirst($paciente->nombrePaciente)}}" required>	
+                            @else
+                                required>    
+                            @endif
+                        </div>
+                        <div class="input-group ms-sm-2 mb-3">
+                            <span class="input-group-text">Apellido</span>
+                            <input type="text" class="form-control" id="apellido" name="apellido"
+                            @if(!empty($paciente))
+                                value="{{ucfirst($paciente->apellidoPaciente)}}" required>	
+                            @else
+                                required>    
+                            @endif
+                        </div>
+                    
+                    </div>
+                    <div class="d-sm-flex flex-row mb-0 mb-sm-2">
+                        <div class="input-group mb-3">    
+                            <span class="input-group-text" id="email">Correo</span>
+                            <input type="email" name="email" class="form-control" aria-label="email" aria-describedby="email"                        
+                                value="{{$user->email}}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text ms-sm-2" id="celular">Celular</span>
+                            <input type="text" class="form-control" aria-label="Username" id="celular" name="celular"
+                                @if(!empty($paciente))
+                                    value="{{$paciente->celularPaciente}}" required>	
+                                @else
+                                    required>    
+                                @endif
+                        </div>
+                    </div>	
+
+                	<div class="d-sm-flex flex-row mb-0 mb-sm-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="telefono">Teléfono</span>
+                            <input type="text" class="form-control" aria-label="Username" id="telefono" name="telefono" style="min-width: 10rem"
+                                @if(!empty($paciente))
+                                    value="{{$paciente->telefonoPaciente}}">	
+                                @else
+                                    >    
+                                @endif
+                             
+
+                        </div>
+                    </div>
+                    <div class="d-sm-flex flex-row mb-0 mb-sm-2">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Cobertura médica</span>
+                            <select class="form-select" name="cobertura" id="cobertura" required>
+                                @isset($insurances)
+                                    @foreach ($insurances as $insurance)
+                                        @if(isset($paciente->insurance_id) and $insurance->id == $paciente->insurance_id)
+                                            <option value="{{$insurance->id}}" selected> {{ucfirst($insurance->name)}}	
+                                        @else
+                                            <option value="{{$insurance->id}}"> {{ucfirst($insurance->name)}}								
+                                        @endif
+                                    @endforeach	
+                                @endisset
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text ms-sm-2">Número Afiliado</span>
+                            <input type="text" class="form-control" aria-label="Username" id="numeroAfiliado" name="numeroAfiliado">	                  
+                        </div>
+                    </div>
 					<div class="input-group mb-3">
 						<span class="input-group-text">Ocupación:</span>
 						<input type="text" class="form-control" aria-label="Username" id="ocupacion" name="ocupacion"
