@@ -15,7 +15,7 @@ use App\Models\Paciente;
 
 class FilesController extends Controller
 {
-    //
+    //LABS
 
     public function store(Request $request)
     {
@@ -44,8 +44,26 @@ class FilesController extends Controller
     public function download($file, Request $request)
     {
        
- 
-        $file_path = Storage::path('patients/'.$request->idPaciente.'/lab/'.$file);
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $pacientesUser = $user->paciente;
+        if(count($roles) > 0)
+        {
+            $file_path = Storage::path('patients/'.$request->idPaciente.'/lab/'.$file);
+            return response()->file($file_path,['content-type'=>'application/pdf']);
+        }else
+        {
+            foreach ($pacientesUser as $paciente)
+            {
+                if($paciente->idPaciente == $request->idPaciente)
+                {
+                    $file_path = Storage::path('patients/'.$request->idPaciente.'/lab/'.$file);
+                    return response()->file($file_path,['content-type'=>'application/pdf']);
+                }
+            }
+            
+        }
+            
 
         return response()->file($file_path,['content-type'=>'application/pdf']);
     }
@@ -185,7 +203,7 @@ class FilesController extends Controller
     public function downloadCardiologia($file, Request $request)
     {
        
- 
+        
         $file_path = Storage::path('patients/'.$request->idPaciente.'/cardiologia/'.$file);
 
         return response()->file($file_path,['content-type'=>'application/pdf']);

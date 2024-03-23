@@ -42,6 +42,10 @@ Route::middleware(['verified'])->group(function(){
     // ->middleware('can:patient.home')
     ->name('userPatient.store');
 
+    //STUDIES
+    Route::get('/user/studies',[App\Http\Controllers\UserPatientController::class, 'studies'])
+        // ->middleware('can:patient.home')
+        ->name('user.studies');
 
     //REPORTS
     Route::get('/report',[App\Http\Controllers\ReportController::class, 'index'])
@@ -398,7 +402,8 @@ Route::middleware(['verified'])->group(function(){
         ->middleware('can:store.file')->name('store.file');
 
     Route::get('laboratory/file/download/{file}',[App\Http\Controllers\FilesController::class,'download'])
-        ->middleware('can:store.file')->name('download.file');
+        // ->middleware('can:store.file')
+        ->name('download.file');
 
     Route::post('fibroscan/file/store',[App\Http\Controllers\FilesController::class,'storeFibroscan'])
         ->middleware('can:store.file')->name('store.fibroscan');
