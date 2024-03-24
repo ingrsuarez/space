@@ -85,7 +85,7 @@ class UserPatientController extends Controller
             // Estudios de Laboratorios
             $idPaciente = $user->paciente[0]->idPaciente;
             $directory = "patients/".$idPaciente."/lab";
-            $files = [];
+            $labs = [];
                 
             foreach(Storage::disk('local')->files($directory) as $file){
                 $name = str_replace($directory.'/',"",$file);
