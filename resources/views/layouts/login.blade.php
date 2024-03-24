@@ -59,7 +59,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link mx-1" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link mx-1 text-white" href="{{ route('login') }}">Ingresar</a>
                                 </li>
                             @endif
 

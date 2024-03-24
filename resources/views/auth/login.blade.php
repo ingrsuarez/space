@@ -58,8 +58,8 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
+                                <button type="submit" class="btn btn-primary text-white">
+                                    Ingresar
                                 </button>
 
                                 @if (Route::has('password.request'))
