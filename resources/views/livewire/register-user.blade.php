@@ -11,7 +11,7 @@
             		<div class="d-sm-flex flex-row mb-0 mb-sm-2">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="dni2">DNI</span>
-                            <input wire:model="dni" class="form-control" type="number" min="1" step="1">
+                            <input wire:model="dni" class="form-control" type="number" min="1" step="1" name="idPaciente">
                         </div>
                         <div class="input-group ms-sm-2 mb-3">                    
                             <span class="input-group-text" id="fechaNacimiento">Fecha de Nacimiento</span>
@@ -78,7 +78,7 @@
                     <div class="d-sm-flex flex-row mb-0 mb-sm-2">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Cobertura médica</span>
-                            <select class="form-select" name="cobertura" id="cobertura" required>
+                            <select class="form-select" name="insurance_id" id="cobertura" required>
                                 @isset($insurances)
                                     @foreach ($insurances as $insurance)
                                         @if(isset($paciente->insurance_id) and $insurance->id == $paciente->insurance_id)

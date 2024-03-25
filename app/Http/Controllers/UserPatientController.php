@@ -72,7 +72,21 @@ class UserPatientController extends Controller
             return view('userPatient.home',compact('user'));
         }else
         {
-            return "No existe";
+            $paciente = new Paciente;
+            $paciente->idPaciente = $request->idPaciente;
+            $paciente->nombrePaciente = $request->nombre;
+            $paciente->apellidoPaciente = $request->apellido;
+            $paciente->insurance_id = $request->insurance_id;
+            $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
+            $paciente->sexoPaciente = $request->sexo;
+            $paciente->domicilioPaciente = $request->domicilio;
+            $paciente->localidadPaciente = $request->localidad;
+            $paciente->celularPaciente = $request->celular;
+            $paciente->emailPaciente = $request->email;
+            $paciente->telefonoPaciente = $request->telefono;
+            $paciente->save();
+            $user->paciente()->attach($paciente->codPaciente,['relation'=>'self']);
+            return view('userPatient.home',compact('user'));
         }
         return $request;
     }
