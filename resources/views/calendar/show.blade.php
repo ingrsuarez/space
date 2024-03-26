@@ -209,6 +209,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Cobertura:</span>
                   </div>
                   <select class="form-select" name="insurance_id" required>
+                    <option disable selected value="">Seleccionar.....</option>
                     @foreach ($insurances as $insurance)
                       <option value="{{$insurance->id}}">{{$insurance->name.'  $'.$insurance->users()->where('user_id', $professional->id)->first()->pivot->patient_charge}}</option>
                     @endforeach
