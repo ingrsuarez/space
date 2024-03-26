@@ -77,6 +77,7 @@ class UserPatientController extends Controller
             $paciente->nombrePaciente = $request->nombre;
             $paciente->apellidoPaciente = $request->apellido;
             $paciente->insurance_id = $request->insurance_id;
+            $paciente->coberturaPaciente = $request->insurance_id;
             $paciente->fechaNacimientoPaciente = $request->fechaNacimiento;
             $paciente->sexoPaciente = $request->sexo;
             $paciente->domicilioPaciente = $request->domicilio;
