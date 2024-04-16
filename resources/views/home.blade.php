@@ -9,7 +9,7 @@
         </div>
     @endif
     @push('meta')
-        <meta http-equiv="refresh" content="30">
+        <meta http-equiv="refresh" content="240">
     @endpush
     <div class="container">
         @livewire('show-patients',['wating_institution' => $wating_institution, 'user' => $user, 'services' => $services])   
