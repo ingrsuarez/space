@@ -135,7 +135,7 @@
                         @if($appointment->status != 'cancelled')
                         <tr style="height:200px">
                             <td>{{date('H:i',strtotime($appointment->start))}}</td>
-                            <td style="widht: 40%">{{ucwords($appointment->paciente->nombrePaciente.' '.strtolower($appointment->paciente->apellidoPaciente))}}</td>
+                            <td style="widht: 40%">{{ucwords($appointment->paciente->apellidoPaciente.' '.strtolower($appointment->paciente->nombrePaciente))}}</td>
                             
 
                             <td><strong>{{ucfirst($appointment->obs)}}</strong></td>
