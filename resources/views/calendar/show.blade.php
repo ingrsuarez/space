@@ -305,6 +305,7 @@
                       <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="eventReschedule">Reagendar</button>
                       <button type="submit" class="btn btn-info mx-2 mb-2 shadow" id="saveModalBtn" form="sendConfirmation">Enviar confirmacion</button>
                       <button type="submit" class="btn btn-primary mx-2 mb-2 shadow text-white" id="saveModalBtn" form="confirm">Confirmar</button>
+                      <button type="submit" class="btn btn-warning ms-auto px-2 mb-2 shadow" id="atention" form="eventAtention">Ficha</button>
                     @else
                       <button type="submit" class="btn btn-warning ms-auto px-2 mb-2 shadow" id="atention" form="eventAtention">Atender</button>
                     @endif
@@ -360,6 +361,7 @@
         @csrf
         <input type="hidden" id="paciente_id" name="event_id">
       </form>
+
       <form id="sendConfirmation" action="{{ route('wa.send') }}" method="POST">
         @method('POST')
         @csrf
