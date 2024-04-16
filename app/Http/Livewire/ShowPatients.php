@@ -78,7 +78,11 @@ class ShowPatients extends Component
             $watingService = [];
         }
         
-
+        if(($this->name <> '') && ($this->lastName <> '')){              
+            $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%" AND lower(apellidoPaciente) LIKE "'.strtolower($this->lastName).'%"')
+                    ->paginate(5);
+            return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
+        }
         if($this->name <> ''){    
             $pacientes = Paciente::whereRaw('lower(nombrePaciente) LIKE "'.strtolower($this->name).'%"')->paginate(5); 
             return view('livewire.show-patients',compact('pacientes','watingMe','watingService'));
