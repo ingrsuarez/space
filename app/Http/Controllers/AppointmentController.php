@@ -114,8 +114,8 @@ class AppointmentController extends Controller
                             'id'=> $appointment->id,
                             'room' => $appointment->room_id,
                             'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                            'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                                ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                                ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                                 ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                                 ' '.$insurance->name.
                                 ' $'.$price,
@@ -139,8 +139,8 @@ class AppointmentController extends Controller
                         $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
-                        'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                                ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        'title' => ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                                ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                                 ' - '.ucfirst($appointment->obs).
                                 ' '.$insurance->name.
                                 ' $'.$price,
@@ -275,8 +275,8 @@ class AppointmentController extends Controller
                         'paciente' => $appointment->paciente_id,
                         'insurance' => $appointment->insurance_id,
                         'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                             ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                             ' '.$insurance->name.
                             ' $'.$price,
@@ -296,8 +296,8 @@ class AppointmentController extends Controller
                     $events[] = [
                         'id'=> $appointment->id,
                         'room' => $appointment->room_id,
-                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                             ' - '.ucfirst($appointment->obs).
                             ' '.$insurance->name.
                             ' $'.$price,
@@ -458,8 +458,8 @@ class AppointmentController extends Controller
                         'paciente' => $appointment->paciente_id,
                         'insurance' => $appointment->insurance_id,
                         'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                             ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                             ' '.$insurance->name.
                             ' $'.$price,
@@ -486,8 +486,8 @@ class AppointmentController extends Controller
                     'paciente' => $appointment->paciente_id,
                     'insurance' => $appointment->insurance_id,
                     'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                    'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                        ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                    'title' => ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                         ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                         ' '.$insurance->name.
                         ' $'.$price,
@@ -598,8 +598,8 @@ class AppointmentController extends Controller
                         'paciente' => $appointment->paciente_id,
                         'insurance' => $appointment->insurance_id,
                         'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                        'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                            ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                            ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                             ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                             ' '.$insurance->name,
                         'start' => $appointment->start,
@@ -621,8 +621,8 @@ class AppointmentController extends Controller
                     'paciente' => $appointment->paciente_id,
                     'insurance' => $appointment->insurance_id,
                     'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                    'title' => ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                        ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                    'title' => ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                        ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                         ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente.
                         ' '.$insurance->name,
                     'start' => $appointment->start,
@@ -896,8 +896,8 @@ class AppointmentController extends Controller
                 'paciente' => $appointment->paciente_id,
                 'insurance' => $appointment->insurance_id,
                 'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                     ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
@@ -985,8 +985,8 @@ class AppointmentController extends Controller
                 'paciente' => $appointment->paciente_id,
                 'insurance' => $appointment->insurance_id,
                 'nombrePaciente' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).' '.ucwords(strtolower($appointment->paciente->nombrePaciente)),
-                'title' => ucwords(strtolower($appointment->paciente->nombrePaciente)).
-                    ' '.ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                'title' => ucwords(strtolower($appointment->paciente->apellidoPaciente)).
+                    ' '.ucwords(strtolower($appointment->paciente->nombrePaciente)).
                     ' - '.ucfirst($appointment->obs).' - '.$appointment->paciente->celularPaciente,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
